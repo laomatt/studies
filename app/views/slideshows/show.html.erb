@@ -1,0 +1,23 @@
+<ul class="slideshow_lists_inspect">
+<% @images.each do |ss| %>
+  <li>
+    <img src="<%= ss.ext_url %>" alt="">
+  </li>
+<% end %>
+</ul>
+
+<form action="/slideshows/<%= @show.id %>/draw">
+  <h2>Start study</h2>
+  <li>how many sets?</li>
+  <input type="number" placeholder="How many sets?" name="num_sets">
+  <li>How many minutes per pose?</li>
+  <input type="number" name="pose_length">
+  <li>How many poses per set?</li>
+  <input type="number" name="pose_number">
+  <li>How long to pause between images(seconds)?</li>
+  <input type="number" name="image_pause">
+  <li>How long to pause between sets?</li>
+  <input type="number" name="set_pause">
+
+  <input type="submit">
+</form>

@@ -1,0 +1,43 @@
+.slideshow_lists li {
+  position: relative;
+  background-color: rgba(0,0,0,.4);
+  overflow: auto;
+  padding: 1%;
+  color: white;
+  margin: 2px;
+  display: inline-block;
+}
+
+.slideshow_lists img {
+  max-height: 100px;
+}
+
+.pic-info {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 0px;
+    padding: 0%;
+    left: 0px;
+    z-index: 16;
+    color: white;
+    font-size: 20pt;
+    background-color: transparent;
+    height: 100%;
+    overflow: auto;
+}
+
+.pic-info a {
+  color: white;
+  text-decoration: none;
+  margin: 2%;
+}
+
+.icon {
+}
+
+.delete-this-slide {
+}
+
+.edit-this-slide {
+}

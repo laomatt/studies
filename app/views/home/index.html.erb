@@ -1,0 +1,13 @@
+<h2>Community slide shows</h2>
+<ul class="slideshow_lists">
+<% @slideshows.each do |ss| %>
+  <li>
+    <a href="/slideshows/<%= ss.id %>">
+      <img src="<%= ss.slides.first.ext_url %>" alt="">
+    </a>
+  </li>
+<% end %>
+</ul>
+
+
+<%= will_paginate @slideshows %>

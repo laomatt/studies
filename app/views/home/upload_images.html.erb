@@ -1,0 +1,92 @@
+<h3>Add Image to <%= @slideshow.title %></h3>
+  <script src="/sortable.js"></script>
+   <script>
+     $(function() {
+       $( "#sortable" ).sortable();
+       $( "#sortable" ).disableSelection();
+     });
+
+     $('#sortable').draggable();
+
+     $(document).ready( function() {
+       new Sortable(document.getElementsByClassName('sortable')[0]);
+     });
+
+   </script>
+
+<%= form_for @slideshow, :html => {:id => 'upload'} do |f| %>
+  <%= f.file_field :picture %>
+  <%= f.submit %>
+<% end %>
+
+<div id="info" ssid="<%= @slideshow.id %>"></div>
+<ul id="sortable" class="slideshow_lists">
+  <% @slideshow.slides.each do |image|%>
+    <li class="entry">
+      <img src="<%= image.ext_url %>">
+      <br>
+      <div class="pic-info">
+        <a href="#">
+          <i class="fa fa-info-circle"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-pencil-square-o"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-trash"></i>
+        </a>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<script id="entry-template" type="text/x-handlebars-template">
+  <li class="entry">
+    <img src="{{ext_url}}">
+    <br>
+    <div class="pic-info">
+      <i class="fa fa-info-circle"></i>
+      <i class="fa fa-pencil-square-o"></i>
+      <i class="fa fa-trash"></i>
+    </div>
+  </li>
+</script>
+
+<script>
+  $("body").on('submit', 'form#save_slide', function(event) {
+    event.preventDefault();
+    var path = $(this).attr('action');
+    $.ajax({
+      url: path,
+      type: 'POST',
+      data: $(this).serialize(),
+    })
+    .done(function(data) {
+      console.log("success");
+    })
+  });
+
+    $("body").on('submit', 'form#upload', function(event) {
+    event.preventDefault();
+    var id = $("#info").attr('ssid');
+    $('body').css('opacity', .5);
+
+    $.ajax({
+      url: "/home/"+id+"/add_image",
+      type: 'PATCH',
+      data: new FormData( this ),
+      processData: false,
+      contentType: false,
+    })
+    .done(function(data) {
+      var source = $("#entry-template").html();
+      var template = Handlebars.compile(source);
+      var context = data;
+      var html = template(context);
+      $("ul.slideshow_lists").append(html);
+
+      $("form#upload").trigger('reset');
+      $('body').css('opacity', 1);
+    })
+  });
+</script>

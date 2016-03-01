@@ -1,0 +1,11 @@
+class CreateSlides < ActiveRecord::Migration
+  def change
+    create_table :slides do |t|
+      t.string :title
+      t.string :ext_url
+      t.references :slideshow
+
+      t.timestamps null: false
+    end
+  end
+end

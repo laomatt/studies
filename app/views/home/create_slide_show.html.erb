@@ -1,0 +1,6 @@
+<form id="save_slide" action="/home/save_slide_show" method="post">
+  <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
+  <label for="info[title]">Title</label>
+  <input type="text" name="info[title]">
+  <input type="submit">
+</form>

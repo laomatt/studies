@@ -1,0 +1,44 @@
+
+<div id="information" style="display:none" pose-length="<%= @pose_length %>" slideshowid="<%= @show.id %>"></div>
+
+<div class="pose-window">
+  <ul class="slideshow_lists_draw">
+    <li>
+        <img src="<%= @images.first.ext_url %>" alt="">
+    </li>
+  </ul>
+</div>
+
+<script>
+  var number = $("#information").attr("slideshowid");
+  var poseLength = $("#information").attr("pose-length");
+  var poseLengthMilisecs = parseInt(poseLength) * 60 * 1000;
+
+  var nameSpace = {pLength: poseLengthMilisecs}
+  console.log(poseLengthMilisecs)
+  var change_image = function(i) {
+    $.ajax({
+          url: '/slideshows/'+number+'/get_image',
+          data: {n: i},
+        })
+        .done(function(data) {
+          var audio = new Audio('/sounds/change.wav');
+          audio.play();
+          var url = data.image.ext_url;
+          $(".slideshow_lists_draw").find('img').attr('src', url);
+          i += 1;
+          console.log(nameSpace.pLength)
+          if(i < data.total) {
+            setTimeout(function(){
+              change_image(i)
+            }, nameSpace.pLength);
+          } else {
+            alert('done');
+          }
+        })
+      }
+
+  setTimeout(function(){
+    change_image(0)
+  }, poseLengthMilisecs);
+</script>
