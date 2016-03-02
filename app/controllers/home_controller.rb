@@ -27,7 +27,7 @@ class HomeController < ApplicationController
     @slideshow = Slideshow.create(slideshow_params);
     @slideshow.update_attributes(:user_id => current_user.id)
 
-    redirect_to "/home/#{@slideshow.id}/upload_images"
+    redirect_to "/slideshows/#{@slideshow.id}/edit"
   end
 
   def upload_images

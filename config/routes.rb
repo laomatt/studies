@@ -6,6 +6,11 @@ Rails.application.routes.draw do
       get 'draw'
       get 'get_image'
     end
+
+    collection do
+      put 'update_slide_show'
+      put 'update_image_position'
+    end
   end
 
   resources :user do
@@ -25,8 +30,6 @@ Rails.application.routes.draw do
       get 'user_slideshows'
       get 'user_slides'
       post 'save_slide_show'
-      put 'update_slide_show'
-
     end
   end
 

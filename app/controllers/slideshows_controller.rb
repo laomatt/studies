@@ -1,4 +1,5 @@
 class SlideshowsController < ApplicationController
+  skip_before_action :verify_authenticity_token, :only => :update_image_position
   def show
     @show = Slideshow.find(params[:id])
     @images = @show.slides
@@ -7,6 +8,13 @@ class SlideshowsController < ApplicationController
 
   def edit
     @slideshow = Slideshow.find(params[:id])
+    @images = @slideshow.slides.order(:position)
+  end
+
+  def update_image_position
+    @slideshow = Slideshow.find(params[:id])
+    @slideshow.slides.find_by_id(params[:slide_id]).update_attributes(:position => params[:position])
+    render :nothing => true
   end
 
   def draw

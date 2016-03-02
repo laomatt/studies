@@ -9,7 +9,6 @@
 <center>
 <h3>Add Images to <%= @slideshow.title %></h3>
 </center>
-  <script src="/sortable.js"></script>
    <script>
      $(function() {
        $( "#sortable" ).sortable();
@@ -17,11 +16,6 @@
      });
 
      $('#sortable').draggable();
-
-     $(document).ready( function() {
-       new Sortable(document.getElementsByClassName('sortable')[0]);
-     });
-
    </script>
 <div class="form-container panel">
 
@@ -34,8 +28,8 @@
 
 <div id="info" ssid="<%= @slideshow.id %>"></div>
 <ul id="sortable" class="slideshow_lists">
-  <% @slideshow.slides.each do |image|%>
-    <li class="entry">
+  <% @images.each do |image|%>
+    <li class="entry" pic-id="<%= image.id %>" ssid="<%= @slideshow.id %>">
       <img src="<%= image.ext_url %>">
       <br>
       <div class="pic-info">
@@ -66,6 +60,21 @@
 </script>
 
 <script>
+  $('body').on('mouseup', '.slideshow_lists li', function(event) {
+    event.preventDefault();
+    var ss_id = $(this).attr('ssid');
+    setTimeout(function(){
+      $.each($(".slideshow_lists li"), function(index, val) {
+        console.log(val, index)
+        var id = $(this).attr("pic-id")
+        $.ajax({
+          url: '/slideshows/update_image_position',
+          type: 'PUT',
+          data: {position: index, slide_id: id, id: ss_id},
+        })
+      });
+    }, 500)
+  });
   $("body").on('submit', 'form#save_slide', function(event) {
     event.preventDefault();
     var path = $(this).attr('action');
@@ -118,4 +127,6 @@
       $('body').css('opacity', 1);
     })
   });
+
+
 </script>
