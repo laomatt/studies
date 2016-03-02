@@ -17,6 +17,12 @@ class SlideshowsController < ApplicationController
     render :nothing => true
   end
 
+  def update_slide_show
+    @show = Slideshow.find(params[:id])
+    @show.update_attributes(slideshow_params)
+    render :nothing => true
+  end
+
   def draw
     @show = Slideshow.find(params[:id])
     @images = @show.slides.shuffle
@@ -38,4 +44,11 @@ class SlideshowsController < ApplicationController
       render :json => @images
     end
   end
+
+  private
+
+  def slideshow_params
+    params.require(:info).permit(:title)
+  end
+
 end

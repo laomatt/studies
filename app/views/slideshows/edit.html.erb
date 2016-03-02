@@ -1,14 +1,13 @@
-<form id="save_slide" action="/home/update_slide_show" method="put">
+<form id="save_slide" action="/slideshows/update_slide_show" method="post">
   <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
   <label for="info[title]">Title</label>
-  <input type="text" name="info[title]">
+  <input type="hidden" name="id" value="<%= @slideshow.id %>">
+  <input type="text" id="edit_title" value="<%= @slideshow.title %>" name="info[title]">
   <input type="submit">
 </form>
-
-
-<center>
-<h3>Add Images to <%= @slideshow.title %></h3>
-</center>
+  <div class="success">Updated</div>
+<br>
+<br>
    <script>
      $(function() {
        $( "#sortable" ).sortable();
@@ -17,14 +16,15 @@
 
      $('#sortable').draggable();
    </script>
+  <center>
+    <h3>Add Images to <%= @slideshow.title %></h3>
 <div class="form-container panel">
-
-  <%= form_for @slideshow, :html => {:id => 'upload'} do |f| %>
-    <%= f.file_field :picture %>
-  <% end %>
-
-  <button class="upload-button" id="upload-pic">Upload</button>
-</div>
+    <%= form_for @slideshow, :html => {:id => 'upload'} do |f| %>
+      <%= f.file_field :picture %>
+    <% end %>
+    <br><br>
+    <button class="upload-button" id="upload-pic">Upload</button>
+  </center>
 
 <div id="info" ssid="<%= @slideshow.id %>"></div>
 <ul id="sortable" class="slideshow_lists">
@@ -46,6 +46,7 @@
     </li>
   <% end %>
 </ul>
+</div>
 
 <script id="entry-template" type="text/x-handlebars-template">
   <li class="entry">
@@ -74,6 +75,7 @@
         })
       });
     }, 500)
+    successFunction();
   });
   $("body").on('submit', 'form#save_slide', function(event) {
     event.preventDefault();
@@ -85,8 +87,17 @@
     })
     .done(function(data) {
       console.log("success");
+      successFunction();
+
     })
   });
+
+  var successFunction = function(){
+        $(".success").fadeIn(1000, function() {
+          $(this).fadeOut(1500, function() {
+          });
+        });
+  }
 
   $('body').on('mouseenter', '.slideshow_lists li', function(event) {
     event.preventDefault();

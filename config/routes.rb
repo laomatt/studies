@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     end
 
     collection do
-      put 'update_slide_show'
+      post 'update_slide_show'
       put 'update_image_position'
     end
   end
