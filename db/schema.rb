@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301182356) do
+ActiveRecord::Schema.define(version: 20160301202448) do
 
   create_table "slides", force: :cascade do |t|
     t.string   "title"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20160301182356) do
     t.datetime "updated_at",                   null: false
     t.boolean  "public",       default: true
     t.boolean  "deleted",      default: false
+    t.integer  "position",     default: 0,     null: false
   end
 
   create_table "slideshows", force: :cascade do |t|

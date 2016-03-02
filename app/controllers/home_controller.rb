@@ -6,7 +6,17 @@ class HomeController < ApplicationController
   end
 
   def user
+  end
 
+  def user_slideshows
+    @user = current_user
+    @slideshows = @user.slideshows
+  end
+
+
+  def user_slides
+    @user = current_user
+    @slides = @user.slides
   end
 
   def create_slide_show

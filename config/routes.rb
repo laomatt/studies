@@ -8,16 +8,33 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :user do
+
+  end
+
   resources :home do
     member do
       get 'create_slide_show'
       patch 'add_image'
       get 'upload_images'
+      get 'user_shows'
+      get 'user_slides'
+    end
+
+    collection do
+      get 'user_slideshows'
+      get 'user_slides'
+      post 'save_slide_show'
+      put 'update_slide_show'
+
     end
   end
 
-  post '/home/save_slide_show' => 'home#save_slide_show'
 
+
+  devise_scope :user do
+    get 'user_log_out_route/sign_out', :to => 'devise/sessions#destroy'
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

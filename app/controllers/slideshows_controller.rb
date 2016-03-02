@@ -5,6 +5,10 @@ class SlideshowsController < ApplicationController
 
   end
 
+  def edit
+    @slideshow = Slideshow.find(params[:id])
+  end
+
   def draw
     @show = Slideshow.find(params[:id])
     @images = @show.slides.shuffle

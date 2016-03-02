@@ -6,7 +6,11 @@
 <% end %>
 </ul>
 
-<form action="/slideshows/<%= @show.id %>/draw">
+<button class="upload-button">
+  Start Study
+</button>
+<div class="form-modal">
+<form class="" action="/slideshows/<%= @show.id %>/draw">
   <h2>Start study</h2>
   <li>how many sets?</li>
   <input type="number" placeholder="How many sets?" name="num_sets">
@@ -18,6 +22,6 @@
   <input type="number" name="image_pause">
   <li>How long to pause between sets?</li>
   <input type="number" name="set_pause">
-
   <input type="submit">
 </form>
+</div>
