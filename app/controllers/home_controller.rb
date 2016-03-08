@@ -6,7 +6,9 @@ class HomeController < ApplicationController
   end
 
   def ind
-
+    if !current_user.admin
+      redirect_to '/'
+    end
   end
 
   def user
@@ -18,6 +20,10 @@ class HomeController < ApplicationController
   end
 
   def exp
+    if !current_user.admin
+      redirect_to '/'
+    end
+
     tags = params[:cat]
     u = UrlBank.create(:url => params[:url], :tags => tags)
     render :json => u
