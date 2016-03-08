@@ -1,0 +1,73 @@
+<center>
+<textarea name="target" id="testtarget" cols="140" rows="10"></textarea>
+<button id="display-submit" style="color:white">submit</button>
+
+<div id="control" style="">
+
+</div>
+<br>
+<input type="text" id="tags">
+<button id="scrape" style="color:white">scrape!</button>
+
+<div id="count" style="">0</div>
+<ul id="results">
+</ul>
+</center>
+<style>
+  #results {
+    position: relative;
+    height:100px;
+    overflow:scroll;
+    width:100%;
+    background-color:grey;
+    color: white;
+  }
+
+  #count {
+    position: relative;
+    background-color:red;
+    text-align:center;
+    font-weight: bold;
+    width: 10%;
+  }
+
+  #control {
+    position: relative;
+    height:100px;
+    overflow:scroll;
+    width:100%;
+    background-color:grey;
+  }
+</style>
+<script>
+$('body').on('click', '#display-submit', function(event) {
+  event.preventDefault();
+  var ht = $("#testtarget").val();
+  $("#control").html(ht);
+});
+
+$("body").on('click', 'button#scrape', function(event) {
+  event.preventDefault();
+  var i = 0;
+  $.each($('img'), function(i, val){
+    array = [];
+    if(val.attributes['data-src'] != null){
+      array.push(val.attributes['data-src'].value)
+    };
+    $.each(array, function(index, el) {
+      i += 1;
+      $.ajax({
+        url: '/home/exp',
+        data: {url: el, cat: $("#tags").val()},
+      })
+      .done(function(data) {
+        console.log("success");
+        $("#count").text(i)
+        $("#results").append('<li>'+data.url+'</li>')
+      })
+
+
+    });
+  })
+});
+</script>

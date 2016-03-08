@@ -2,7 +2,11 @@ class HomeController < ApplicationController
   before_action :authenticate_user!, :except => :index
   layout 'application'
   def index
-    @slideshows = Slideshow.where(:public => true).paginate(:page => params[:page], :per_page => 18)
+    @slideshows = Slideshow.where(:public => true).paginate(:page => params[:page], :per_page => 16)
+  end
+
+  def ind
+
   end
 
   def user
@@ -13,6 +17,11 @@ class HomeController < ApplicationController
     @slideshows = @user.slideshows
   end
 
+  def exp
+    tags = params[:cat]
+    u = UrlBank.create(:url => params[:url], :tags => tags)
+    render :json => u
+  end
 
   def user_slides
     @user = current_user

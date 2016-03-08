@@ -1,3 +1,8 @@
+<center>
+  <h1>
+
+  <%= @show.title %>
+  </h1>
 <ul class="slideshow_lists_inspect">
 <% @images.each do |ss| %>
   <li>
@@ -5,23 +10,48 @@
   </li>
 <% end %>
 </ul>
-
 <button class="upload-button">
   Start Study
 </button>
-<div class="form-modal">
-<form class="" action="/slideshows/<%= @show.id %>/draw">
+</center>
+<div class="start-modal form-modal">
+<form class="" action="/slideshows/<%= @show.id %>/draw_set">
   <h2>Start study</h2>
+  <input type="hidden" name="id" value="<%= @show.id %>">
   <li>how many sets?</li>
-  <input type="number" placeholder="How many sets?" name="num_sets">
+  <input type="number" placeholder="How many sets?" value="1" name="num_sets">
   <li>How many minutes per pose?</li>
-  <input type="number" name="pose_length">
+  <input type="number" value="1" name="pose_length">
   <li>How many poses per set?</li>
-  <input type="number" name="pose_number">
+  <input type="number" value="20" name="pose_number">
   <li>How long to pause between images(seconds)?</li>
-  <input type="number" name="image_pause">
+  <input type="number" value="0" name="image_pause">
   <li>How long to pause between sets?</li>
-  <input type="number" name="set_pause">
+  <input type="number" value="0" name="set_pause">
   <input type="submit">
 </form>
 </div>
+
+<script>
+  $('body').on('click', '.upload-button', function(event) {
+    event.preventDefault();
+    $(".backdrop").fadeIn(400, function() {
+      $(".start-modal").fadeIn(300, function() {});
+    });
+  });
+
+  $('body').on('submit', '.start-modal form', function(event) {
+    event.preventDefault();
+    $.ajax({
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+    })
+    .done(function(data) {
+      var html = data;
+      $("#pose_window_container").html(html);
+      $('.start-modal').fadeOut(300, function() {});
+    })
+
+      $('#pose_window_container').fadeIn(300, function() {});
+  });
+</script>

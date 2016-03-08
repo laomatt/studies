@@ -1,15 +1,69 @@
+ul.slideshow_lists {
+  text-align: center;
+}
+
+.slideshow_lists_edit li {
+  position: relative;
+  background-color: rgba(0,0,0,.4);
+  background-size: contain;
+  overflow: auto;
+  padding: 0%;
+  color: white;
+  width: 200px;
+  margin: -1px;
+  display: inline-block;
+}
+
+.slideshow_lists_edit li img {
+  width: 100%;
+}
+
 .slideshow_lists li {
   position: relative;
   background-color: rgba(0,0,0,.4);
-  overflow: auto;
-  padding: 1%;
+  background-size: 100%;
+  overflow: hidden;
+  padding: 0%;
   color: white;
-  margin: 2px;
+  width: 400px;
+  height: 400px;
+  margin: -1px;
   display: inline-block;
 }
 
 .slideshow_lists img {
-  max-height: 100px;
+  max-height: 200px;
+}
+
+.ss_info {
+  display: none;
+  background-color: rgba(255,255,255,.7);
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.ss_info .numbers {
+  position: absolute;
+  bottom: 0%;
+  width: 100%;
+  color: black;
+  background-color: white;
+  float: left;
+  padding: 2%;
+  text-align: left;
+  border-radius: 0px;
+}
+
+.ss_info img {
+  max-height: 50px;
+  float: right;
+  background-color: white;
+  border-radius: 50px;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  background-repeat: no-repeat;
 }
 
 .pic-info {
@@ -35,8 +89,9 @@
 }
 
 .form-container{
-  color: white;
-  background-color: rgba(0,0,0,.4);
+  color: black;
+  /*background-color: rgba(0,0,0,.4);*/
+  background-color: transparent;
   padding: 1%;
 }
 
@@ -52,24 +107,28 @@
   display: none;
 }
 
-.form-modal{
+.start-modal{
   position: fixed;
   background-color: black;
   color: white;
-  z-index: 100;
   top: 10%;
-  left: 20%;
+  left: 40%;
   padding: 3%;
   border-radius: 7px;
+  overflow: auto;
   z-index: 90;
   display: none;
+}
+
+.start-modal input {
+  color: black;
 }
 
 .backdrop {
   z-index: 40;
   width: 100%;
-  height: 100%;
-  position: fixed;
+  height: 200%;
+  position: absolute;
   opacity: .5;
   display: none;
   background-color: black;
@@ -80,10 +139,11 @@ button {
 }
 
 .upload-button {
-  padding: 2%;
-  width: 90%;
+  padding: 1%;
+  width: 50%;
   border-width: 2px;
   border-style: solid;
+  color: white;
   margin: 0 auto;
   position: relative;
 }
@@ -95,7 +155,15 @@ form #edit_title {
 
 #slideshow_picture {
   background-color: rgba(0,0,0,.8);
-  width: 100%;
+  color: white;
+  width: 50%;
+}
+
+input#edit_title {
+  background-color: rgba(0,0,0,.8);
+  color: white;
+  width: 50%;
+
 }
 
 .icon {
@@ -111,4 +179,36 @@ header {
   position: relative;
   background-color: black;
   color: white;
+}
+
+.pagination {
+  margin: 0px;
+  width: 100%;
+
+}
+
+.pagination a {
+  width: 10%;
+  background-color: black;
+  padding: 1%;
+
+}
+
+.pagination em {
+  width: 10%;
+  background-color: white;
+  color: black;
+  padding: 1%;
+
+}
+
+#pose_window_container {
+  position: fixed;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  z-index: 500;
+  top: 0%;
+  display: none;
 }

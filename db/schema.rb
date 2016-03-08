@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301202448) do
+ActiveRecord::Schema.define(version: 20160308023617) do
 
   create_table "slides", force: :cascade do |t|
     t.string   "title"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160301202448) do
     t.boolean  "public",       default: true
     t.boolean  "deleted",      default: false
     t.integer  "position",     default: 0,     null: false
+    t.string   "tags"
   end
 
   create_table "slideshows", force: :cascade do |t|
@@ -30,6 +31,13 @@ ActiveRecord::Schema.define(version: 20160301202448) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.boolean  "public",     default: true
+  end
+
+  create_table "url_banks", force: :cascade do |t|
+    t.string   "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "tags"
   end
 
   create_table "users", force: :cascade do |t|

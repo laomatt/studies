@@ -11,6 +11,10 @@ class SlideshowsController < ApplicationController
     @images = @slideshow.slides.order(:position)
   end
 
+  def draw_set
+    render :partial => '/slideshows/draw', :locals => params
+  end
+
   def update_image_position
     @slideshow = Slideshow.find(params[:id])
     @slideshow.slides.find_by_id(params[:slide_id]).update_attributes(:position => params[:position])
@@ -32,6 +36,11 @@ class SlideshowsController < ApplicationController
     @pose_number = params[:pose_number]
     @image_pause = params[:image_pause]
     @set_pause = params[:set_pause]
+  end
+
+  def get_images_from_show
+    @show = Slideshow.find(params[:id])
+    render :json => @show.slides.map { |e| e.ext_url  }
   end
 
   def get_image

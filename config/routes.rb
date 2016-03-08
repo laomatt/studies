@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     member do
       get 'draw'
       get 'get_image'
+      get 'draw_set'
+      get 'get_images_from_show'
     end
 
     collection do
@@ -27,6 +29,8 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get 'exp'
+      get 'ind'
       get 'user_slideshows'
       get 'user_slides'
       post 'save_slide_show'

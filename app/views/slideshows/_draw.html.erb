@@ -1,44 +1,90 @@
 
-<div id="information" style="display:none" pose-length="<%= @pose_length %>" slideshowid="<%= @show.id %>"></div>
+<div id="information" style="display:none" pose-length="<%= pose_length %>" slideshowid="<%= id %>"></div>
+
+<% @images = Slideshow.find(id).slides %>
 
 <div class="pose-window">
-  <ul class="slideshow_lists_draw">
-    <li>
-        <img src="<%= @images.first.ext_url %>" alt="">
-    </li>
-  </ul>
+  <img src="" alt="">
 </div>
+
+<div class="right-menu">
+  asdf
+  <div id="clock">
+
+  </div>
+
+  <script>
+    var time = 0;
+    setInterval(function(){
+      time += 1;
+      $("#clock").text(time)
+    },1000)
+  </script>
+  asdf
+  asdf
+  asdf
+  <a href="#" id="close-draw-modal">close</a>
+</div>
+
+<style>
+  .pose-window {
+    position: relative;
+    float: left;
+    height: 100%;
+  }
+  .pose-window img {
+    position: relative;
+    left: 10%;
+    height: 100%;
+
+  }
+
+  .right-menu {
+    position: absolute;
+    background-color: white;
+    color: black;
+    padding: 2%;
+    z-index: 900;
+    float: right;
+    right: 0;
+    width: 30%;
+    height: 100%;
+  }
+
+</style>
 
 <script>
   var number = $("#information").attr("slideshowid");
   var poseLength = $("#information").attr("pose-length");
   var poseLengthMilisecs = parseInt(poseLength) * 60 * 1000;
-
   var nameSpace = {pLength: poseLengthMilisecs}
-  console.log(poseLengthMilisecs)
+
+
+  $("body").on('click', "#close-draw-modal", function(event) {
+    event.preventDefault();
+    $(".backdrop").trigger('click');
+  });
+
   var change_image = function(i) {
-    $.ajax({
-          url: '/slideshows/'+number+'/get_image',
-          data: {n: i},
+        $.ajax({
+          url: '/slideshows/'+number+'/get_images_from_show'
         })
         .done(function(data) {
+          var slides = data;
           var audio = new Audio('/sounds/change.wav');
           audio.play();
-          var url = data.image.ext_url;
-          $(".slideshow_lists_draw").find('img').attr('src', url);
+          var url = slides[i];
+          $(".pose-window").find('img').attr('src', url);
           i += 1;
-          console.log(nameSpace.pLength)
-          if(i < data.total) {
+          if(i <= slides.length) {
             setTimeout(function(){
               change_image(i)
-            }, nameSpace.pLength);
+            }, poseLengthMilisecs);
           } else {
+            $(".backdrop").trigger('click');
             alert('done');
           }
         })
       }
-
-  setTimeout(function(){
-    change_image(0)
-  }, poseLengthMilisecs);
+  change_image(0);
 </script>

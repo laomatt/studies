@@ -1,3 +1,6 @@
+  <center>
+<div class="form-container panel">
+  <h3>Edit title</h3>
 <form id="save_slide" action="/slideshows/update_slide_show" method="post">
   <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
   <label for="info[title]">Title</label>
@@ -16,37 +19,38 @@
 
      $('#sortable').draggable();
    </script>
-  <center>
-    <h3>Add Images to <%= @slideshow.title %></h3>
-<div class="form-container panel">
+    <h3>Add Images</h3>
     <%= form_for @slideshow, :html => {:id => 'upload'} do |f| %>
       <%= f.file_field :picture %>
     <% end %>
     <br><br>
     <button class="upload-button" id="upload-pic">Upload</button>
-  </center>
-
+<h3>Slide Order</h3>
+<p>Click and draw each slide to its disired position.</p>
 <div id="info" ssid="<%= @slideshow.id %>"></div>
-<ul id="sortable" class="slideshow_lists">
+<ul id="sortable" class="slideshow_lists_edit">
   <% @images.each do |image|%>
-    <li class="entry" pic-id="<%= image.id %>" ssid="<%= @slideshow.id %>">
-      <img src="<%= image.ext_url %>">
-      <br>
-      <div class="pic-info">
-        <a href="#">
-          <i class="fa fa-info-circle"></i>
-        </a>
-        <a href="#">
-          <i class="fa fa-pencil-square-o"></i>
-        </a>
-        <a href="#">
-          <i class="fa fa-trash"></i>
-        </a>
-      </div>
-    </li>
+    <% if !image.deleted %>
+      <li class="entry" pic-id="<%= image.id %>" ssid="<%= @slideshow.id %>">
+        <img src="<%= image.ext_url %>">
+        <br>
+        <div class="pic-info">
+          <a href="#">
+            <i class="fa fa-info-circle"></i>
+          </a>
+          <a href="#">
+            <i class="fa fa-pencil-square-o"></i>
+          </a>
+          <a href="#">
+            <i class="fa fa-trash"></i>
+          </a>
+        </div>
+      </li>
+    <% end %>
   <% end %>
 </ul>
 </div>
+</center>
 
 <script id="entry-template" type="text/x-handlebars-template">
   <li class="entry">

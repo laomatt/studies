@@ -44,7 +44,6 @@
   <% end %>
   </ul>
 </header>
-  <br>
 <body>
   <div class="backdrop"></div>
   <div class="content-container">
@@ -56,13 +55,27 @@
 </html>
 <style>
   .content-container {
-    width: 80%;
-    padding: 2%;
+    width: 100%;
+    padding: 0%;
     margin: 0 auto;
     position: relative;
-    top: 20%;
+    top: 0%;
     height: 100%;
-    background-color: rgba(0,0,0,.5);
-    color: white;
+    background-color: transparent;
+    color: black;
   }
 </style>
+
+
+<script>
+  $('body').on('click', '.backdrop', function(event) {
+    event.preventDefault();
+    $(this).fadeOut(300, function() {
+
+    });
+    $(".form-modal").fadeOut(300, function() {});
+  });
+</script>
+<div id="pose_window_container" class="form-modal">
+
+</div>

@@ -1,13 +1,36 @@
-<h2>Community slide shows</h2>
+
+<center>
+<%= will_paginate @slideshows %>
+</center>
 <ul class="slideshow_lists">
 <% @slideshows.each do |ss| %>
-  <li>
-    <a href="/slideshows/<%= ss.id %>">
-      <img src="<%= ss.slides.first.ext_url %>" alt="">
-    </a>
-  </li>
+  <a href="/slideshows/<%= ss.id %>">
+    <li style="background-image:url(<%= ss.slides.first.ext_url %>)">
+      <div class="ss_info">
+        <img src="<%= ss.user.avatar_url %>">
+        <div class="numbers">
+          <b><%= ss.title %></b>
+          <br>
+          User: <%= ss.user.name %>
+          <br>
+          Slides: <%= ss.slides.count %>
+        </div>
+      </div>
+    </li>
+  </a>
 <% end %>
 </ul>
 
 
-<%= will_paginate @slideshows %>
+<script>
+  $('body').on('mouseenter', 'ul.slideshow_lists li', function(event) {
+    event.preventDefault();
+    $(this).find('.ss_info').fadeIn(500, function() {});
+  });
+
+  $('body').on('mouseleave', 'ul.slideshow_lists li', function(event) {
+    event.preventDefault();
+    $(this).find('.ss_info').fadeOut(500, function() {});
+  });
+
+</script>
