@@ -12,79 +12,68 @@
   <div id="clock">
 
   </div>
-
-  <script>
-    var time = 0;
-    setInterval(function(){
-      time += 1;
-      $("#clock").text(time)
-    },1000)
-  </script>
-  asdf
-  asdf
-  asdf
-  <a href="#" id="close-draw-modal">close</a>
+  <a href="#" id="pause-draw-modal">PAUSE</a>
+  <br>
+  <a href="#" id="next-draw-modal">NEXT</a>
+  <br>
+  <a href="#" id="close-draw-modal">[close]</a>
 </div>
 
-<style>
-  .pose-window {
-    position: relative;
-    float: left;
-    height: 100%;
-  }
-  .pose-window img {
-    position: relative;
-    left: 10%;
-    height: 100%;
-
-  }
-
-  .right-menu {
-    position: absolute;
-    background-color: white;
-    color: black;
-    padding: 2%;
-    z-index: 900;
-    float: right;
-    right: 0;
-    width: 30%;
-    height: 100%;
-  }
-
-</style>
-
 <script>
-  var number = $("#information").attr("slideshowid");
-  var poseLength = $("#information").attr("pose-length");
-  var poseLengthMilisecs = parseInt(poseLength) * 60 * 1000;
-  var nameSpace = {pLength: poseLengthMilisecs}
+var number = $("#information").attr("slideshowid");
+var poseLength = $("#information").attr("pose-length");
+var poseLengthMilisecs = parseInt(poseLength) * 60 * 1000;
+var running = false;
+var time = poseLength * 60;
+var i = 0;
+setInterval(function(){
+  if(running == true){
+    time -= 1;
+    if(time < 0) {
+      time = poseLength * 60;
+      i += 1;
+      change_image(i);
+    }
+    $("#clock").text(time)
+  }
+},1000)
 
+$("body").on('click', "#close-draw-modal", function(event) {
+  event.preventDefault();
+  $(".backdrop").trigger('click');
+  running = false;
+});
 
-  $("body").on('click', "#close-draw-modal", function(event) {
-    event.preventDefault();
-    $(".backdrop").trigger('click');
-  });
-
-  var change_image = function(i) {
-        $.ajax({
-          url: '/slideshows/'+number+'/get_images_from_show'
-        })
-        .done(function(data) {
-          var slides = data;
-          var audio = new Audio('/sounds/change.wav');
-          audio.play();
-          var url = slides[i];
-          $(".pose-window").find('img').attr('src', url);
-          i += 1;
-          if(i <= slides.length) {
-            setTimeout(function(){
-              change_image(i)
-            }, poseLengthMilisecs);
-          } else {
-            $(".backdrop").trigger('click');
-            alert('done');
-          }
-        })
+$('body').on('click', '#pause-draw-modal', function(event) {
+  event.preventDefault();
+  if(running == true){
+    running = false;
+    $(this).text("RESUME");
+  } else {
+    running = true;
+    $(this).text("PAUSE");
+  }
+});
+var change_image = function(i) {
+    $.ajax({
+      url: '/slideshows/'+number+'/get_images_from_show'
+    })
+    .done(function(data) {
+      var slides = data;
+      if(i != 0){
+        var audio = new Audio('/sounds/change.wav');
+        audio.play();
       }
-  change_image(0);
+      if(i <= slides.length) {
+        var url = slides[i];
+        $(".pose-window").find('img').attr('src', url);
+      } else {
+        $(".backdrop").trigger('click');
+        alert('done');
+      }
+    })
+}
+
+running = true;
+// change_image(0);
 </script>

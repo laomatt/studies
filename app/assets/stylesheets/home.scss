@@ -212,3 +212,27 @@ header {
   top: 0%;
   display: none;
 }
+
+.pose-window {
+  position: relative;
+  float: left;
+  height: 100%;
+}
+.pose-window img {
+  position: relative;
+  left: 10%;
+  height: 100%;
+
+}
+
+.right-menu {
+  position: absolute;
+  background-color: white;
+  color: black;
+  padding: 2%;
+  z-index: 900;
+  float: right;
+  right: 0;
+  width: 30%;
+  height: 100%;
+}
