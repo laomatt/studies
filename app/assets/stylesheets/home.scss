@@ -14,6 +14,20 @@ ul.slideshow_lists {
   display: inline-block;
 }
 
+.slideshow_lists_myslides li {
+  position: relative;
+  background-color: rgba(0,0,0,.4);
+  background-size: contain;
+  overflow: hidden;
+  padding: 0%;
+  color: white;
+  width: 100px;
+  height: 100px;
+  margin: -1px;
+  display: inline-block;
+}
+
+
 .slideshow_lists_edit li img {
   width: 100%;
 }
@@ -77,8 +91,9 @@ ul.slideshow_lists {
   z-index: 16;
   color: white;
   font-size: 20pt;
-  background-color: transparent;
+  background-color: rgba(0,0,0,.4);
   height: 100%;
+  border-radius: 4px;
   overflow: auto;
 }
 

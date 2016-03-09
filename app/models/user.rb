@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
 
   has_many :slideshows
   has_many :slides
+  has_many :likes
 
 
 

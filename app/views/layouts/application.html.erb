@@ -9,32 +9,15 @@
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
 </head>
 <header>
   <ul class="nav nav-tabs nav-justified">
     <script>
-      $('body').on('click', '.content-container', function(event) {
-        var ele = $(this).parent().find('ul.dropdown-menu');
-        event.preventDefault();
-        ele.slideUp(300);
-      });
-      $("body").on('click', '.dropdown-toggle', function(event) {
-        event.preventDefault();
-        var ele = $(this).parent().find('ul.dropdown-menu');
-        if(ele.css('display') == 'none'){
-          ele.slideDown(300);
-        } else {
-          ele.slideUp(300);
-          $('body').on('click', function(event) {
-            event.preventDefault();
-          });
 
-        }
-      });
     </script>
   <% if current_user %>
   <li class="dropdown">
@@ -96,15 +79,8 @@
   }
 </style>
 
-
-<script>
-  $('body').on('click', '.backdrop', function(event) {
-    event.preventDefault();
-    $(this).fadeOut(300, function() {
-
-    });
-    $(".form-modal").fadeOut(300, function() {});
-  });
-</script>
 <div id="pose_window_container" class="form-modal">
 </div>
+
+
+  <script src="/draw.js"></script>

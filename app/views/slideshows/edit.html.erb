@@ -40,30 +40,6 @@
          <button class="upload-button Add-button-url" id="upload-pic-url">Add</button>
        </div>
 
-       <script>
-       $("body").on('click', '#upload-pic-url', function(event) {
-        event.preventDefault();
-        var id = $("#info").attr('ssid');
-        $('body').css('opacity', .5);
-        $.ajax({
-          url: "/home/"+id+"/add_image_url",
-          type: 'POST',
-          data: $("form#upload-url").serialize(),
-        })
-        .done(function(data) {
-          var source = $("#entry-template").html();
-          var template = Handlebars.compile(source);
-          var context = data;
-          var html = template(context);
-          debugger
-          $("ul.slideshow_lists_edit").append(html);
-
-          $("form#upload-url").trigger('reset');
-          $('body').css('opacity', 1);
-        })
-      });
-       </script>
-
        <div class="panelthird">
         <h4>Upload from computer</h4>
         <%= form_for @slideshow, :html => {:id => 'upload'} do |f| %>
@@ -88,7 +64,7 @@
     <p>Click and drag each slide to its disired position.</p>
     <div class="panel house">
       <div id="info" ssid="<%= @slideshow.id %>"></div>
-      <ul id="sortable" class="slideshow_lists_edit slideshow_lists_edit">
+      <ul id="sortable" class="slideshow_lists_edit">
         <% @images.each do |image|%>
         <% if !image.deleted %>
         <li class="entry" pic-id="<%= image.id %>" ssid="<%= @slideshow.id %>">
@@ -123,85 +99,4 @@
 <i class="fa fa-trash"></i>
 </div>
 </li>
-</script>
-
-<script>
-$('body').on('mouseup', '.slideshow_lists_edit li', function(event) {
-  event.preventDefault();
-  var ss_id = $(this).attr('ssid');
-  setTimeout(function(){
-    $.each($(".slideshow_lists_edit li"), function(index, val) {
-      console.log(val, index)
-      var id = $(this).attr("pic-id")
-      $.ajax({
-        url: '/slideshows/update_image_position',
-        type: 'PUT',
-        data: {position: index, slide_id: id, id: ss_id},
-      })
-    });
-  }, 500)
-  successFunction();
-});
-$("body").on('submit', 'form#save_slide', function(event) {
-  event.preventDefault();
-  var path = $(this).attr('action');
-  $.ajax({
-    url: path,
-    type: 'POST',
-    data: $(this).serialize(),
-  })
-  .done(function(data) {
-    console.log("success");
-    successFunction();
-  })
-});
-
-var successFunction = function(){
-  $(".success").fadeIn(1000, function() {
-    $(this).fadeOut(1500, function() {
-    });
-  });
-}
-
-$('body').on('mouseenter', '.slideshow_lists_edit li', function(event) {
-  event.preventDefault();
-  $(this).find('.pic-info').fadeIn(300, function() {});
-});
-
-$('body').on('mouseleave', '.slideshow_lists_edit li', function(event) {
-  event.preventDefault();
-  $(this).find('.pic-info').fadeOut(300, function() {});
-});
-
-
-$('body').on('click', '#upload-pic', function(event) {
-  event.preventDefault();
-  $('form#upload').trigger('submit');
-});
-
-$("body").on('submit', 'form#upload', function(event) {
-  event.preventDefault();
-  var id = $("#info").attr('ssid');
-  $('body').css('opacity', .5);
-
-  $.ajax({
-    url: "/home/"+id+"/add_image",
-    type: 'PATCH',
-    data: new FormData( this ),
-    processData: false,
-    contentType: false,
-  })
-  .done(function(data) {
-    var source = $("#entry-template").html();
-    var template = Handlebars.compile(source);
-    var context = data;
-    var html = template(context);
-    $("ul.slideshow_lists_edit").append(html);
-
-    $("form#upload").trigger('reset');
-    $('body').css('opacity', 1);
-  })
-});
-
-
 </script>

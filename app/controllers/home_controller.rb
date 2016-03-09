@@ -17,6 +17,12 @@ class HomeController < ApplicationController
   def user_slideshows
     @user = current_user
     @slideshows = @user.slideshows
+    @slides = @user.slides
+    if @user.likes.blank?
+      @slides_liked = []
+    else
+      @slides_liked = @user.likes.map { |e| e.slide }
+    end
   end
 
   def exp

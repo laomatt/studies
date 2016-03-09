@@ -1,0 +1,26 @@
+<center>
+<h2>Your Slides</h2>
+<div class="panel house">
+  <% @slides.each do |image|%>
+    <% if !image.deleted %>
+    <ul id="sortable" class="slideshow_lists_myslides">
+      <li class="entry" pic-id="<%= image.id %>">
+        <img src="<%= image.ext_url %>">
+        <br>
+        <div class="pic-info">
+          <a href="#">
+            <i class="fa fa-info-circle"></i>
+          </a>
+          <a href="#">
+            <i class="fa fa-pencil-square-o"></i>
+          </a>
+          <a href="#">
+            <i class="fa fa-trash"></i>
+          </a>
+        </div>
+      </li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+<center>

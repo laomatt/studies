@@ -25,3 +25,10 @@ require 'faker'
 #   tag = UrlBank.find(slide.id).tags
 #   slide.update_attributes(:ext_url => url, :tags => tag)
 # end
+
+# Slideshow.all.each do |ss|
+#   user = ss.user
+#   ss.slides.each do |s|
+#     s.update_attributes(:user_id => user.id)
+#   end
+# end
