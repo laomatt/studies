@@ -12,11 +12,18 @@ Rails.application.routes.draw do
     collection do
       post 'update_slide_show'
       put 'update_image_position'
+      get 'find_slide'
     end
   end
 
   resources :user do
 
+  end
+
+  resources :slides do
+    member do
+      post 'like_a_slide'
+    end
   end
 
   resources :home do

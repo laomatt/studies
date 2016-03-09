@@ -21,6 +21,15 @@ class SlideshowsController < ApplicationController
     render :nothing => true
   end
 
+  def find_slide
+    url = params[:url]
+    slide = Slide.find_by_ext_url(url)
+    if Like.exists?(:user_id => current_user.id, :slide_id => slide.id)
+      slide = {:already_liked => true}
+    end
+    render :json => slide
+  end
+
   def update_slide_show
     @show = Slideshow.find(params[:id])
     @show.update_attributes(slideshow_params)
@@ -39,8 +48,14 @@ class SlideshowsController < ApplicationController
   end
 
   def get_images_from_show
-    @show = Slideshow.find(params[:id])
-    render :json => @show.slides.map { |e| e.ext_url  }
+    images_spent = params[:already].split(',')
+    if params[:random]
+      @slides = Slideshow.find(params[:id]).slides.order(:position).map { |e| e.ext_url  }.select{ |e| !images_spent.include?(e)}.shuffle
+    else
+      @slides = Slideshow.find(params[:id]).slides.order(:position).map { |e| e.ext_url  }
+    end
+
+    render :json => @slides
   end
 
   def get_image

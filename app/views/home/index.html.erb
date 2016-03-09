@@ -1,7 +1,4 @@
 
-<center>
-<%= will_paginate @slideshows %>
-</center>
 <ul class="slideshow_lists">
 <% @slideshows.each do |ss| %>
   <a href="/slideshows/<%= ss.id %>">
@@ -21,6 +18,9 @@
 <% end %>
 </ul>
 
+<center>
+  <%= will_paginate @slideshows %>
+</center>
 
 <script>
   $('body').on('mouseenter', 'ul.slideshow_lists li', function(event) {

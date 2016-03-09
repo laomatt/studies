@@ -177,7 +177,11 @@ input#edit_title {
 
 header {
   position: relative;
-  background-color: black;
+  background-color: rgba(0,0,0,.4);
+  color: white;
+}
+
+header a {
   color: white;
 }
 
@@ -221,13 +225,14 @@ header {
 .pose-window img {
   position: relative;
   left: 10%;
+  max-width: 60%;
   height: 100%;
-
 }
 
 .right-menu {
   position: absolute;
   background-color: white;
+  font-size: 30px;
   color: black;
   padding: 2%;
   z-index: 900;
@@ -235,4 +240,8 @@ header {
   right: 0;
   width: 30%;
   height: 100%;
+}
+
+.nav {
+  background-color: rgba(0,0,0,.4);
 }

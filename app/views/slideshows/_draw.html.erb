@@ -1,5 +1,5 @@
 
-<div id="information" style="display:none" pose-length="<%= pose_length %>" slideshowid="<%= id %>"></div>
+<div id="information" style="display:none" pose-length="<%= pose_length %>" slideshowid="<%= id %>" random="<%= random %>"></div>
 
 <% @images = Slideshow.find(id).slides %>
 
@@ -8,15 +8,13 @@
 </div>
 
 <div class="right-menu">
-  asdf
-  <div id="clock">
-
-  </div>
-  <a href="#" id="pause-draw-modal">PAUSE</a>
-  <br>
-  <a href="#" id="next-draw-modal">NEXT</a>
-  <br>
-  <a href="#" id="close-draw-modal">[close]</a>
+  <center>
+    <a href="#" id="pause-draw-modal"><i class="fa fa-pause"></i></a>
+    <a href="#" id="like-draw-modal" data-id=""><i class="fa fa-heart"></i></a>
+    <a href="#" id="close-draw-modal"><i class="fa fa-times"></i></a>
+    <br>
+    Time left:<div id="clock"></div>
+  </center>
 </div>
 
 <script>
@@ -26,7 +24,20 @@ var poseLengthMilisecs = parseInt(poseLength) * 60 * 1000;
 var running = false;
 var time = poseLength * 60;
 var i = 0;
-setInterval(function(){
+var time_int
+var spent_images = []
+var isRandom = true;
+var rando = $("#information").attr('random');
+change_image(i);
+running = true;
+
+if(rando == '1') {
+  isRandom == true;
+} else {
+  isRandom == false;
+}
+
+time_int = setInterval(function(){
   if(running == true){
     time -= 1;
     if(time < 0) {
@@ -42,21 +53,44 @@ $("body").on('click', "#close-draw-modal", function(event) {
   event.preventDefault();
   $(".backdrop").trigger('click');
   running = false;
+  clearInterval(time_int);
+});
+
+$('body').on('click', '#like-draw-modal', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('data-id');
+  $.ajax({
+    url: '/slides/' + id + '/like_a_slide',
+    type: 'POST',
+  })
+  .done(function() {
+    $("#like-draw-modal").html('<i class="fa fa-gratipay"></i>')
+    $("#like-draw-modal").attr('href', '#');
+    $("#like-draw-modal").css('opacity', '.5');
+  })
+
+
 });
 
 $('body').on('click', '#pause-draw-modal', function(event) {
   event.preventDefault();
   if(running == true){
     running = false;
-    $(this).text("RESUME");
+    $(this).html('<i class="fa fa-play"></i>');
   } else {
     running = true;
-    $(this).text("PAUSE");
+    $(this).html('<i class="fa fa-pause"></i>');
   }
 });
-var change_image = function(i) {
+
+function likeAnimation(el){
+
+}
+
+function change_image(i) {
     $.ajax({
-      url: '/slideshows/'+number+'/get_images_from_show'
+      url: '/slideshows/'+number+'/get_images_from_show',
+      data: {already: spent_images.join(), random: isRandom }
     })
     .done(function(data) {
       var slides = data;
@@ -66,6 +100,20 @@ var change_image = function(i) {
       }
       if(i <= slides.length) {
         var url = slides[i];
+        spent_images.push(slides[i]);
+        $.ajax({
+          url: '/slideshows/find_slide',
+          data: {url: slides[i]},
+        })
+        .done(function(data) {
+          if(data.already_liked == true){
+            $("#like-draw-modal").html('<i class="fa fa-gratipay"></i>')
+            $("#like-draw-modal").attr('href', '#');
+            $("#like-draw-modal").css('opacity', '.5');
+          } else {
+            $("#like-draw-modal").attr('data-id', data.id);
+          }
+        })
         $(".pose-window").find('img').attr('src', url);
       } else {
         $(".backdrop").trigger('click');
@@ -74,6 +122,4 @@ var change_image = function(i) {
     })
 }
 
-running = true;
-// change_image(0);
 </script>
