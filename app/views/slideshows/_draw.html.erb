@@ -68,8 +68,6 @@ $('body').on('click', '#like-draw-modal', function(event) {
     $("#like-draw-modal").attr('href', '#');
     $("#like-draw-modal").css('opacity', '.5');
   })
-
-
 });
 
 $('body').on('click', '#pause-draw-modal', function(event) {
@@ -112,6 +110,8 @@ function change_image(i) {
             $("#like-draw-modal").css('opacity', '.5');
           } else {
             $("#like-draw-modal").attr('data-id', data.id);
+            $("#like-draw-modal").html('<i class="fa fa-heart"></i>')
+            $("#like-draw-modal").css('opacity', '1');
           }
         })
         $(".pose-window").find('img').attr('src', url);

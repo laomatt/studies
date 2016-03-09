@@ -68,10 +68,24 @@ class HomeController < ApplicationController
     render :json => slide
   end
 
+  def add_image_url
+    slide = Slide.create(slide_params)
+    render :json => slide
+  end
+
+  def add_image_community
+    slide = Slide.create(slide_params)
+    render :json => slide
+  end
+
   private
 
   def slideshow_params
     params.require(:info).permit(:title)
+  end
+
+  def slide_params
+    params.require(:info).permit(:title, :ext_url, :slideshow_id)
   end
 
 end

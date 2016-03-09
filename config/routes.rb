@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     member do
       get 'create_slide_show'
       patch 'add_image'
+      post 'add_image_url'
+      post 'add_image_community'
       get 'upload_images'
       get 'user_shows'
       get 'user_slides'

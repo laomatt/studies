@@ -48,3 +48,17 @@ ul.slideshow_lists_inspect {
 li {
   list-style: none;
 }
+
+.entry {
+  border-color: black;
+  border-size: 1px;
+  border-spacing: 2px;
+  border-style: solid;
+}
+
+.dropdown-menu {
+  display: block;
+  width: 100%;
+  text-align: center;
+  display: none;
+}

@@ -1,147 +1,207 @@
   <center>
-<div class="form-container panel">
-  <h3>Edit title</h3>
-<form id="save_slide" action="/slideshows/update_slide_show" method="post">
-  <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
-  <label for="info[title]">Title</label>
-  <input type="hidden" name="id" value="<%= @slideshow.id %>">
-  <input type="text" id="edit_title" value="<%= @slideshow.title %>" name="info[title]">
-  <input type="submit">
-</form>
-  <div class="success">Updated</div>
-<br>
-<br>
-   <script>
-     $(function() {
+    <div class="form-container panel">
+      <h3>Edit title</h3>
+      <div class="panel house">
+        <form id="save_slide" action="/slideshows/update_slide_show" method="post">
+          <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
+          <label for="info[title]">Title</label>
+          <input type="hidden" name="id" value="<%= @slideshow.id %>">
+          <input type="text" id="edit_title" value="<%= @slideshow.title %>" name="info[title]">
+          <input type="submit">
+        </form>
+      </div>
+      <div class="success">Updated</div>
+      <br>
+      <br>
+      <script>
+      $(function() {
        $( "#sortable" ).sortable();
        $( "#sortable" ).disableSelection();
      });
 
-     $('#sortable').draggable();
-   </script>
-    <h3>Add Images</h3>
-    <%= form_for @slideshow, :html => {:id => 'upload'} do |f| %>
-      <%= f.file_field :picture %>
-    <% end %>
-    <br><br>
-    <button class="upload-button" id="upload-pic">Upload</button>
-<h3>Slide Order</h3>
-<p>Click and draw each slide to its disired position.</p>
-<div id="info" ssid="<%= @slideshow.id %>"></div>
-<ul id="sortable" class="slideshow_lists_edit">
-  <% @images.each do |image|%>
-    <% if !image.deleted %>
-      <li class="entry" pic-id="<%= image.id %>" ssid="<%= @slideshow.id %>">
-        <img src="<%= image.ext_url %>">
-        <br>
-        <div class="pic-info">
-          <a href="#">
-            <i class="fa fa-info-circle"></i>
-          </a>
-          <a href="#">
-            <i class="fa fa-pencil-square-o"></i>
-          </a>
-          <a href="#">
-            <i class="fa fa-trash"></i>
-          </a>
-        </div>
-      </li>
-    <% end %>
-  <% end %>
-</ul>
-</div>
+      $('#sortable').draggable();
+      </script>
+
+      <h3>Add Images</h3>
+      <p>Three ways to add images ... </p>
+
+      <div class="panel house">
+        <div class="panelthird">
+          <h4>Make with URL</h4>
+          <br>
+          <form action="#" id="upload-url">
+           <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+           <input type="hidden" name="info[slideshow_id]" value="<%= @slideshow.id %>">
+           <input type="text" style="width:100%" placeholder="Title this slide..." name="info[title]">
+           <input type="text" style="width:100%" placeholder="Tag this slide (seperate by comma)..." name="info[tags]">
+           <input type="text" style="width:100%" placeholder="Find an image and copy its URL..." name="info[ext_url]">
+         </form>
+         <br><br>
+         <button class="upload-button Add-button-url" id="upload-pic-url">Add</button>
+       </div>
+
+       <script>
+       $("body").on('click', '#upload-pic-url', function(event) {
+        event.preventDefault();
+        var id = $("#info").attr('ssid');
+        $('body').css('opacity', .5);
+        $.ajax({
+          url: "/home/"+id+"/add_image_url",
+          type: 'POST',
+          data: $("form#upload-url").serialize(),
+        })
+        .done(function(data) {
+          var source = $("#entry-template").html();
+          var template = Handlebars.compile(source);
+          var context = data;
+          var html = template(context);
+          debugger
+          $("ul.slideshow_lists_edit").append(html);
+
+          $("form#upload-url").trigger('reset');
+          $('body').css('opacity', 1);
+        })
+      });
+       </script>
+
+       <div class="panelthird">
+        <h4>Upload from computer</h4>
+        <%= form_for @slideshow, :html => {:id => 'upload'} do |f| %>
+        <%= f.file_field :picture %>
+        <% end %>
+        <br><br>
+        <button class="upload-button" id="upload-pic">Upload</button>
+      </div>
+
+      <div class="panelthird">
+        <h4>Choose from community slides</h4>
+        <a href="#">Your Favorites</a> | <a href="#">Browse community</a>
+        <br><br>
+        <button class="upload-button Add-button-c" id="upload-pic-community">Add</button>
+      </div>
+
+    </div>
+
+
+
+    <h3>Slide Order</h3>
+    <p>Click and drag each slide to its disired position.</p>
+    <div class="panel house">
+      <div id="info" ssid="<%= @slideshow.id %>"></div>
+      <ul id="sortable" class="slideshow_lists_edit slideshow_lists_edit">
+        <% @images.each do |image|%>
+        <% if !image.deleted %>
+        <li class="entry" pic-id="<%= image.id %>" ssid="<%= @slideshow.id %>">
+          <img src="<%= image.ext_url %>">
+          <br>
+          <div class="pic-info">
+            <a href="#">
+              <i class="fa fa-info-circle"></i>
+            </a>
+            <a href="#">
+              <i class="fa fa-pencil-square-o"></i>
+            </a>
+            <a href="#">
+              <i class="fa fa-trash"></i>
+            </a>
+          </div>
+        </li>
+        <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </center>
 
 <script id="entry-template" type="text/x-handlebars-template">
-  <li class="entry">
-    <img src="{{ext_url}}">
-    <br>
-    <div class="pic-info">
-      <i class="fa fa-info-circle"></i>
-      <i class="fa fa-pencil-square-o"></i>
-      <i class="fa fa-trash"></i>
-    </div>
-  </li>
+<li class="entry">
+<img src="{{ext_url}}">
+<br>
+<div class="pic-info">
+<i class="fa fa-info-circle"></i>
+<i class="fa fa-pencil-square-o"></i>
+<i class="fa fa-trash"></i>
+</div>
+</li>
 </script>
 
 <script>
-  $('body').on('mouseup', '.slideshow_lists li', function(event) {
-    event.preventDefault();
-    var ss_id = $(this).attr('ssid');
-    setTimeout(function(){
-      $.each($(".slideshow_lists li"), function(index, val) {
-        console.log(val, index)
-        var id = $(this).attr("pic-id")
-        $.ajax({
-          url: '/slideshows/update_image_position',
-          type: 'PUT',
-          data: {position: index, slide_id: id, id: ss_id},
-        })
-      });
-    }, 500)
+$('body').on('mouseup', '.slideshow_lists_edit li', function(event) {
+  event.preventDefault();
+  var ss_id = $(this).attr('ssid');
+  setTimeout(function(){
+    $.each($(".slideshow_lists_edit li"), function(index, val) {
+      console.log(val, index)
+      var id = $(this).attr("pic-id")
+      $.ajax({
+        url: '/slideshows/update_image_position',
+        type: 'PUT',
+        data: {position: index, slide_id: id, id: ss_id},
+      })
+    });
+  }, 500)
+  successFunction();
+});
+$("body").on('submit', 'form#save_slide', function(event) {
+  event.preventDefault();
+  var path = $(this).attr('action');
+  $.ajax({
+    url: path,
+    type: 'POST',
+    data: $(this).serialize(),
+  })
+  .done(function(data) {
+    console.log("success");
     successFunction();
+  })
+});
+
+var successFunction = function(){
+  $(".success").fadeIn(1000, function() {
+    $(this).fadeOut(1500, function() {
+    });
   });
-  $("body").on('submit', 'form#save_slide', function(event) {
-    event.preventDefault();
-    var path = $(this).attr('action');
-    $.ajax({
-      url: path,
-      type: 'POST',
-      data: $(this).serialize(),
-    })
-    .done(function(data) {
-      console.log("success");
-      successFunction();
+}
 
-    })
-  });
+$('body').on('mouseenter', '.slideshow_lists_edit li', function(event) {
+  event.preventDefault();
+  $(this).find('.pic-info').fadeIn(300, function() {});
+});
 
-  var successFunction = function(){
-        $(".success").fadeIn(1000, function() {
-          $(this).fadeOut(1500, function() {
-          });
-        });
-  }
-
-  $('body').on('mouseenter', '.slideshow_lists li', function(event) {
-    event.preventDefault();
-    $(this).find('.pic-info').fadeIn(300, function() {});
-  });
-
-  $('body').on('mouseleave', '.slideshow_lists li', function(event) {
-    event.preventDefault();
-    $(this).find('.pic-info').fadeOut(300, function() {});
-  });
+$('body').on('mouseleave', '.slideshow_lists_edit li', function(event) {
+  event.preventDefault();
+  $(this).find('.pic-info').fadeOut(300, function() {});
+});
 
 
-  $('body').on('click', '#upload-pic', function(event) {
-    event.preventDefault();
-    $('form#upload').trigger('submit');
-  });
+$('body').on('click', '#upload-pic', function(event) {
+  event.preventDefault();
+  $('form#upload').trigger('submit');
+});
 
-    $("body").on('submit', 'form#upload', function(event) {
-    event.preventDefault();
-    var id = $("#info").attr('ssid');
-    $('body').css('opacity', .5);
+$("body").on('submit', 'form#upload', function(event) {
+  event.preventDefault();
+  var id = $("#info").attr('ssid');
+  $('body').css('opacity', .5);
 
-    $.ajax({
-      url: "/home/"+id+"/add_image",
-      type: 'PATCH',
-      data: new FormData( this ),
-      processData: false,
-      contentType: false,
-    })
-    .done(function(data) {
-      var source = $("#entry-template").html();
-      var template = Handlebars.compile(source);
-      var context = data;
-      var html = template(context);
-      $("ul.slideshow_lists").append(html);
+  $.ajax({
+    url: "/home/"+id+"/add_image",
+    type: 'PATCH',
+    data: new FormData( this ),
+    processData: false,
+    contentType: false,
+  })
+  .done(function(data) {
+    var source = $("#entry-template").html();
+    var template = Handlebars.compile(source);
+    var context = data;
+    var html = template(context);
+    $("ul.slideshow_lists_edit").append(html);
 
-      $("form#upload").trigger('reset');
-      $('body').css('opacity', 1);
-    })
-  });
+    $("form#upload").trigger('reset');
+    $('body').css('opacity', 1);
+  })
+});
 
 
 </script>
