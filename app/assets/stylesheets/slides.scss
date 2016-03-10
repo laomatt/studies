@@ -80,7 +80,7 @@
   background-color: black;
   color: white;
   zoom: 1;
-  top: 5%;
+  top: 10%;
   left: 0;
   right: 0;
   margin: auto;
@@ -89,7 +89,10 @@
   border-radius: 5px;
   display: none;
   z-index: 50;
-  width:40%;
+  overflow: auto;
   text-align: center;
+}
 
+.delete_container img {
+  zoom: .6;
 }

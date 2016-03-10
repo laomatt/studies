@@ -3,7 +3,6 @@ class SlideshowsController < ApplicationController
   def show
     @show = Slideshow.find(params[:id])
     @images = @show.slides
-
   end
 
   def edit
@@ -39,7 +38,6 @@ class SlideshowsController < ApplicationController
   def draw
     @show = Slideshow.find(params[:id])
     @images = @show.slides.shuffle
-
     @num_sets = params[:num_sets]
     @pose_length = params[:pose_length]
     @pose_number = params[:pose_number]

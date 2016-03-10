@@ -22,6 +22,34 @@
       $('#sortable').draggable();
       </script>
 
+
+    <h3>Slide Order</h3>
+    <p>Click and drag each slide to its desired position.</p>
+    <div class="panel house">
+      <div id="info" ssid="<%= @slideshow.id %>"></div>
+      <ul id="sortable" class="slideshow_lists_edit">
+        <% @images.each do |image|%>
+        <% if !image.deleted %>
+        <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>">
+          <img src="<%= image.ext_url %>">
+          <br>
+          <div class="pic-info">
+            <a href="#" class="inspect-slide" data-id="<%= image.id %>">
+              <i class="fa fa-info-circle"></i>
+            </a>
+            <a href="#" class="edit-slide" data-id="<%= image.id %>">
+              <i class="fa fa-pencil-square-o"></i>
+            </a>
+            <a href="#" class="delete-slide" data-id="<%= image.id %>">
+              <i class="fa fa-trash"></i>
+            </a>
+          </div>
+        </li>
+        <% end %>
+        <% end %>
+      </ul>
+    </div>
+
       <h3>Add Images</h3>
       <p>Three ways to add images ... </p>
 
@@ -50,34 +78,6 @@
       </div>
     </div>
 
-
-
-    <h3>Slide Order</h3>
-    <p>Click and drag each slide to its desired position.</p>
-    <div class="panel house">
-      <div id="info" ssid="<%= @slideshow.id %>"></div>
-      <ul id="sortable" class="slideshow_lists_edit">
-        <% @images.each do |image|%>
-        <% if !image.deleted %>
-        <li class="entry" pic-id="<%= image.id %>" ssid="<%= @slideshow.id %>">
-          <img src="<%= image.ext_url %>">
-          <br>
-          <div class="pic-info">
-            <a href="#" class="inspect-slide" data-id="<%= image.id %>">
-              <i class="fa fa-info-circle"></i>
-            </a>
-            <a href="#" class="edit-slide" data-id="<%= image.id %>">
-              <i class="fa fa-pencil-square-o"></i>
-            </a>
-            <a href="#" class="delete-slide" data-id="<%= image.id %>">
-              <i class="fa fa-trash"></i>
-            </a>
-          </div>
-        </li>
-        <% end %>
-        <% end %>
-      </ul>
-    </div>
   </div>
 </center>
 

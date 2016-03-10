@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309223144) do
+ActiveRecord::Schema.define(version: 20160310062230) do
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20160309223144) do
     t.integer  "position",     default: 0,     null: false
     t.string   "tags"
     t.integer  "user_id"
+    t.boolean  "on_s3",        default: false
   end
 
   create_table "slideshows", force: :cascade do |t|

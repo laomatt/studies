@@ -17,6 +17,13 @@ class SlidesController < ApplicationController
     @slide.likes.each do |like|
       like.delete
     end
+
+    if @slide.on_s3?
+      obj_key = "#{current_user.email}/#{@slide.title}"
+      obj = S3_BUCKET.object(obj_key)
+      obj.delete
+    end
+
     slide = @slide.delete
     render :json => slide
   end

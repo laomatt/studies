@@ -1,14 +1,13 @@
 <center>
   <h1>
-
-  <%= @show.title %>
+    <%= @show.title %>
   </h1>
 <ul class="slideshow_lists_inspect">
-<% @images.each do |ss| %>
-  <li>
-    <img src="<%= ss.ext_url %>" alt="">
-  </li>
-<% end %>
+  <% @images.each do |ss| %>
+    <li>
+      <img src="<%= ss.ext_url %>" alt="">
+    </li>
+  <% end %>
 </ul>
 <button class="upload-button launch-study">
   Start Study
