@@ -209,10 +209,21 @@ $('body').on('click', '.delete-slide', function(event) {
       $('#pose_window_container').fadeIn(300, function() {});
   });
 
-  $('body').on('click', '#draw-random-set', function(event) {
+    //  draw from random set
+  $('body').on('click', '#random-set-menu', function(event) {
     event.preventDefault();
+    console.log('menu')
+    $("#random-sets").fadeIn(1000, function() {
+    });
+  });
+
+  $('body').on('click', '.draw-random-set', function(event) {
+    event.preventDefault();
+    length = $(this).attr('length');
+    total = $(this).attr('total');
     $.ajax({
       url: '/slideshows/draw_set_random',
+      data: {num: total, pose_l: length},
     })
     .done(function(data) {
       var html = data;

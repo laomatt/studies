@@ -15,7 +15,9 @@ class SlideshowsController < ApplicationController
   end
 
   def draw_set_random
-    render :partial => '/slideshows/draw_random', :locals => {:pose_length => 0.05, :pose_number => 20}
+    num_poses = params[:num]
+    length = params[:pose_l]
+    render :partial => '/slideshows/draw_random', :locals => {:pose_length => length, :pose_number => num_poses}
   end
 
   def update_image_position
@@ -67,7 +69,7 @@ class SlideshowsController < ApplicationController
     if images_spent.empty?
       images_spent = [1,2]
     end
-    @slide = Slide.where('id not in (?)', images_spent).limit(3).sample
+    @slide = Slide.where('id not in (?)', images_spent).limit(50).sample
     render :json => @slide
   end
 

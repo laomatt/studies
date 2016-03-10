@@ -14,11 +14,64 @@
 </head>
 <header>
   <div class="head-container">
-  <img src="/images/header_white.png" alt="" class="header_image">
-  <a href="#" id="draw-random-set">
-  <img src="/images/set_draw.png" alt="" class="rand_draw_image">
-  </a>
+    <img src="/images/header_white.png" alt="" class="header_image">
+    <a href="#" id="random-set-menu">
+      <img src="/images/set_draw.png" alt="" class="rand_draw_image">
+    </a>
+    <div id="random-sets">
+        <div class="rand-select" id="random-1">
+          <a href="#" class="draw-random-set" length=".5" total="40">
+            <b><img src="/images/thirty.png" class="time-to-draw-set"></b>
+          </a>
+        </div>
+        <div class="rand-select" id="random-2">
+          <a href="#" class="draw-random-set" length="1" total="20">
+           <b> <img src="/images/one.png" class="time-to-draw-set"></b>
+          </a>
+        </div>
+        <div class="rand-select" id="random-3">
+          <a href="#" class="draw-random-set" length="2" total="10">
+           <b> <img src="/images/two.png" class="time-to-draw-set"></b>
+          </a>
+        </div>
+        <div class="rand-select" id="random-4">
+          <a href="#" class="draw-random-set" length="5" total="4">
+           <b> <img src="/images/five.png" class="time-to-draw-set"></b>
+          </a>
+        </div>
+    </div>
   </div>
+
+  <style>
+  #random-sets {
+    position: absolute;
+    right: 5%;
+    background-color: transparent;
+    top: 10px;
+    width: 15%;
+    height: 100%;
+    display: none;
+  }
+
+  .time-to-draw-set {
+    width: 35px;
+  }
+  .rand-select {
+    background-color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 200px;
+    z-index: 100;
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    display: inline-block;
+      }
+
+  .rand-select a {
+    color: #DC4119;
+  }
+  </style>
 
   <ul class="nav nav-tabs nav-justified">
   <% if current_user %>
