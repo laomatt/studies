@@ -1,6 +1,6 @@
 class SlidesController < ApplicationController
   before_filter :find_slide
-  skip_before_action :verify_authenticity_token, :only => [:like_a_slide, :destroy_this_slide]
+  skip_before_action :verify_authenticity_token, :only => [:like_a_slide, :destroy_this_slide, :unlike_slide]
 
   def like_a_slide
     Like.create(:slide_id => @slide.id, :user_id => current_user.id)
@@ -26,6 +26,14 @@ class SlidesController < ApplicationController
 
     slide = @slide.delete
     render :json => slide
+  end
+
+  def unlike_slide
+    like = Like.where('slide_id = ? and user_id = ?',@slide.id,current_user.id).first
+    Like.delete(like.id)
+
+    render :nothing => true
+
   end
 
   def get_partial

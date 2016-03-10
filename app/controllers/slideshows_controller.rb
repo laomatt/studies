@@ -1,5 +1,6 @@
 class SlideshowsController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => :update_image_position
+  before_action :authenticate_user!, :except => [:show, :draw_set, :draw_set_random, :draw, :get_image, :get_images_from_show, :get_images_from_show_random]
   def show
     @show = Slideshow.find(params[:id])
     @images = @show.slides
@@ -69,7 +70,7 @@ class SlideshowsController < ApplicationController
     if images_spent.empty?
       images_spent = [1,2]
     end
-    @slide = Slide.where('id not in (?)', images_spent).limit(50).sample
+    @slide = Slide.where('id not in (?)', images_spent).sample
     render :json => @slide
   end
 

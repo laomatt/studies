@@ -212,9 +212,9 @@ $('body').on('click', '.delete-slide', function(event) {
     //  draw from random set
   $('body').on('click', '#random-set-menu', function(event) {
     event.preventDefault();
-    console.log('menu')
-    $("#random-sets").fadeIn(1000, function() {
-    });
+    // console.log('menu')
+    // $("#random-sets").fadeIn(1000, function() {
+    // });
   });
 
   $('body').on('click', '.draw-random-set', function(event) {

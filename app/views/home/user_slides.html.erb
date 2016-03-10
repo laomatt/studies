@@ -20,4 +20,90 @@
       <% end %>
     <% end %>
 </div>
+<a href="#" class="draw-from-this-set-yours">Draw from this set</a>
+<hr>
+<h2>Slides that you like</h2>
+<div class="panel house" style="height:200px;overflow:scroll">
+ <% @slides_liked.each do |image|%>
+    <% if !image.nil? &&!image.deleted %>
+      <div class="my-slide" style="background-image:url(<%= image.ext_url %>)" pic-id="<%= image.id %>" id="slide_<%= image.id %>">
+        <br>
+        <div class="pic-info-myslides">
+          <a href="#" class="inspect-slide" data-id="<%= image.id %>">
+            <i class="fa fa-info-circle"></i>
+          </a>
+          <a href="#" class="delete-slide-liked" data-id="<%= image.id %>">
+            <i class="fa fa-heartbeat"></i>
+          </a>
+        </div>
+      </div>
+      <% end %>
+    <% end %>
+</div>
+<a href="#" class="draw-from-this-set-liked">Draw from this set</a>
 <center>
+
+<div class="liked-modal form-modal">
+  <form class="launch-set" action="/slideshows/draw_set_from_liked">
+    <h2>Start study</h2>
+    <li>How many minutes per pose?</li>
+    <input type="number" value="1" name="pose_length">
+    <li>How many poses per set?</li>
+    <input type="number" value="20" name="pose_number">
+    <li>Do you want a random order?   <input type="checkbox" name="random" value="1" checked></li>
+  </form>
+  <button id="start-draw-set-like" class="upload-button">Draw!!!</button>
+</div>
+
+<div class="your-modal form-modal">
+  <form class="launch-set" action="/slideshows/draw_set_from_yours">
+    <h2>Draw from you slides</h2>
+    <li>How many minutes per pose?</li>
+    <input type="number" value="1" name="pose_length">
+    <li>How many poses per set?</li>
+    <input type="number" value="20" name="pose_number">
+    <li>Do you want a random order?   <input type="checkbox" name="random" value="1" checked></li>
+  </form>
+  <button id="start-draw-set-your" class="upload-button">Draw!!!</button>
+</div>
+
+<script>
+  // unlike a slide
+  $("body").on('click', '.delete-slide-liked', function(event) {
+    event.preventDefault();
+    var image_id = $(this).attr('data-id');
+    $.ajax({
+      url: '/slides/'+image_id+'/unlike_slide',
+      type: 'DELETE',
+    })
+    .done(function() {
+    })
+    $(this).parent().parent().fadeOut(200, function() {});
+  });
+
+  // modals
+
+  $("body").on('click', '.draw-from-this-set-yours', function(event) {
+    event.preventDefault();
+    $('.your-modal').fadeIn(300, function() {
+
+    });
+    $(".backdrop").fadeIn(200, function() {
+
+    });
+  });
+
+  $("body").on('click', '#start-draw-set-your', function(event) {
+    event.preventDefault();
+  });
+
+  $("body").on('click', '.draw-from-this-set-liked', function(event) {
+    event.preventDefault();
+  });
+
+  $("body").on('click', '#start-draw-set-like', function(event) {
+    event.preventDefault();
+  });
+
+</script>
+

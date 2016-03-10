@@ -38,6 +38,8 @@ class HomeController < ApplicationController
   def user_slides
     @user = current_user
     @slides = @user.slides
+    @slides_liked_array = @user.likes.map { |e| e.slide_id }.uniq
+    @slides_liked = Slide.where("id in (?)", @slides_liked_array)
   end
 
   def create_slide_show

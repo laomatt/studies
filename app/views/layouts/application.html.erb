@@ -15,9 +15,7 @@
 <header>
   <div class="head-container">
     <img src="/images/header_white.png" alt="" class="header_image">
-    <a href="#" id="random-set-menu">
-      <img src="/images/set_draw.png" alt="" class="rand_draw_image">
-    </a>
+
     <div id="random-sets">
         <div class="rand-select" id="random-1">
           <a href="#" class="draw-random-set" length=".5" total="40">
@@ -42,15 +40,27 @@
     </div>
   </div>
 
+  <script>
+    $("body").on('mouseenter', '.rand-select', function(event) {
+      event.preventDefault();
+      $(this).css('opacity', '1');
+    });
+    $("body").on('mouseleave', '.rand-select', function(event) {
+      event.preventDefault();
+      $(this).css('opacity', '.5');
+    });
+
+  </script>
+
   <style>
   #random-sets {
-    position: absolute;
-    right: 5%;
+    position: relative;
     background-color: transparent;
-    top: 10px;
-    width: 15%;
+    padding: 1%;
     height: 100%;
-    display: none;
+    float: right;
+    display: block;
+    overflow: auto;
   }
 
   .time-to-draw-set {
@@ -66,6 +76,7 @@
     text-align: center;
     padding: 5px;
     display: inline-block;
+    opacity: .5;
       }
 
   .rand-select a {

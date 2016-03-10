@@ -162,7 +162,7 @@ ul.slideshow_lists {
   display: none;
 }
 
-.start-modal{
+.start-modal, .your-modal, .liked-modal{
   position: fixed;
   background-color: black;
   color: white;
@@ -175,7 +175,7 @@ ul.slideshow_lists {
   display: none;
 }
 
-.start-modal input {
+.start-modal input, .your-modal input, .liked-modal input {
   color: black;
 }
 
