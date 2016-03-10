@@ -14,6 +14,10 @@ class SlideshowsController < ApplicationController
     render :partial => '/slideshows/draw', :locals => params
   end
 
+  def draw_set_random
+    render :partial => '/slideshows/draw_random', :locals => {:pose_length => 0.05, :pose_number => 20}
+  end
+
   def update_image_position
     @slideshow = Slideshow.find(params[:id])
     @slideshow.slides.find_by_id(params[:slide_id]).update_attributes(:position => params[:position])
@@ -57,6 +61,16 @@ class SlideshowsController < ApplicationController
 
     render :json => @slide
   end
+
+  def get_images_from_show_random
+    images_spent = params[:already].split(',').map { |e| e.to_i }
+    if images_spent.empty?
+      images_spent = [1,2]
+    end
+    @slide = Slide.where('id not in (?)', images_spent).limit(3).sample
+    render :json => @slide
+  end
+
 
   def get_image
     @show = Slideshow.find(params[:id])

@@ -13,10 +13,14 @@
 
 </head>
 <header>
-  <ul class="nav nav-tabs nav-justified">
-    <script>
+  <div class="head-container">
+  <img src="/images/header_white.png" alt="" class="header_image">
+  <a href="#" id="draw-random-set">
+  <img src="/images/set_draw.png" alt="" class="rand_draw_image">
+  </a>
+  </div>
 
-    </script>
+  <ul class="nav nav-tabs nav-justified">
   <% if current_user %>
   <li class="dropdown">
     <a href="#" data-toggle="dropdown" class="dropdown-toggle">
@@ -82,7 +86,7 @@
     width: 100%;
     padding: 1%;
     margin: 0;
-    position: absolute;
+    position: relative;
     top: 6%;
     height: 90%;
     background-color: transparent;

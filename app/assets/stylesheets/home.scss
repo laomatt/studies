@@ -1,3 +1,28 @@
+.header_image {
+  position: relative;
+  width: 20%;
+}
+
+.rand_draw_image {
+  position: relative;
+  width: 6%;
+  float: right;
+  right: 10%;
+}
+
+.rand-draw-button {
+    padding: 4%;
+    background-color: transparent;
+    width: 10%;
+    float: right;
+    position: relative;
+    height: 5%;}
+
+.head-container {
+  position: relative;
+  width: 100%;
+}
+
 ul.slideshow_lists {
   text-align: center;
 }
@@ -13,6 +38,20 @@ ul.slideshow_lists {
   margin: -1px;
   display: inline-block;
 }
+
+.slideshow_lists_user_slideshows li {
+  position: relative;
+  background-color: rgba(0,0,0,.4);
+  background-size: contain;
+  overflow: auto;
+  padding: 0%;
+  color: white;
+  width: 200px;
+  height: 200px;
+  margin: -1px;
+  display: inline-block;
+}
+
 
 .slideshow_lists_myslides li {
   position: relative;

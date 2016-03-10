@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       post 'update_slide_show'
       put 'update_image_position'
       get 'find_slide'
+      get 'get_images_from_show_random'
+      get 'draw_set_random'
     end
   end
 

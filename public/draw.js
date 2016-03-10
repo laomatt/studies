@@ -209,6 +209,20 @@ $('body').on('click', '.delete-slide', function(event) {
       $('#pose_window_container').fadeIn(300, function() {});
   });
 
+  $('body').on('click', '#draw-random-set', function(event) {
+    event.preventDefault();
+    $.ajax({
+      url: '/slideshows/draw_set_random',
+    })
+    .done(function(data) {
+      var html = data;
+      $("#pose_window_container").html(html);
+      $('.start-modal').fadeOut(300, function() {});
+    })
+
+      $('#pose_window_container').fadeIn(300, function() {});
+  });
+
 // update slide show form
 
 $("body").on('click', '#update-this-slide', function(event) {
