@@ -91,7 +91,7 @@ class HomeController < ApplicationController
   end
 
   def slide_params
-    params.require(:info).permit(:title, :ext_url, :slideshow_id)
+    params.require(:info).permit(:title, :ext_url, :slideshow_id, :tags)
   end
 
 end

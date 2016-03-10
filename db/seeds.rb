@@ -32,3 +32,11 @@ require 'faker'
 #     s.update_attributes(:user_id => user.id)
 #   end
 # end
+
+Slide.all.each do |s|
+  num = 1 + rand(40)
+  num.times do
+    user = User.all.sample
+    Like.create(:user_id => user.id, :slide_id => s.id)
+  end
+end

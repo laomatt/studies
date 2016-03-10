@@ -5,7 +5,7 @@
     <% if !image.deleted %>
       <div class="my-slide" style="background-image:url(<%= image.ext_url %>)" pic-id="<%= image.id %>">
         <br>
-        <div class="pic-info-myslides">
+        <div class="pic-info-myslides" id="slide_<%= image.id %>">
           <a href="#" class="inspect-slide" data-id="<%= image.id %>">
             <i class="fa fa-info-circle"></i>
           </a>

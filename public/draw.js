@@ -155,8 +155,36 @@ $('body').on('click', '.inspect-slide', function(event) {
     $("#slide_inspect_container").fadeIn(300);
 
   })
-
 });
+
+$('body').on('click', '.edit-slide', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('data-id');
+  $.ajax({
+    url: '/slides/'+ id +'/get_partial',
+    data: {type: 'edit'},
+  })
+  .done(function(data) {
+    $("#slide_edit_container").html(data);
+    $(".backdrop").fadeIn(300);
+    $("#slide_edit_container").fadeIn(300);
+  })
+});
+
+$('body').on('click', '.delete-slide', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('data-id');
+  $.ajax({
+    url: '/slides/'+ id +'/get_partial',
+    data: {type: 'delete'},
+  })
+  .done(function(data) {
+    $("#slide_delete_container").html(data);
+    $(".backdrop").fadeIn(300);
+    $("#slide_delete_container").fadeIn(300);
+  })
+});
+
 
 
 // draw a set and show slideshow
@@ -189,3 +217,46 @@ $('body').on('click', '.inspect-slide', function(event) {
 
       $('#pose_window_container').fadeIn(300, function() {});
   });
+
+// update slide show form
+
+$("body").on('click', '#update-this-slide', function(event) {
+  event.preventDefault();
+  $("#update-slide-form").trigger('submit');
+});
+
+$('body').on('submit', '#update-slide-form', function(event) {
+  event.preventDefault();
+  var path = $(this).attr('action');
+  $.ajax({
+    url: path,
+    type: 'PATCH',
+    data: $(this).serialize(),
+  })
+  .done(function(data) {
+    $("#update-slide-form").trigger('reset');
+    $.ajax({
+      url: '/slides/'+data.id+'/get_partial',
+      data: {type: 'edit'},
+    })
+    .done(function(data_s) {
+      $("#slide_edit_container").html(data_s);
+    })
+  })
+});
+
+// delete a slide
+$('body').on('click', '.confirm-deletion', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('data-id');
+  $.ajax({
+    url: '/slides/' + id + '/destroy_this_slide',
+    type: 'DELETE',
+  })
+  .done(function(data) {
+    $(".backdrop").trigger('click');
+    $("#slide_"+data.id).fadeOut(500);
+  })
+
+
+});

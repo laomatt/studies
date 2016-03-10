@@ -1,1 +1,33 @@
-_slideinfo.html.erb
+
+<img src="<%= ext_url %>" alt="">
+
+
+<div class="slide-inspect-info panel">
+  <h2>
+    <%= title %>
+  </h2>
+
+  <p>
+    Tags: <%= tags %>
+    <br>
+    Created: <%= created_at.strftime("%D")%>
+    <br>
+    Updated: <%= updated_at.strftime("%D")%>
+  </p>
+  <hr>
+  <% @slide = Slide.find(id) %>
+  <form action="/slides/<%= id %>" id="update-slide-form" method="PATCH">
+   <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+   <label for="slide_info[title]">Title</label>
+   <input type="text" name="slide_info[title]" value="<%= title %>">
+   <br>
+   <label for="slide_info[tags]">Tags</label>
+   <input type="text" name="slide_info[tags]" value="<%= tags %>">
+   <br>
+   <label for="slide_info[ext_url]">URL</label>
+   <input type="text" name="slide_info[ext_url]" value="<%= ext_url %>">
+   <br>
+ </form>
+
+ <button class="upload-button" id="update-this-slide">Update</button>
+</div>

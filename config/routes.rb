@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     member do
       post 'like_a_slide'
       get 'get_partial'
+      delete 'destroy_this_slide'
     end
   end
 
