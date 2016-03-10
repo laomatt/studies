@@ -18,17 +18,11 @@
   <form class="launch-set" action="/slideshows/<%= @show.id %>/draw_set">
     <h2>Start study</h2>
     <input type="hidden" name="id" value="<%= @show.id %>">
-    <li>how many sets?</li>
-    <input type="number" placeholder="How many sets?" value="1" name="num_sets">
     <li>How many minutes per pose?</li>
     <input type="number" value="1" name="pose_length">
     <li>How many poses per set?</li>
     <input type="number" value="20" name="pose_number">
-    <li>How long to pause between images(seconds)?</li>
-    <input type="number" value="0" name="image_pause">
-    <li>How long to pause between sets?</li>
-    <input type="number" value="0" name="set_pause">
-  <li>Do you want a random order?   <input type="checkbox" name="random" value="1" checked></li>
+    <li>Do you want a random order?   <input type="checkbox" name="random" value="1" checked></li>
   </form>
   <button id="start-draw-set" class="upload-button">Draw!!!</button>
 </div>

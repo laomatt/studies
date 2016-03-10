@@ -48,14 +48,16 @@ class SlideshowsController < ApplicationController
   end
 
   def get_images_from_show
+    @show = Slideshow.find(params[:id])
     images_spent = params[:already].split(',')
+    idx = params[:slin]
     if params[:random]
-      @slides = Slideshow.find(params[:id]).slides.order(:position).map { |e| e.ext_url  }.select{ |e| !images_spent.include?(e)}.shuffle
+      @slide = @show.slides.select{ |e| !images_spent.include?(e.id.to_s)}.sample
     else
-      @slides = Slideshow.find(params[:id]).slides.order(:position).map { |e| e.ext_url  }
+      @slide = @show.slides.order(:position)[idx]
     end
 
-    render :json => @slides
+    render :json => @slide
   end
 
   def get_image

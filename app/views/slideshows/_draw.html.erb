@@ -1,7 +1,7 @@
-
-<div id="information" style="display:none" pose-length="<%= pose_length %>" slideshowid="<%= id %>" random="<%= random %>"></div>
-
 <% @images = Slideshow.find(id).slides %>
+
+<div id="information" style="display:none" pose-length="<%= pose_length %>" slideshowid="<%= id %>" total-slides="<%= pose_number %>" random="<%= random %>" total-slides-show="<%= @images.count %>"></div>
+
 
 <div class="pose-window">
   <img src="" alt="">
@@ -9,11 +9,27 @@
 
 <div class="right-menu">
   <center>
-    <a href="#" id="pause-draw-modal"><i class="fa fa-pause"></i></a>
-    <a href="#" id="like-draw-modal" data-id=""><i class="fa fa-heart"></i></a>
-    <a href="#" id="close-draw-modal"><i class="fa fa-times"></i></a>
+    <div style="display:inline-block">
+      <a href="#" id="pause-draw-modal"><i class="fa fa-pause"></i></a>
+    </div>
+    <div class="like-draw-modal" style="display:inline-block">
+      <a href="#" id="like-draw-modal" data-id=""><i class="fa fa-heart"></i></a>
+    </div>
+    <div style="display:inline-block">
+      <a href="#" id="close-draw-modal"><i class="fa fa-times"></i></a>
+    </div>
     <br>
     Time left:<div id="clock"></div>
+
+    <br>
+    <br>
+    <div id="slide_number_letter" style="display:inline-block">
+      Slide:
+    </div>
+    <div id="slide_number" style="display:inline-block"></div>
+    <div id="slide_total" style="display:inline-block">
+      /<%= pose_number %>
+    </div>
   </center>
 </div>
 
@@ -24,30 +40,32 @@ var poseLengthMilisecs = parseInt(poseLength) * 60 * 1000;
 var running = false;
 var time = poseLength * 60;
 var i = 0;
-var time_int
-var spent_images = []
+var time_int;
+var spent_images = [];
 var isRandom = true;
+var total_slides = $("#information").attr('total-slides');
+var total_slides_in_show = $("#information").attr('total-slides-show');
 var rando = $("#information").attr('random');
 change_image(i);
 running = true;
 
 if(rando == '1') {
-  isRandom == true;
+  isRandom = true;
 } else {
-  isRandom == false;
+  isRandom = false;
 }
 
 time_int = setInterval(function(){
-  if(running == true){
+  if(running === true){
     time -= 1;
     if(time < 0) {
       time = poseLength * 60;
       i += 1;
       change_image(i);
     }
-    $("#clock").text(time)
+    $("#clock").text(time);
   }
-},1000)
+},1000);
 
 $("body").on('click', "#close-draw-modal", function(event) {
   event.preventDefault();
@@ -64,15 +82,15 @@ $('body').on('click', '#like-draw-modal', function(event) {
     type: 'POST',
   })
   .done(function() {
-    $("#like-draw-modal").html('<i class="fa fa-gratipay"></i>')
+    $(".like-draw-modal").html('<i class="fa fa-gratipay"></i>');
     $("#like-draw-modal").attr('href', '#');
-    $("#like-draw-modal").css('opacity', '.5');
-  })
+    $(".like-draw-modal").css('opacity', '.5');
+  });
 });
 
 $('body').on('click', '#pause-draw-modal', function(event) {
   event.preventDefault();
-  if(running == true){
+  if(running === true){
     running = false;
     $(this).html('<i class="fa fa-play"></i>');
   } else {
@@ -84,42 +102,48 @@ $('body').on('click', '#pause-draw-modal', function(event) {
 function likeAnimation(el){
 
 }
-
+var new_url = ""
 function change_image(i) {
+  if(spent_images.length >= total_slides_in_show){
+    spent_images = [];
+  }
     $.ajax({
       url: '/slideshows/'+number+'/get_images_from_show',
-      data: {already: spent_images.join(), random: isRandom }
+      data: {already: spent_images.join(','), random: isRandom, slin: i }
     })
     .done(function(data) {
-      var slides = data;
-      if(i != 0){
+      new_url = data.ext_url;
+      new_id = data.id;
+      if(i !== 0){
         var audio = new Audio('/sounds/change.wav');
         audio.play();
       }
-      if(i <= slides.length) {
-        var url = slides[i];
-        spent_images.push(slides[i]);
+      if(i < total_slides) {
+        spent_images.push(new_id);
         $.ajax({
           url: '/slideshows/find_slide',
-          data: {url: slides[i]},
+          data: {url: new_url},
         })
         .done(function(data) {
-          if(data.already_liked == true){
-            $("#like-draw-modal").html('<i class="fa fa-gratipay"></i>')
+          if(data.already_liked === true){
+            $(".like-draw-modal").html('<i class="fa fa-gratipay"></i>');
             $("#like-draw-modal").attr('href', '#');
-            $("#like-draw-modal").css('opacity', '.5');
+            $(".like-draw-modal").css('opacity', '.5');
           } else {
-            $("#like-draw-modal").attr('data-id', data.id);
-            $("#like-draw-modal").html('<i class="fa fa-heart"></i>')
-            $("#like-draw-modal").css('opacity', '1');
+            $(".like-draw-modal").html('<a href="#" id="like-draw-modal" data-id="'+data.id+'"><i class="fa fa-heart"></i></a>');
+            $(".like-draw-modal").css('opacity', '1');
           }
-        })
-        $(".pose-window").find('img').attr('src', url);
+        });
+        $("#slide_number").text(i + 1);
+        console.log(new_url)
+        $(".pose-window").find('img').attr('src', new_url);
       } else {
         $(".backdrop").trigger('click');
+        running = false;
+        clearInterval(time_int);
         alert('done');
       }
-    })
+    });
 }
 
 </script>

@@ -1,7 +1,6 @@
 // nav drop down menu
 $('body').on('click', '.content-container', function(event) {
   var ele = $(this).parent().find('ul.dropdown-menu');
-  event.preventDefault();
   ele.slideUp(300);
 });
 
@@ -15,7 +14,6 @@ $("body").on('click', '.dropdown-toggle', function(event) {
     $('body').on('click', function(event) {
       event.preventDefault();
     });
-
   }
 });
 
@@ -191,7 +189,6 @@ $('body').on('click', '.delete-slide', function(event) {
 
   $('body').on('click', '.launch-study', function(event) {
     event.preventDefault();
-    console.log('x')
     $(".backdrop").fadeIn(400, function() {
       $(".start-modal").fadeIn(300, function() {});
     });
@@ -199,7 +196,6 @@ $('body').on('click', '.delete-slide', function(event) {
 
   $('body').on('click', '#start-draw-set', function(event) {
     event.preventDefault();
-    console.log('dsf');
     $('form.launch-set').trigger('submit');
   });
 
@@ -254,9 +250,9 @@ $('body').on('click', '.confirm-deletion', function(event) {
     type: 'DELETE',
   })
   .done(function(data) {
-    $(".backdrop").trigger('click');
     $("#slide_"+data.id).fadeOut(500);
   })
 
+  $(".backdrop").trigger('click');
 
 });

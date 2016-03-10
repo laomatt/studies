@@ -24,12 +24,10 @@
 
 <script>
   $('body').on('mouseenter', 'ul.slideshow_lists li', function(event) {
-    event.preventDefault();
     $(this).find('.ss_info').fadeIn(500, function() {});
   });
 
   $('body').on('mouseleave', 'ul.slideshow_lists li', function(event) {
-    event.preventDefault();
     $(this).find('.ss_info').fadeOut(500, function() {});
   });
 
