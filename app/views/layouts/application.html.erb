@@ -63,6 +63,12 @@
   </ul>
 </header>
 <body>
+
+<div id="pose_window_container" class="form-modal pose_container"></div>
+<div id="slide_inspect_container" class="form-modal inspect_container"></div>
+<div id="slide_edit_container" class="form-modal inspect_container"></div>
+<div id="slide_delete_container" class="form-modal delete_container"></div>
+
   <div class="backdrop"></div>
   <div class="content-container">
 
@@ -76,7 +82,7 @@
     width: 100%;
     padding: 1%;
     margin: 0;
-    position: fixed;
+    position: absolute;
     top: 6%;
     height: 90%;
     background-color: transparent;
@@ -97,13 +103,6 @@
     background-color: rgba(0,0,0,.4);
   }
 </style>
-
-<div id="pose_window_container" class="form-modal">
-</div>
-
-<div id="slide_inspect_container" class="form-modal inspect_container"></div>
-<div id="slide_edit_container" class="form-modal inspect_container"></div>
-<div id="slide_delete_container" class="form-modal delete_container"></div>
 
 
 
