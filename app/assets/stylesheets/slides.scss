@@ -1,3 +1,69 @@
-// Place all the styles related to the slides controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.my-slide {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  background-size: cover;
+}
+
+.pic-info-myslides {
+  display: none;
+  background-color: black;
+  border-radius: 4px;
+  overflow: auto;
+}
+
+.pic-info-myslides a {
+  text-decoration: none;
+  margin: 2%;
+}
+
+.inspect_container {
+  position: absolute;
+  background-color: black;
+  zoom: 1;
+  top: 5%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  overflow: auto;
+  padding: 2%;
+  border-radius: 5px;
+  display: none;
+  z-index: 50;
+  width: 80%;
+}
+
+.inspect_container img {
+  max-width: 50%;
+  position: relative;
+  float: left;
+}
+
+.slide-inspect-info {
+  float: right;
+  position: relative;
+  top: 0;
+  right: 10%;
+  top: 10%;
+  text-align: left;
+  color: white;
+}
+
+#liked-ppl {
+  overflow: scroll;
+  position: relative;
+  width: 100%;
+}
+
+#liked-ppl img {
+  max-height: 50px;
+  float: right;
+  background-color: white;
+  border-radius: 50px;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  background-repeat: no-repeat;
+}

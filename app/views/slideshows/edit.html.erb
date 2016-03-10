@@ -71,13 +71,13 @@
           <img src="<%= image.ext_url %>">
           <br>
           <div class="pic-info">
-            <a href="#">
+            <a href="#" class="inspect-slide" data-id="<%= image.id %>">
               <i class="fa fa-info-circle"></i>
             </a>
-            <a href="#">
+            <a href="#" class="edit-slide" data-id="<%= image.id %>">
               <i class="fa fa-pencil-square-o"></i>
             </a>
-            <a href="#">
+            <a href="#" class="delete-slide" data-id="<%= image.id %>">
               <i class="fa fa-trash"></i>
             </a>
           </div>
@@ -89,14 +89,3 @@
   </div>
 </center>
 
-<script id="entry-template" type="text/x-handlebars-template">
-<li class="entry">
-<img src="{{ext_url}}">
-<br>
-<div class="pic-info">
-<i class="fa fa-info-circle"></i>
-<i class="fa fa-pencil-square-o"></i>
-<i class="fa fa-trash"></i>
-</div>
-</li>
-</script>

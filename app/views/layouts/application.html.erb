@@ -3,10 +3,8 @@
 <head>
   <title>QuickStudies</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/public/bootstrap/css/">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.js"></script>
-
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -81,6 +79,26 @@
 
 <div id="pose_window_container" class="form-modal">
 </div>
+
+<div id="slide_inspect_container" class="form-modal inspect_container">
+</div>
+
+<div id="slide_display_container" class="form-modal inspect_container">
+</div>
+
+
+<script id="entry-template" type="text/x-handlebars-template">
+<li class="entry">
+<img src="{{ext_url}}">
+<br>
+<div class="pic-info">
+<i class="fa fa-info-circle"></i>
+<i class="fa fa-pencil-square-o"></i>
+<i class="fa fa-trash"></i>
+</div>
+</li>
+</script>
+
 
 
   <script src="/draw.js"></script>

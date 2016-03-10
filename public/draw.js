@@ -78,6 +78,17 @@ $('body').on('mouseleave', '.slideshow_lists_edit li', function(event) {
   $(this).find('.pic-info').fadeOut(300, function() {});
 });
 
+$('body').on('mouseenter', '.my-slide', function(event) {
+  event.preventDefault();
+  $(this).find('.pic-info-myslides').fadeIn(300, function() {});
+});
+
+$('body').on('mouseleave', '.my-slide', function(event) {
+  event.preventDefault();
+  $(this).find('.pic-info-myslides').fadeOut(300, function() {});
+});
+
+
 
 $('body').on('click', '#upload-pic', function(event) {
   event.preventDefault();
@@ -122,7 +133,6 @@ $("body").on('click', '#upload-pic-url', function(event) {
     var template = Handlebars.compile(source);
     var context = data;
     var html = template(context);
-    debugger
     $("ul.slideshow_lists_edit").append(html);
 
     $("form#upload-url").trigger('reset');
@@ -130,3 +140,52 @@ $("body").on('click', '#upload-pic-url', function(event) {
   })
 });
 
+// slide inspect, edit code
+
+$('body').on('click', '.inspect-slide', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('data-id');
+  $.ajax({
+    url: '/slides/'+ id +'/get_partial',
+    data: {type: 'inspect'},
+  })
+  .done(function(data) {
+    $("#slide_inspect_container").html(data);
+    $(".backdrop").fadeIn(300);
+    $("#slide_inspect_container").fadeIn(300);
+
+  })
+
+});
+
+
+// draw a set and show slideshow
+
+  $('body').on('click', '.launch-study', function(event) {
+    event.preventDefault();
+    console.log('x')
+    $(".backdrop").fadeIn(400, function() {
+      $(".start-modal").fadeIn(300, function() {});
+    });
+  });
+
+  $('body').on('click', '#start-draw-set', function(event) {
+    event.preventDefault();
+    console.log('dsf');
+    $('form.launch-set').trigger('submit');
+  });
+
+  $('body').on('submit', 'form.launch-set', function(event) {
+    event.preventDefault();
+    $.ajax({
+      url: $(this).attr('action'),
+      data: $(this).serialize(),
+    })
+    .done(function(data) {
+      var html = data;
+      $("#pose_window_container").html(html);
+      $('.start-modal').fadeOut(300, function() {});
+    })
+
+      $('#pose_window_container').fadeIn(300, function() {});
+  });

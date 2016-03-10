@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :slides do
     member do
       post 'like_a_slide'
+      get 'get_partial'
     end
   end
 

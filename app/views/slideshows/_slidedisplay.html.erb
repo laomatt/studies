@@ -1,0 +1,30 @@
+
+<img src="<%= ext_url %>" alt="">
+
+
+<div class="slide-inspect-info">
+  <h2>
+    <%= title %>
+  </h2>
+
+  <p>
+    Tags: <%= tags %>
+    <br>
+    Created: <%= created_at.strftime("%D")%>
+    <br>
+    Updated: <%= updated_at.strftime("%D")%>
+  </p>
+  <hr>
+  <% @slide = Slide.find(id) %>
+  <h4>Likes (<%= @slide.likes.count %>)</h4>
+  <div id="liked-ppl">
+    <% @slide.likes.each do |like| %>
+      <img src="<%= like.user.avatar_url %>">    <% end %>
+  </div>
+</div>
+<!-- slide info
+  created
+  updated
+-->
+
+<!-- show who likeds the slide

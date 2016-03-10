@@ -3,24 +3,21 @@
 <div class="panel house">
   <% @slides.each do |image|%>
     <% if !image.deleted %>
-    <ul id="sortable" class="slideshow_lists_myslides">
-      <li class="entry" pic-id="<%= image.id %>">
-        <img src="<%= image.ext_url %>">
+      <div class="my-slide" style="background-image:url(<%= image.ext_url %>)" pic-id="<%= image.id %>">
         <br>
-        <div class="pic-info">
-          <a href="#">
+        <div class="pic-info-myslides">
+          <a href="#" class="inspect-slide" data-id="<%= image.id %>">
             <i class="fa fa-info-circle"></i>
           </a>
-          <a href="#">
+          <a href="#" class="edit-slide" data-id="<%= image.id %>">
             <i class="fa fa-pencil-square-o"></i>
           </a>
-          <a href="#">
+          <a href="#" class="delete-slide" data-id="<%= image.id %>">
             <i class="fa fa-trash"></i>
           </a>
         </div>
-      </li>
+      </div>
       <% end %>
     <% end %>
-  </ul>
 </div>
 <center>
