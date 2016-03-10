@@ -34,8 +34,19 @@
 
   </li>
     <li><a href="/">Browse SlideShows</a></li>
-    <li>
-      <a href="/home/<%= current_user.id %>/create_slide_show">New Slide Show</a>
+    <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">New Slide Show <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li>
+            <form action="/home/save_slide_show" method="post">
+              <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
+              <label for="info[title]">Title</label>
+              <input style="background-color:black" type="text" name="info[title]" placeholder="slideshow title...">
+              <input type="submit">
+            </form>
+
+          </li>
+        </ul>
     </li>
     <li>
       <a href="/user_log_out_route/sign_out">Log out</a>
@@ -64,12 +75,22 @@
   .content-container {
     width: 100%;
     padding: 1%;
-    margin: 0 auto;
-    position: relative;
-    top: 0%;
-    height: 100%;
+    margin: 0;
+    position: fixed;
+    top: 6%;
+    height: 90%;
     background-color: transparent;
-    color: black;
+    color: white;
+    overflow: scroll;
+  }
+
+  .dropdown-menu {
+    background-color: black;
+    color: white;
+  }
+
+  .dropdown-menu li a {
+    color: white;
   }
 
   body {

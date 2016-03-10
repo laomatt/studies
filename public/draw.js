@@ -1,19 +1,15 @@
 // nav drop down menu
 $('body').on('click', '.content-container', function(event) {
-  var ele = $(this).parent().find('ul.dropdown-menu');
-  ele.slideUp(300);
+  console.log('wd')
+  $('.dropdown-menu').slideUp(300);
 });
 
 $("body").on('click', '.dropdown-toggle', function(event) {
-  event.preventDefault();
   var ele = $(this).parent().find('ul.dropdown-menu');
   if(ele.css('display') == 'none'){
     ele.slideDown(300);
   } else {
     ele.slideUp(300);
-    $('body').on('click', function(event) {
-      event.preventDefault();
-    });
   }
 });
 
@@ -54,7 +50,6 @@ $("body").on('submit', 'form#save_slide', function(event) {
     data: $(this).serialize(),
   })
   .done(function(data) {
-    console.log("success");
     successFunction();
   })
 });
