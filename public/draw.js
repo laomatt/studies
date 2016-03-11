@@ -234,6 +234,19 @@ $('body').on('click', '.delete-slide', function(event) {
       $('#pose_window_container').fadeIn(300, function() {});
   });
 
+  // faq
+
+  $('body').on('click', '.faq-pop', function(event) {
+    event.preventDefault();
+    $("#faq-container").fadeIn(400, function() {
+
+    });
+
+    $(".backdrop").fadeIn(200, function() {
+
+    });
+  });
+
 // update slide show form
 
 $("body").on('click', '#update-this-slide', function(event) {

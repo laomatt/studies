@@ -1,49 +1,53 @@
 <center>
-<h2>Your Slides</h2>
-<a href="#" class="draw-from-this-set-yours">
-  Draw from this set
-</a>
-<div class="panel house">
-  <% @slides.each do |image|%>
-    <% if !image.deleted %>
-      <div class="my-slide" style="background-image:url(<%= image.ext_url %>)" pic-id="<%= image.id %>" id="slide_<%= image.id %>">
-        <br>
-        <div class="pic-info-myslides">
-          <a href="#" class="inspect-slide" data-id="<%= image.id %>">
-            <i class="fa fa-info-circle"></i>
-          </a>
-          <a href="#" class="edit-slide" data-id="<%= image.id %>">
-            <i class="fa fa-pencil-square-o"></i>
-          </a>
-          <a href="#" class="delete-slide" data-id="<%= image.id %>">
-            <i class="fa fa-trash"></i>
-          </a>
+  <div class="left-side-panel">
+    <h2>Your Slides</h2>
+    <a href="#" class="draw-from-this-set-yours">
+      Draw from this set
+    </a>
+    <div class="panel house">
+      <% @slides.each do |image|%>
+        <% if !image.deleted %>
+          <div class="my-slide" style="background-image:url(<%= image.ext_url %>)" pic-id="<%= image.id %>" id="slide_<%= image.id %>">
+            <br>
+            <div class="pic-info-myslides">
+              <a href="#" class="inspect-slide" data-id="<%= image.id %>">
+                <i class="fa fa-info-circle"></i>
+              </a>
+              <a href="#" class="edit-slide" data-id="<%= image.id %>">
+                <i class="fa fa-pencil-square-o"></i>
+              </a>
+              <a href="#" class="delete-slide" data-id="<%= image.id %>">
+                <i class="fa fa-trash"></i>
+              </a>
+            </div>
+          </div>
+          <% end %>
+        <% end %>
+    </div>
+  </div>
+
+<div class="right-side-panel">
+  <h2>Slides that you like</h2>
+  <a href="#" class="draw-from-this-set-liked">
+    Draw from this set
+  </a>
+  <div class="panel house" style="height:400px;overflow:scroll">
+   <% @slides_liked.each do |image|%>
+      <% if !image.nil? &&!image.deleted %>
+        <div class="my-slide" style="background-image:url(<%= image.ext_url %>)" pic-id="<%= image.id %>" id="slide_<%= image.id %>">
+          <br>
+          <div class="pic-info-myslides">
+            <a href="#" class="inspect-slide" data-id="<%= image.id %>">
+              <i class="fa fa-info-circle"></i>
+            </a>
+            <a href="#" class="delete-slide-liked" data-id="<%= image.id %>">
+              <i class="fa fa-heartbeat"></i>
+            </a>
+          </div>
         </div>
-      </div>
+        <% end %>
       <% end %>
-    <% end %>
-</div>
-<hr>
-<h2>Slides that you like</h2>
-<a href="#" class="draw-from-this-set-liked">
-  Draw from this set
-</a>
-<div class="panel house" style="height:400px;overflow:scroll">
- <% @slides_liked.each do |image|%>
-    <% if !image.nil? &&!image.deleted %>
-      <div class="my-slide" style="background-image:url(<%= image.ext_url %>)" pic-id="<%= image.id %>" id="slide_<%= image.id %>">
-        <br>
-        <div class="pic-info-myslides">
-          <a href="#" class="inspect-slide" data-id="<%= image.id %>">
-            <i class="fa fa-info-circle"></i>
-          </a>
-          <a href="#" class="delete-slide-liked" data-id="<%= image.id %>">
-            <i class="fa fa-heartbeat"></i>
-          </a>
-        </div>
-      </div>
-      <% end %>
-    <% end %>
+  </div>
 </div>
 <center>
 

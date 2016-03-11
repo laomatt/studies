@@ -322,3 +322,18 @@ header a {
 .house {
   padding: 2%;
 }
+
+.right-side-panel {
+  position: relative;
+  float: right;
+  overflow: auto;
+  width: 49%;
+
+}
+
+.left-side-panel {
+  position: relative;
+  float: left;
+  overflow: auto;
+  width: 49%;
+}

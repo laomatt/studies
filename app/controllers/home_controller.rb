@@ -18,11 +18,6 @@ class HomeController < ApplicationController
     @user = current_user
     @slideshows = @user.slideshows
     @slides = @user.slides
-    if @user.likes.blank?
-      @slides_liked = []
-    else
-      @slides_liked = @user.likes.map { |e| e.slide }
-    end
   end
 
   def exp
@@ -39,6 +34,7 @@ class HomeController < ApplicationController
     @user = current_user
     @slides = @user.slides
     @slides_liked_array = @user.likes.map { |e| e.slide_id }.uniq
+
     @slides_liked = Slide.where("id in (?)", @slides_liked_array)
   end
 
