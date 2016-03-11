@@ -66,7 +66,7 @@ p "----------ff----- #{uploaded_io.read == nil}"
 p "----------ff----- #{obj_key}"
     obj = S3_BUCKET.object(obj_key)
 p "----------ff----- #{obj}"
-    obj.upload_file("public/uploads/#{uploaded_io.original_filename}", {acl: 'public-read'})
+    obj.upload_file("tmp/#{uploaded_io.original_filename}", {acl: 'public-read'})
 p "-------url--------#{obj.public_url.to_s} "
     slide = Slide.create(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true)
 
