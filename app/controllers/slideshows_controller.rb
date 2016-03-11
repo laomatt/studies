@@ -21,6 +21,37 @@ class SlideshowsController < ApplicationController
     render :partial => '/slideshows/draw_random', :locals => {:pose_length => length, :pose_number => num_poses}
   end
 
+# draw sets
+  def draw_set_your
+    render :partial => '/slideshows/draw_yours', :locals => params
+  end
+
+  def draw_set_likes
+    render :partial => '/slideshows/draw_likes', :locals => params
+  end
+
+  def get_images_from_show_your
+    images_spent = params[:already].split(',').map { |e| e.to_i }
+    if images_spent.empty?
+      images_spent = [1,2]
+    end
+    @slide = Slide.where('id not in (?) and user_id = ?', images_spent, current_user.id).sample
+    render :json => @slide
+  end
+
+  def get_images_from_show_likes
+    images_spent = params[:already].split(',').map { |e| e.to_i }
+    if images_spent.empty?
+      images_spent = [1,2]
+    end
+    @slides_liked_array = current_user.likes.map { |e| e.slide_id }.uniq
+    @slides_liked = Slide.where("id in (?) and id not in (?)", @slides_liked_array, images_spent)
+    @slide = @slides_liked.sample
+    render :json => @slide
+  end
+
+# draw sets
+
   def update_image_position
     @slideshow = Slideshow.find(params[:id])
     @slideshow.slides.find_by_id(params[:slide_id]).update_attributes(:position => params[:position])

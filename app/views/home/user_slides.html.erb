@@ -1,5 +1,8 @@
 <center>
 <h2>Your Slides</h2>
+<a href="#" class="draw-from-this-set-yours">
+  Draw from this set
+</a>
 <div class="panel house">
   <% @slides.each do |image|%>
     <% if !image.deleted %>
@@ -20,10 +23,12 @@
       <% end %>
     <% end %>
 </div>
-<a href="#" class="draw-from-this-set-yours">Draw from this set</a>
 <hr>
 <h2>Slides that you like</h2>
-<div class="panel house" style="height:200px;overflow:scroll">
+<a href="#" class="draw-from-this-set-liked">
+  Draw from this set
+</a>
+<div class="panel house" style="height:400px;overflow:scroll">
  <% @slides_liked.each do |image|%>
     <% if !image.nil? &&!image.deleted %>
       <div class="my-slide" style="background-image:url(<%= image.ext_url %>)" pic-id="<%= image.id %>" id="slide_<%= image.id %>">
@@ -40,12 +45,11 @@
       <% end %>
     <% end %>
 </div>
-<a href="#" class="draw-from-this-set-liked">Draw from this set</a>
 <center>
 
 <div class="liked-modal form-modal">
-  <form class="launch-set" action="/slideshows/draw_set_from_liked">
-    <h2>Start study</h2>
+  <form class="launch-set" action="/slideshows/draw_set_likes">
+    <h2>Draw from your liked</h2>
     <li>How many minutes per pose?</li>
     <input type="number" value="1" name="pose_length">
     <li>How many poses per set?</li>
@@ -56,8 +60,8 @@
 </div>
 
 <div class="your-modal form-modal">
-  <form class="launch-set" action="/slideshows/draw_set_from_yours">
-    <h2>Draw from you slides</h2>
+  <form class="launch-set" action="/slideshows/draw_set_your">
+    <h2>Draw from your slides</h2>
     <li>How many minutes per pose?</li>
     <input type="number" value="1" name="pose_length">
     <li>How many poses per set?</li>
@@ -82,7 +86,7 @@
   });
 
   // modals
-
+    // your slides
   $("body").on('click', '.draw-from-this-set-yours', function(event) {
     event.preventDefault();
     $('.your-modal').fadeIn(300, function() {
@@ -95,14 +99,47 @@
 
   $("body").on('click', '#start-draw-set-your', function(event) {
     event.preventDefault();
+    var f = $(this).parent().find('form')
+    var path = f.attr('action');
+    $.ajax({
+      url: path,
+      data: f.serialize(),
+    })
+    .done(function(data) {
+      var html = data;
+      $("#pose_window_container").html(html);
+      $('.start-modal').fadeOut(300, function() {});
+    })
+
+      $('#pose_window_container').fadeIn(300, function() {});
   });
 
+    // liked slides
   $("body").on('click', '.draw-from-this-set-liked', function(event) {
     event.preventDefault();
+    $('.liked-modal').fadeIn(300, function() {
+
+    });
+    $(".backdrop").fadeIn(200, function() {
+
+    });
   });
 
   $("body").on('click', '#start-draw-set-like', function(event) {
     event.preventDefault();
+    var f = $(this).parent().find('form')
+    var path = f.attr('action');
+    $.ajax({
+      url: path,
+      data: f.serialize(),
+    })
+    .done(function(data) {
+      var html = data;
+      $("#pose_window_container").html(html);
+      $('.start-modal').fadeOut(300, function() {});
+    })
+
+      $('#pose_window_container').fadeIn(300, function() {});
   });
 
 </script>

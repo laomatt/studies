@@ -14,7 +14,11 @@ Rails.application.routes.draw do
       put 'update_image_position'
       get 'find_slide'
       get 'get_images_from_show_random'
+      get 'get_images_from_show_your'
+      get 'get_images_from_show_likes'
       get 'draw_set_random'
+      get 'draw_set_your'
+      get 'draw_set_likes'
     end
   end
 
