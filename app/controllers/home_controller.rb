@@ -60,7 +60,6 @@ class HomeController < ApplicationController
     File.open(Rails.root.join('public', "uploads", uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
     end
-
     obj_key = "#{current_user.email}/#{uploaded_io.original_filename}"
     obj = S3_BUCKET.object(obj_key)
     obj.upload_file("public/uploads/#{uploaded_io.original_filename}", {acl: 'public-read'})
