@@ -56,6 +56,7 @@ class HomeController < ApplicationController
   def add_image
     @slideshow = Slideshow.find(params[:id])
     uploaded_io = params[:slideshow][:picture]
+    tags = params[:slideshow][:tags]
 
     File.open(Rails.root.join('public', "uploads", uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
@@ -66,7 +67,7 @@ class HomeController < ApplicationController
     obj.upload_file("public/uploads/#{uploaded_io.original_filename}", {acl: 'public-read'})
 
 
-    slide = Slide.create(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true)
+    slide = Slide.create(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :tags => tags)
 
     File.delete(Rails.root + "public/uploads/#{uploaded_io.original_filename}")
     render :json => slide
