@@ -54,11 +54,12 @@ class HomeController < ApplicationController
   end
 
   def add_image
+    require 'fileutils'
     @slideshow = Slideshow.find(params[:id])
     uploaded_io = params[:slideshow][:picture]
 p '---------------'
 p "------bucket--------- #{ENV['S3_BUCKET']}"
-    File.open(Rails.root.join('public', "uploads", uploaded_io.original_filename), 'wb') do |file|
+    ::File.open(Rails.root.join('public', "uploads", uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
     end
 p '---------------'
