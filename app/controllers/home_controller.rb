@@ -58,12 +58,11 @@ class HomeController < ApplicationController
     @slideshow = Slideshow.find(params[:id])
     uploaded_io = params[:slideshow][:picture]
 p "--------#{uploaded_io.original_filename}-------"
-p "------bucket--------- #{ENV['S3_BUCKET']}"
     ::File.open(Rails.root.join('public', "uploads", uploaded_io.original_filename), 'wb') do |file|
+      p 'tttt'
       file.write(uploaded_io.read)
     end
-p '---------------'
-p "--------------- #{uploaded_io.original_filename}"
+p "--------------- #{uploaded_io.read}"
     obj_key = "#{current_user.email}/#{uploaded_io.original_filename}"
     obj = S3_BUCKET.object(obj_key)
     obj.upload_file("public/uploads/#{uploaded_io.original_filename}", {acl: 'public-read'})
