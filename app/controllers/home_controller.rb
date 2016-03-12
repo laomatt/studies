@@ -86,7 +86,8 @@ class HomeController < ApplicationController
     p "upload thumbnail to s3"
 
     p "make the slide"
-    slide = Slide.create(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :thumb_url => obj_thumb.public_url.to_s, :user_id => current_user.id)
+    slide = Slide.new(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :thumb_url => obj_thumb.public_url.to_s, :user_id => current_user.id)
+    p "#{slide.save}"
     p "make the slide"
 
     p "delete"
