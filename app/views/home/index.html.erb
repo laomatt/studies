@@ -2,7 +2,9 @@
 <ul class="slideshow_lists">
   <% @slideshows.each do |ss| %>
   <a href="/slideshows/<%= ss.id %>">
-    <% if ss.on_s3? %>
+    <% if ss.slides.blank? %>
+      <li>
+    <% elsif ss.slides.first.on_s3? %>
       <li style="background-image:url(<%= ss.slides.first.thumb_url %>)">
       <% else %>
       <li style="background-image:url(<%= ss.slides.first.ext_url %>)">
