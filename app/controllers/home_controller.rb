@@ -61,6 +61,7 @@ class HomeController < ApplicationController
 
     @slideshow = Slideshow.find(params[:id])
     uploaded_io = params[:slideshow][:picture]
+    tags = params[:tags_string]
 
     p "build file locally"
     ::File.open(Rails.root.join('tmp', uploaded_io.original_filename), 'wb') do |file|
@@ -89,6 +90,20 @@ class HomeController < ApplicationController
 
     slide = Slide.new(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :thumb_url => obj_thumb.public_url.to_s, :user_id => current_user.id)
 
+    # tag the slide
+    if !params[:tags_string].nil?
+      tag_array = tags.split(',')
+      tag_array.each do |tg|
+        if Tag.exists?(:name => tg)
+          t = Tag.find(:name => tg)
+          Tagging.create(:tag_id => t.id, :slide_id => slide.id)
+        else
+          t = Tag.create(:name => tg)
+          Tagging.create(:tag_id => t.id, :slide_id => slide.id)
+        end
+      end
+    end
+
     p "#{slide.save}"
     p "make the slide"
 
@@ -116,7 +131,7 @@ class HomeController < ApplicationController
   end
 
   def slide_params
-    params.require(:info).permit(:title, :ext_url, :slideshow_id, :tags)
+    params.require(:info).permit(:title, :ext_url, :slideshow_id)
   end
 
 end

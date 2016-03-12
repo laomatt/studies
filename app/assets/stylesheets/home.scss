@@ -154,6 +154,7 @@ ul.slideshow_lists {
   color: black;
   background-color: rgba(0,0,0,.4);
   color: white;
+  overflow:auto;
   /*background-color: transparent;*/
   padding: 1%;
 }
@@ -329,6 +330,7 @@ header a {
 
 .house {
   padding: 2%;
+  color: black;
 }
 
 .right-side-panel {
@@ -344,4 +346,23 @@ header a {
   float: left;
   overflow: auto;
   width: 49%;
+}
+
+.left-house {
+  width: 45%;
+float: left;
+}
+
+.right-house {
+  width: 45%;
+  float: right;
+
+}
+
+.houseborder {
+  border-width: 2px;
+  border-style: solid;
+  border-color: grey;
+  border-radius: 4px;
+  padding: 3%;
 }

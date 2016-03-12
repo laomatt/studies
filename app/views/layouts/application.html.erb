@@ -139,9 +139,9 @@
 <body>
 
 <div id="pose_window_container" class="form-modal pose_container"></div>
-<div id="slide_inspect_container" class="form-modal inspect_container"></div>
-<div id="slide_edit_container" class="form-modal inspect_container"></div>
-<div id="slide_delete_container" class="form-modal delete_container"></div>
+<div id="slide_inspect_container" class="form-modal inspect_container slide_action_container"></div>
+<div id="slide_edit_container" class="form-modal inspect_container slide_action_container"></div>
+<div id="slide_delete_container" class="form-modal delete_container slide_action_container"></div>
 
 
 
@@ -224,6 +224,12 @@
 
   body {
     background-color: rgba(0,0,0,.4);
+  }
+
+  .slide_action_container {
+    position:absolute;
+    left:0%;
+    top:50%;
   }
 </style>
 

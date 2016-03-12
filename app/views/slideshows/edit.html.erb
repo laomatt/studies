@@ -1,17 +1,38 @@
   <center>
     <h1><%= @slideshow.title %></h1>
     <div class="form-container panel">
-      <h3>Edit title</h3>
-      <div class="panel house">
-        <form id="save_slide" action="/slideshows/update_slide_show" method="post">
-          <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
-          <label for="info[title]">Title</label>
-          <input type="hidden" name="id" value="<%= @slideshow.id %>">
-          <input type="text" id="edit_title" value="<%= @slideshow.title %>" name="info[title]">
-          <input type="submit">
-        </form>
-      </div>
+
+
+        <div class="panel house" style="overflow:auto">
+          <div class="houseborder left-house">
+            <h3>Edit title</h3>
+            <form id="save_slide" action="/slideshows/update_slide_show" method="post">
+              <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
+              <label for="info[title]">Title</label>
+              <input type="hidden" name="id" value="<%= @slideshow.id %>">
+              <input type="text" id="edit_title" value="<%= @slideshow.title %>" name="info[title]">
+              <input type="submit">
+            </form>
+          </div>
+
+          <div class="houseborder right-house">
+            <h3>Add tags to all slides</h3>
+            <form action="/slideshows/update_slide_show_slide_tags" method="post">
+              <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
+              <label for="tag_list">Title</label>
+              <input type="hidden" name="id" value="<%= @slideshow.id %>">
+              <input type="text" value="" placeholder="separate multiple tags with commas ..." name="tags_string">
+              <input type="submit">
+            </form>
+          </div>
+        </div>
+
+
+
+
       <div class="success">Updated</div>
+
+
       <br>
       <br>
       <script>
@@ -24,9 +45,9 @@
       </script>
 
 
-    <h3>Slide Order</h3>
-    <p>Click and drag each slide to its desired position.</p>
     <div class="panel house">
+      <h3>Slide Order</h3>
+      <p>Click and drag each slide to its desired position.</p>
       <div id="info" ssid="<%= @slideshow.id %>"></div>
       <ul id="sortable" class="slideshow_lists_edit">
         <% @images.each do |image|%>
@@ -54,10 +75,10 @@
       </ul>
     </div>
 
-      <h3>Add Images</h3>
-      <p>Two ways to add images ... </p>
 
       <div class="panel house">
+        <h3>Add Images</h3>
+        <p>Two ways to add images ... </p>
         <div class="panelthird">
           <h4>Make with URL</h4>
           <br>
@@ -76,6 +97,7 @@
         <h4>Upload from computer</h4>
         <%= form_for @slideshow, :html => {:id => "upload"} do |f| %>
         <%= f.file_field :picture %>
+        <input type="text" name="tags_string" placeholder="tags seperated by commas">
         <% end %>
         <br><br>
         <button class="upload-button" id="upload-pic">Upload</button>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160312001340) do
+ActiveRecord::Schema.define(version: 20160312205729) do
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 20160312001340) do
     t.boolean  "public",                 default: true
     t.boolean  "deleted",                default: false
     t.integer  "position",               default: 0,     null: false
-    t.string   "tags"
     t.integer  "user_id"
     t.boolean  "on_s3",                  default: false
     t.string   "thumbnail_file_name"
@@ -45,6 +44,19 @@ ActiveRecord::Schema.define(version: 20160312001340) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.boolean  "public",     default: true
+  end
+
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "tag_id"
+    t.integer  "slide_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "url_banks", force: :cascade do |t|

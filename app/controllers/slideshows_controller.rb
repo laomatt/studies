@@ -15,6 +15,30 @@ class SlideshowsController < ApplicationController
     render :partial => '/slideshows/draw', :locals => params
   end
 
+  def update_slide_show_slide_tags
+    @slideshow = Slideshow.find(params[:id])
+
+    @slideshow.slides.each do |slide|
+      if !params[:tags_string].nil?
+        tags = params[:tags_string]
+        tag_array = tags.split(',')
+        tag_array.each do |tg|
+          if Tag.exists?(:name => tg)
+            t = Tag.find_by_name(tg)
+            if !Tagging.exists?(:tag_id => t.id, :slide_id => slide.id)
+              Tagging.create(:tag_id => t.id, :slide_id => slide.id)
+            end
+          else
+            t = Tag.create(:name => tg)
+            Tagging.create(:tag_id => t.id, :slide_id => slide.id)
+          end
+        end
+      end
+    end
+
+      redirect_to :back
+  end
+
   def draw_set_random
     num_poses = params[:num]
     length = params[:pose_l]
