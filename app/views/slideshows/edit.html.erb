@@ -32,7 +32,11 @@
         <% @images.each do |image|%>
         <% if !image.deleted %>
         <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>">
-          <img src="<%= image.ext_url %>">
+          <% if image.on_s3? %>
+            <img src="<%= image.thumb_url %>">
+          <% else %>
+            <img src="<%= image.ext_url %>">
+          <% end %>
           <br>
           <div class="pic-info">
             <a href="#" class="inspect-slide" data-id="<%= image.id %>">
