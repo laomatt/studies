@@ -85,13 +85,16 @@ $('body').on('mouseleave', '.my-slide', function(event) {
 
 $('body').on('click', '#upload-pic', function(event) {
   event.preventDefault();
-  $('form#upload').trigger('submit');
+  $(this).parent().find('form').trigger('submit');
 });
 
-$("body").on('submit', 'form#upload', function(event) {
+$("body").on('submit', '.panelthird form', function(event) {
   event.preventDefault();
   var id = $("#info").attr('ssid');
-  $('body').css('opacity', .5);
+  // $('body').css('opacity', .5);
+  ele = $(this).parent().find('.screen-load');
+  ele.fadeIn(400);
+
 
   $.ajax({
     url: "/home/"+id+"/add_image",
@@ -101,14 +104,18 @@ $("body").on('submit', 'form#upload', function(event) {
     contentType: false,
   })
   .done(function(data) {
-    var source = $("#entry-template").html();
+    if(data.on_s3 == true){
+      var source = $("#entry-template-s3").html();
+    } else {
+      var source = $("#entry-template").html();
+    }
     var template = Handlebars.compile(source);
     var context = data;
     var html = template(context);
     $("ul.slideshow_lists_edit").append(html);
-
     $("form#upload").trigger('reset');
-    $('body').css('opacity', 1);
+    ele.fadeOut(400);
+    // $('body').css('opacity', 1);
   })
 });
 
