@@ -30,13 +30,21 @@ ul.slideshow_lists {
 .slideshow_lists_edit li {
   position: relative;
   background-color: rgba(0,0,0,.4);
-  background-size: contain;
+  background-size: cover;
   overflow: auto;
   padding: 0%;
   color: white;
-  width: 200px;
+  width: 100px;
+  height: 100px;
   margin: -1px;
   display: inline-block;
+}
+
+.slideshow_lists_edit img {
+  display: block;
+  max-width: 200px;
+  width: auto;
+  height: auto;
 }
 
 .slideshow_lists_user_slideshows li {

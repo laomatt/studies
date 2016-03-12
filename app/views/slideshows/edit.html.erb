@@ -31,11 +31,10 @@
       <ul id="sortable" class="slideshow_lists_edit">
         <% @images.each do |image|%>
         <% if !image.deleted %>
-        <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>">
           <% if image.on_s3? %>
-            <img src="<%= image.thumb_url %>">
+            <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>" style="background-image:url(<%= image.thumb_url %>)">
           <% else %>
-            <img src="<%= image.ext_url %>">
+            <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>" style="background-image:url(<%= image.ext_url %>)">
           <% end %>
           <br>
           <div class="pic-info">
