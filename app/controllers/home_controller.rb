@@ -62,26 +62,26 @@ class HomeController < ApplicationController
     @slideshow = Slideshow.find(params[:id])
     uploaded_io = params[:slideshow][:picture]
 
-    # build file locally
+    p "build file locally"
     ::File.open(Rails.root.join('tmp', uploaded_io.original_filename), 'wb') do |file|
       file.write(uploaded_io.read)
     end
 
-    # upload full size file to s3
+    p "upload full size file to s3"
     obj_key = "#{current_user.email}/#{@slideshow.id}/#{uploaded_io.original_filename}"
     obj = S3_BUCKET.object(obj_key)
     obj.upload_file("tmp/#{uploaded_io.original_filename}", {acl: 'public-read'})
 
-    # start tinify instance and compress it
+    p "start tinify instance and compress it"
     source = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
     source.to_file("tmp/thumbnail-#{uploaded_io.original_filename}")
 
-    # upload thumbnail to s3
+    p "upload thumbnail to s3"
     obj_key_thumb = "#{current_user.email}/#{@slideshow.id}/thumbnails/#{uploaded_io.original_filename}"
     obj_thumb = S3_BUCKET.object(obj_key_thumb)
     obj_thumb.upload_file("tmp/thumbnail-#{uploaded_io.original_filename}", {acl: 'public-read'})
 
-    # make the slide
+    p "make the slide"
     slide = Slide.create(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :thumb_url => obj_thumb.public_url.to_s, :user_id => current_user.id)
 
     File.delete(Rails.root + "tmp/#{uploaded_io.original_filename}")
