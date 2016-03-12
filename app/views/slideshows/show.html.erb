@@ -3,9 +3,13 @@
     <%= @show.title %>
   </h1>
 <ul class="slideshow_lists_inspect">
-  <% @images.each do |ss| %>
+  <% @images.each do |image| %>
     <li>
-      <img src="<%= ss.ext_url %>" alt="">
+     <% if image.on_s3? %>
+      <img src="<%= image.thumb_url %>">
+    <% else %>
+      <img src="<%= image.ext_url %>">
+    <% end %>
     </li>
   <% end %>
 </ul>

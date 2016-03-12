@@ -56,7 +56,7 @@
     </div>
 
       <h3>Add Images</h3>
-      <p>Three ways to add images ... </p>
+      <p>Two ways to add images ... </p>
 
       <div class="panel house">
         <div class="panelthird">
@@ -72,10 +72,10 @@
          <br><br>
          <button class="upload-button Add-button-url" id="upload-pic-url">Add</button>
        </div>
-
-       <div class="panelthird">
+    <div class="panelthird">
+      <div class="screen-load">Uploading Image...</div>
         <h4>Upload from computer</h4>
-        <%= form_for @slideshow, :html => {:id => 'upload'} do |f| %>
+        <%= form_for @slideshow, :html => {:id => "upload"} do |f| %>
         <%= f.file_field :picture %>
         <% end %>
         <br><br>
@@ -83,6 +83,26 @@
       </div>
     </div>
 
+
   </div>
 </center>
+
+<style>
+  .screen-load {
+    background-color: white;
+    position: absolute;
+    width: 85%;
+    height: 85%;
+    z-index: 50;
+    text-align: center;
+    padding-top: 40%;
+    display: none;
+    color: black;
+  }
+
+  .panelthird_lower {
+    position: relative;
+    display: inline-block;
+  }
+</style>
 

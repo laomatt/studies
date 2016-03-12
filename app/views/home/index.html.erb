@@ -1,8 +1,12 @@
 
 <ul class="slideshow_lists">
-<% @slideshows.each do |ss| %>
+  <% @slideshows.each do |ss| %>
   <a href="/slideshows/<%= ss.id %>">
-    <li style="background-image:url(<%= ss.slides.first.ext_url %>)">
+    <% if ss.on_s3? %>
+      <li style="background-image:url(<%= ss.slides.first.thumb_url %>)">
+      <% else %>
+      <li style="background-image:url(<%= ss.slides.first.ext_url %>)">
+      <% end %>
       <div class="ss_info">
         <img src="<%= ss.user.avatar_url %>">
         <div class="numbers">
@@ -15,7 +19,7 @@
       </div>
     </li>
   </a>
-<% end %>
+  <% end %>
 </ul>
 
 <center>
@@ -23,12 +27,12 @@
 </center>
 
 <script>
-  $('body').on('mouseenter', 'ul.slideshow_lists li', function(event) {
-    $(this).find('.ss_info').fadeIn(500, function() {});
-  });
+$('body').on('mouseenter', 'ul.slideshow_lists li', function(event) {
+  $(this).find('.ss_info').fadeIn(500, function() {});
+});
 
-  $('body').on('mouseleave', 'ul.slideshow_lists li', function(event) {
-    $(this).find('.ss_info').fadeOut(500, function() {});
-  });
+$('body').on('mouseleave', 'ul.slideshow_lists li', function(event) {
+  $(this).find('.ss_info').fadeOut(500, function() {});
+});
 
 </script>
