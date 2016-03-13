@@ -38,13 +38,14 @@ class HomeController < ApplicationController
     @slides_liked = Slide.where("id in (?)", @slides_liked_array)
   end
 
+
   def create_slide_show
     @user = current_user
   end
 
   def save_slide_show
-    @slideshow = Slideshow.create(slideshow_params);
-    @slideshow.update_attributes(:user_id => current_user.id)
+    @slideshow = Slideshow.create(slideshow_params)
+    @slideshow.update_attributes(:user_id => current_user.id, :public => false)
 
     redirect_to "/slideshows/#{@slideshow.id}/edit"
   end

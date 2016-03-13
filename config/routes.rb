@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get 'get_image'
       get 'draw_set'
       get 'get_images_from_show'
+      get 'toggle_public'
     end
 
     collection do

@@ -82,6 +82,15 @@ class SlideshowsController < ApplicationController
     render :nothing => true
   end
 
+
+  def toggle_public
+    @slideshow = Slideshow.find(params[:id])
+    now = @slideshow.public
+    @slideshow.update_attributes(:public => !now)
+
+    render :json => @slideshow
+  end
+
   def find_slide
     url = params[:url]
     slide = Slide.find_by_ext_url(url)
