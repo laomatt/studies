@@ -1,5 +1,11 @@
   <center>
-    <h1><%= @slideshow.title %></h1> (<a href="#" data-id="<%= @slideshow.id %>" id="toggle-public">Make Public</a>)
+    <h1><%= @slideshow.title %></h1> (<a href="#" data-id="<%= @slideshow.id %>" id="toggle-public">
+    <% if @slideshow.public? %>
+      Make Private
+    <% else %>
+      Make Public
+    <% end %>
+   </a>)
     <div class="form-container panel">
 <script>
   $("body").on('click', '#toggle-public', function(event) {
