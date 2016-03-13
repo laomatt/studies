@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       get 'get_partial'
       delete 'destroy_this_slide'
       delete 'unlike_slide'
+      patch 'toggle_nsfw'
     end
   end
 

@@ -6,7 +6,12 @@
   <h2>
     <%= title %>
   </h2>
+  <% if @slide.nsfw? %>
+  <div style="float:right;position:relative"><a href="#" class="toggle-nsfw" data-id="<%= @slide.id %>" style="color:red"><i class="fa fa-toggle-on">  Not safe for work</i></a></div>
+  <% else %>
+  <div style="float:right;position:relative"><a href="#" class="toggle-nsfw" data-id="<%= @slide.id %>" style="color:green"><i class="fa fa-toggle-on">  Safe for work</i></a></div>
 
+  <% end %>
   <p>
     Tags: <%= tag_list %>
     <br>
@@ -31,3 +36,26 @@
 
  <button class="upload-button" id="update-this-slide">Update</button>
 </div>
+
+
+<script>
+  $('body').on('click', '.toggle-nsfw', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('data-id');
+    var that = $(this);
+
+    $.ajax({
+      url: '/slides/'+id+'/toggle_nsfw',
+      type: 'PATCH',
+    })
+    .done(function(data) {
+      if(data.nsfw == true){
+        that.parent().html('<a href="#" class="toggle-nsfw" data-id="<%= @slide.id %>" style="color:red"><i class="fa fa-toggle-on">  Not safe for work</i></a>')
+      } else {
+        that.parent().html('<a href="#" class="toggle-nsfw" data-id="<%= @slide.id %>" style="color:green"><i class="fa fa-toggle-off">  Safe for work</i></a>')
+      }
+    })
+
+
+  });
+</script>

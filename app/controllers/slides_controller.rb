@@ -1,7 +1,7 @@
 class SlidesController < ApplicationController
   before_action :authenticate_user!, :except => [:find_slide, :get_partial]
   before_filter :find_slide, :except => [:browse_tags]
-  skip_before_action :verify_authenticity_token, :only => [:like_a_slide, :destroy_this_slide, :unlike_slide]
+  skip_before_action :verify_authenticity_token, :only => [:like_a_slide, :destroy_this_slide, :unlike_slide, :toggle_nsfw]
 
   def like_a_slide
     Like.create(:slide_id => @slide.id, :user_id => current_user.id)
@@ -70,6 +70,13 @@ class SlidesController < ApplicationController
     end
   end
 
+  def toggle_nsfw
+    now = @slide.nsfw
+    @slide.update_attributes(:nsfw => !now)
+
+    render :json => @slide
+  end
+
   private
 
   def find_slide
@@ -77,6 +84,6 @@ class SlidesController < ApplicationController
   end
 
   def slide_params
-    params.require(:slide_info).permit(:title,:ext_url)
+    params.require(:slide_info).permit(:title,:ext_url,:nsfw)
   end
 end
