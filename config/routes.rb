@@ -63,6 +63,7 @@ Rails.application.routes.draw do
     end
 
     collection do
+      get 'get_faq'
       get 'exp'
       get 'ind'
       get 'user_slideshows'

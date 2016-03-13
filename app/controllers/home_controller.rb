@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  before_action :authenticate_user!, :except => :index
+  before_action :authenticate_user!, :except =>  [:index, :get_faq]
   layout 'application'
   def index
     @slideshows = Slideshow.where(:public => true).order(:updated_at => :desc).paginate(:page => params[:page], :per_page => 16)
@@ -12,6 +12,10 @@ class HomeController < ApplicationController
   end
 
   def user
+  end
+
+  def get_faq
+    render :partial => 'home/faq_modal'
   end
 
   def user_slideshows

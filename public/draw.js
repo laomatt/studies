@@ -264,10 +264,16 @@ $('body').on('click', '.see-this-slide', function(event) {
 
   $('body').on('click', '.faq-pop', function(event) {
     event.preventDefault();
+    $.ajax({
+      url: '/home/get_faq',
+    })
+    .done(function(data) {
+      $("#faq-container").html(data)
+    })
+
     $("#faq-container").fadeIn(400, function() {
 
     });
-
     $(".backdrop").fadeIn(200, function() {
 
     });
