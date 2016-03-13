@@ -1,8 +1,12 @@
 
 <div id="information" style="display:none" pose-length="<%= pose_length %>" total-slides="<%= pose_number %>"></div>
 
-
 <div class="pose-window">
+  <% first_img = Slide.all.sample %>
+  <img src="<%= first_img.ext_url %>" data-id="<%= first_img.id %>" alt="">
+</div>
+
+<div class="pose-window-hidden" style="display:none">
   <img src="" alt="">
 </div>
 
@@ -60,6 +64,8 @@ if(rando == '1') {
 } else {
   isRandom = false;
 }
+var first_img_id = $(".pose-window-hidden").attr('data-id');
+spent_images.push(first_img_id);
 
 time_int = setInterval(function(){
   if(running === true){
@@ -68,6 +74,8 @@ time_int = setInterval(function(){
       time = poseLength * 60;
       i += 1;
       change_image(i);
+      var next_img = $(".pose-window-hidden").find('img').attr('src');
+      $(".pose-window").find('img').attr('src', next_img);
     }
     $("#clock").text(time);
   }
@@ -115,14 +123,16 @@ function change_image(i) {
       data: {already: spent_images.join(','), random: isRandom, slin: i }
     })
     .done(function(data) {
-      new_url = data.ext_url;
-      new_id = data.id;
-      if(i !== 0){
-        var audio = new Audio('/sounds/change.wav');
-        audio.play();
-      }
       if(i < total_slides) {
+        new_url = data.ext_url;
+        new_id = data.id;
+        if(i !== 0){
+          var audio = new Audio('/sounds/change.wav');
+          audio.play();
+        }
         spent_images.push(new_id);
+        $("#slide_number").text(i + 1);
+        $(".pose-window-hidden").find('img').attr('src', new_url);
         $.ajax({
           url: '/slideshows/find_slide',
           data: {url: new_url},
@@ -137,9 +147,6 @@ function change_image(i) {
             $(".like-draw-modal").css('opacity', '1');
           }
         });
-        $("#slide_number").text(i + 1);
-        console.log(new_url)
-        $(".pose-window").find('img').attr('src', new_url);
       } else {
         $(".backdrop").trigger('click');
         running = false;
