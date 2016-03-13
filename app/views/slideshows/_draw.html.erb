@@ -123,10 +123,6 @@ function change_image(i) {
       if(i < total_slides) {
         new_url = data.ext_url;
         new_id = data.id;
-        if(i !== 0){
-          var audio = new Audio('/sounds/change.wav');
-          audio.play();
-        }
         spent_images.push(new_id);
         $("#slide_number").text(i + 1);
         $(".pose-window-hidden").find('img').attr('src', new_url);
@@ -145,6 +141,10 @@ function change_image(i) {
             $(".like-draw-modal").css('opacity', '1');
           }
         });
+        if(i !== 0){
+          var audio = new Audio('/sounds/change.wav');
+          audio.play();
+        }
       } else {
         $(".backdrop").trigger('click');
         running = false;
