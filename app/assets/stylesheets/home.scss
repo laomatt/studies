@@ -96,6 +96,24 @@ ul.slideshow_lists {
   max-height: 200px;
 }
 
+.slideshow_lists_tags li {
+  position: relative;
+  background-color: rgba(0,0,0,.4);
+  background-size: 100%;
+  overflow: hidden;
+  padding: 0%;
+  color: white;
+  width: 200px;
+  height: 200px;
+  margin: -1px;
+  display: inline-block;
+}
+
+.slideshow_lists_tags img {
+  max-height: 200px;
+}
+
+
 .ss_info {
   display: none;
   background-color: rgba(255,255,255,.7);

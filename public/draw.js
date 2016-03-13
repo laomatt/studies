@@ -316,12 +316,55 @@ $('body').on('click', '.confirm-deletion', function(event) {
 
 });
 
+var li_interval;
 
 $('body').on('mouseenter', 'ul.slideshow_lists li', function(event) {
   $(this).find('.ss_info').fadeIn(500, function() {});
+  var that = $(this);
+  var id = $(this).attr('data-id');
+
+  li_interval = setInterval(function(){
+    $.ajax({
+      url: '/slideshows/'+id+'/get_image_slide_show',
+    })
+    .done(function(data) {
+      var new_url = data.thumb_url
+      that.css('background-image', 'url('+new_url+')');
+    })
+  },1000);
+
 });
 
 $('body').on('mouseleave', 'ul.slideshow_lists li', function(event) {
   $(this).find('.ss_info').fadeOut(500, function() {});
+  clearInterval(li_interval);
 });
+
+
+// slide show moving carosel for brose tags
+
+
+$('body').on('mouseenter', 'ul.slideshow_lists_tags li', function(event) {
+  $(this).find('.ss_info').fadeIn(500, function() {});
+  var that = $(this);
+  var id = $(this).attr('data-id');
+
+  // li_interval = setInterval(function(){
+  //   $.ajax({
+  //     url: '/slideshows/'+id+'/get_image_slide_show_tags',
+  //   })
+  //   .done(function(data) {
+  //     var new_url = data.thumb_url
+  //     that.css('background-image', 'url('+new_url+')');
+  //   })
+  // },1000);
+
+});
+
+$('body').on('mouseleave', 'ul.slideshow_lists_tags li', function(event) {
+  $(this).find('.ss_info').fadeOut(500, function() {});
+  // clearInterval(li_interval);
+});
+
+
 

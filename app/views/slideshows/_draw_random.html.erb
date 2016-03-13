@@ -56,6 +56,7 @@ var spent_images = [];
 var isRandom = true;
 var total_slides = $("#information").attr('total-slides');
 var rando = $("#information").attr('random');
+var audio = new Audio('/sounds/change.wav');
 change_image(i);
 running = true;
 
@@ -76,6 +77,8 @@ time_int = setInterval(function(){
       change_image(i);
       var next_img = $(".pose-window-hidden").find('img').attr('src');
       $(".pose-window").find('img').attr('src', next_img);
+      audio.play();
+
     }
     $("#clock").text(time);
   }
@@ -143,10 +146,7 @@ function change_image(i) {
             $(".like-draw-modal").css('opacity', '1');
           }
         });
-        if(i !== 0){
-          var audio = new Audio('/sounds/change.wav');
-          audio.play();
-        }
+
       } else {
         $(".backdrop").trigger('click');
         running = false;

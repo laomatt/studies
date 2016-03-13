@@ -1,6 +1,6 @@
 class SlideshowsController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => :update_image_position
-  before_action :authenticate_user!, :except => [:show, :draw_set, :draw_set_random, :draw, :get_image, :get_images_from_show, :get_images_from_show_random]
+  before_action :authenticate_user!, :except => [:show, :draw_set, :draw_set_random, :draw, :get_image, :get_images_from_show, :get_images_from_show_random, :get_image_slide_show, :get_image_slide_show_tags]
   def show
     @show = Slideshow.find(params[:id])
     @images = @show.slides
@@ -159,6 +159,20 @@ class SlideshowsController < ApplicationController
     else
       render :json => @images
     end
+  end
+
+  def get_image_slide_show
+    @show = Slideshow.find(params[:id])
+    image = @show.slides.sample
+    render :json => image
+  end
+
+  def get_image_slide_show_tags
+    tag = Tag.find(params[:id])
+    taggings = Tagging.where('tag_id = ?', tag.id)
+    image = taggings.sample.slide
+
+    render :json => image
   end
 
   private

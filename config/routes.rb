@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     member do
       get 'draw'
       get 'get_image'
+      get 'get_image_slide_show'
+      get 'get_image_slide_show_tags'
       get 'draw_set'
       get 'get_images_from_show'
       get 'toggle_public'
