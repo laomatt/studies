@@ -1,5 +1,5 @@
 
-<div id="information" style="display:none" pose-length="<%= pose_length %>" total-slides="<%= pose_number %>"></div>
+<div id="information" style="display:none" pose-length="<%= pose_length %>" total-slides="<%= pose_number %>" tag="<%= tag_id %>"></div>
 
 
 <div class="pose-window">
@@ -30,11 +30,11 @@
       /<%= pose_number %>
     </div>
 
-    <div class="slide-show-info">
-      title:
-      User:
-      Slideshow:
-
+    <div class="slide-show-info" style="display:none">
+      title: <div id="slide-title"></div>
+      User: <div id="slide-user"></div>
+      Slideshow: <div id="slideshow-title"></div>
+      <br>
       <a href="#">Save this Slideshow</a>
     </div>
   </center>
@@ -51,6 +51,7 @@ var time_int;
 var spent_images = [];
 var isRandom = true;
 var total_slides = $("#information").attr('total-slides');
+var tag_id = $("#information").attr('tag');
 var rando = $("#information").attr('random');
 change_image(i);
 running = true;
@@ -110,12 +111,9 @@ function likeAnimation(el){
 }
 var new_url = ""
 function change_image(i) {
-  if(spent_images.length >= total_slides_in_show){
-    spent_images = [];
-  }
     $.ajax({
-      url: '/slideshows/get_images_from_show_likes',
-      data: {already: spent_images.join(','), random: isRandom, slin: i }
+      url: '/slideshows/get_images_from_show_tag',
+      data: {already: spent_images.join(','), random: isRandom, slin: i, tag: tag_id }
     })
     .done(function(data) {
       if((i < total_slides) && (data != null)) {

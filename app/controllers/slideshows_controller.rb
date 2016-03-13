@@ -129,6 +129,17 @@ class SlideshowsController < ApplicationController
     render :json => @slide
   end
 
+  def get_images_from_show_tag
+    tag = Tag.find(params[:tag])
+    images_spent = params[:already].split(',').map { |e| e.to_i }
+    if images_spent.empty?
+      images_spent = [1,2]
+    end
+    tagging_slides = Tagging.where('tag_id = ?', tag.id).map { |e| e.slide_id }
+    @slide = Slide.where('id not in (?) and id in (?)', images_spent, tagging_slides).sample
+    render :json => @slide
+  end
+
   def get_images_from_show_random
     images_spent = params[:already].split(',').map { |e| e.to_i }
     if images_spent.empty?

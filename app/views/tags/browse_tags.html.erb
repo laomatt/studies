@@ -1,7 +1,6 @@
-
 <ul class="slideshow_lists">
-  <% @slideshows.each do |ss| %>
-  <a href="/slideshows/<%= ss.id %>">
+  <% @tags.each do |ss| %>
+  <a href="/tags/<%= ss.id %>/show_tag">
     <% if ss.slides.blank? %>
       <li>
     <% elsif ss.slides.first.on_s3? %>
@@ -10,11 +9,8 @@
       <li style="background-image:url(<%= ss.slides.first.ext_url %>)">
       <% end %>
       <div class="ss_info">
-        <img src="<%= ss.user.avatar_url %>">
         <div class="numbers">
-          <b><%= ss.title %></b>
-          <br>
-          User: <%= ss.user.name %>
+          <b><%= ss.name %></b>
           <br>
           Slides: <%= ss.slides.count %>
         </div>
@@ -23,8 +19,3 @@
   </a>
   <% end %>
 </ul>
-
-<center>
-  <%= will_paginate @slideshows %>
-</center>
-

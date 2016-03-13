@@ -1,5 +1,6 @@
 class SlidesController < ApplicationController
-  before_filter :find_slide
+  before_action :authenticate_user!, :except => :find_slide
+  before_filter :find_slide, :except => [:browse_tags, :get_partial]
   skip_before_action :verify_authenticity_token, :only => [:like_a_slide, :destroy_this_slide, :unlike_slide]
 
   def like_a_slide
@@ -51,7 +52,6 @@ class SlidesController < ApplicationController
     Like.delete(like.id)
 
     render :nothing => true
-
   end
 
   def get_partial

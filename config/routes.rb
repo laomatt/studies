@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       put 'update_image_position'
       get 'find_slide'
       get 'get_images_from_show_random'
+      get 'get_images_from_show_tag'
       get 'get_images_from_show_your'
       get 'get_images_from_show_likes'
       get 'draw_set_random'
@@ -34,6 +35,17 @@ Rails.application.routes.draw do
       get 'get_partial'
       delete 'destroy_this_slide'
       delete 'unlike_slide'
+    end
+  end
+
+  resources :tags do
+    collection do
+      get 'browse_tags'
+    end
+
+    member do
+      get 'show_tag'
+      get 'get_tag_partial'
     end
   end
 

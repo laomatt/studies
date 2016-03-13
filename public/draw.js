@@ -315,3 +315,13 @@ $('body').on('click', '.confirm-deletion', function(event) {
   $(".backdrop").trigger('click');
 
 });
+
+
+$('body').on('mouseenter', 'ul.slideshow_lists li', function(event) {
+  $(this).find('.ss_info').fadeIn(500, function() {});
+});
+
+$('body').on('mouseleave', 'ul.slideshow_lists li', function(event) {
+  $(this).find('.ss_info').fadeOut(500, function() {});
+});
+
