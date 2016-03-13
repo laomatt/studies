@@ -1,13 +1,14 @@
 <ul class="slideshow_lists_user_slideshows">
 <% @slideshows.each do |ss| %>
-  <li>
-    <a href="/slideshows/<%= ss.id %>/edit">
-      <% if ss.slides.blank? %>
+<a href="/slideshows/<%= ss.id %>/edit">
+  <% if ss.slides.blank? %>
+    <li>
         No Slides Yet
-      <% else %>
-        <img src="<%= ss.slides.first.ext_url %>" alt="">
-      <% end %>
-    </a>
-  </li>
+  <% else %>
+    <li style="background-image:url(<%= ss.slides.first.ext_url %>)">
+  <% end %>
+
+    </li>
+  </a>
 <% end %>
 </ul>

@@ -292,12 +292,12 @@ $('body').on('submit', '#update-slide-form', function(event) {
 $('body').on('click', '.confirm-deletion', function(event) {
   event.preventDefault();
   var id = $(this).attr('data-id');
+  $("#slide_"+id).fadeOut(500);
   $.ajax({
     url: '/slides/' + id + '/destroy_this_slide',
     type: 'DELETE',
   })
   .done(function(data) {
-    $("#slide_"+data.id).fadeOut(500);
   })
 
   $(".backdrop").trigger('click');
