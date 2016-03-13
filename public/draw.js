@@ -1,6 +1,5 @@
 // nav drop down menu
 $('body').on('click', '.content-container', function(event) {
-  console.log('wd')
   $('.dropdown-menu').slideUp(300);
 });
 
@@ -192,6 +191,19 @@ $('body').on('click', '.delete-slide', function(event) {
   })
 });
 
+$('body').on('click', '.see-this-slide', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('data-id');
+  $.ajax({
+    url: '/slides/'+ id +'/get_partial',
+    data: {type: 'show'},
+  })
+  .done(function(data) {
+    $("#pose_window_container").html(data);
+    $(".backdrop").fadeIn(300);
+    $("#pose_window_container").fadeIn(300);
+  })
+});
 
 
 // draw a set and show slideshow

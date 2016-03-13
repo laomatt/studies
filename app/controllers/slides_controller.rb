@@ -59,6 +59,9 @@ class SlidesController < ApplicationController
     if params[:type] == 'inspect'
       info[:tag_list] = @slide.taggings.map { |e| e.tag.name }.join(',')
       render :partial => '/slideshows/slidedisplay', :locals => info
+    elsif params[:type] == 'show'
+      info[:tag_list] = @slide.taggings.map { |e| e.tag.name }.join(',')
+      render :partial => '/slides/show', :locals => info
     elsif params[:type] == 'edit'
       info[:tag_list] = @slide.taggings.map { |e| e.tag.name }.join(',')
       render :partial => '/slideshows/slideedit', :locals => info

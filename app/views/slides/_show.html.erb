@@ -1,0 +1,45 @@
+
+<div class="pose-window">
+  <img src="<%= ext_url%>" alt="">
+</div>
+
+<div class="right-menu">
+  <center>
+    <div style="display:inline-block">
+    </div>
+    <div class="like-draw-modal" style="display:inline-block">
+      <a href="#" id="like-draw-modal" data-id=""><i class="fa fa-heart"></i></a>
+    </div>
+    <div style="display:inline-block">
+      <a href="#" id="close-draw-modal"><i class="fa fa-times"></i></a>
+    </div>
+    <br>
+
+  </center>
+</div>
+
+
+<script>
+$("body").on('click', "#close-draw-modal", function(event) {
+  event.preventDefault();
+  $(".backdrop").trigger('click');
+  running = false;
+  clearInterval(time_int);
+});
+
+$('body').on('click', '#like-draw-modal', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('data-id');
+  $.ajax({
+    url: '/slides/' + id + '/like_a_slide',
+    type: 'POST',
+  })
+  .done(function() {
+    $(".like-draw-modal").html('<i class="fa fa-gratipay"></i>');
+    $("#like-draw-modal").attr('href', '#');
+    $(".like-draw-modal").css('opacity', '.5');
+  });
+});
+
+
+</script>
