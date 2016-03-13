@@ -112,14 +112,17 @@ function change_image(i) {
       data: {already: spent_images.join(','), random: isRandom, slin: i }
     })
     .done(function(data) {
-      new_url = data.ext_url;
-      new_id = data.id;
-      if(i !== 0){
-        var audio = new Audio('/sounds/change.wav');
-        audio.play();
-      }
       if(i < total_slides) {
+        new_url = data.ext_url;
+        new_id = data.id;
+        if(i !== 0){
+          var audio = new Audio('/sounds/change.wav');
+          audio.play();
+        }
         spent_images.push(new_id);
+        $("#slide_number").text(i + 1);
+        $(".pose-window").find('img').attr('src', new_url);
+
         $.ajax({
           url: '/slideshows/find_slide',
           data: {url: new_url},
@@ -134,9 +137,6 @@ function change_image(i) {
             $(".like-draw-modal").css('opacity', '1');
           }
         });
-        $("#slide_number").text(i + 1);
-        console.log(new_url)
-        $(".pose-window").find('img').attr('src', new_url);
       } else {
         $(".backdrop").trigger('click');
         running = false;
