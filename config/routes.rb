@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get 'draw_set'
       get 'get_images_from_show'
       get 'toggle_public'
+      patch 'mark_all_slides_nsfw'
     end
 
     collection do

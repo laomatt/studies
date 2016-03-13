@@ -1,5 +1,5 @@
 class SlideshowsController < ApplicationController
-  skip_before_action :verify_authenticity_token, :only => :update_image_position
+  skip_before_action :verify_authenticity_token, :only => [:update_image_position, :mark_all_slides_nsfw]
   before_action :authenticate_user!, :except => [:show, :draw_set, :draw_set_random, :draw, :get_image, :get_images_from_show, :get_images_from_show_random, :get_image_slide_show, :get_image_slide_show_tags]
   def show
     @show = Slideshow.find(params[:id])
@@ -165,6 +165,15 @@ class SlideshowsController < ApplicationController
     @show = Slideshow.find(params[:id])
     image = @show.slides.sample
     render :json => image
+  end
+
+  def mark_all_slides_nsfw
+    @show = Slideshow.find(params[:id])
+    @show.slides.each do |image|
+      image.update_attributes(:nsfw => true)
+    end
+
+    render :nothing => true
   end
 
   def get_image_slide_show_tags

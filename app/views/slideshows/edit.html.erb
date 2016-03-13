@@ -46,9 +46,24 @@
               <input type="text" value="" placeholder="separate multiple tags with commas ..." name="tags_string">
               <input type="submit">
             </form>
+
+            <a href="#" id="all_slides_nsfw" data-id="<%= @slideshow.id %>">Mark all slides not safe for work.</a>
           </div>
         </div>
+<script>
+  $('body').on('click', '#all_slides_nsfw', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('data-id');
+    $.ajax({
+      url: '/slideshows/'+id+'/mark_all_slides_nsfw',
+      type: 'PATCH',
+    })
+    .done(function() {
+      alert('All slides in this show Marked as unsafe for work.')
+    })
 
+  });
+</script>
 
 
 
