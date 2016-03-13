@@ -89,6 +89,7 @@ class HomeController < ApplicationController
 
       # tag the slide
       if !params[:tags_string].nil?
+        tags = params[:tags_string]
         tag_array = tags.split(',')
         tag_array.each do |tg|
           if Tag.exists?(:name => tg)
