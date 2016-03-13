@@ -1,5 +1,5 @@
 class SlidesController < ApplicationController
-  before_action :authenticate_user!, :except => :find_slide
+  before_action :authenticate_user!, :except => [:find_slide, :get_partial]
   before_filter :find_slide, :except => [:browse_tags]
   skip_before_action :verify_authenticity_token, :only => [:like_a_slide, :destroy_this_slide, :unlike_slide]
 
