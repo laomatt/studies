@@ -4,10 +4,14 @@
     <a href="#" class="draw-from-this-set-yours">
       Draw from this set
     </a>
-    <div class="panel house">
+    <div class="panel house" style="height:400px;overflow:scroll">
       <% @slides.each do |image|%>
         <% if !image.deleted %>
-          <div class="my-slide" style="background-image:url(<%= image.ext_url %>)" pic-id="<%= image.id %>" id="slide_<%= image.id %>">
+          <% if image.on_s3? %>
+            <div class="my-slide" style="background-image:url(<%= image.thumb_url %>)" pic-id="<%= image.id %>" id="slide_<%= image.id %>">
+          <% else %>
+            <div class="my-slide" style="background-image:url(<%= image.ext_url %>)" pic-id="<%= image.id %>" id="slide_<%= image.id %>">
+          <% end %>
             <br>
             <div class="pic-info-myslides">
               <a href="#" class="inspect-slide" data-id="<%= image.id %>">
