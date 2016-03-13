@@ -93,6 +93,7 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
   var id = $("#info").attr('ssid');
   ele = $(this).parent().find('.screen-load');
   ele.fadeIn(400);
+  ele.html("<div style='color:green'><b>Uploading Image ...</b></div>")
 
   $.ajax({
     url: "/home/"+id+"/add_image",
@@ -105,9 +106,7 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
     if(data.error == "big"){
       ele.html("<div style='color:red'><b>"+data.message+"</b></div>")
       ele.fadeOut(5000);
-    } else {
-      ele.html("<div style='color:red'><b>Uploading Image ...</b></div>")
-
+    } else if(data.error == "none") {
       if(data.slide.on_s3 == true){
         var source = $("#entry-template-s3").html();
       } else {
@@ -119,6 +118,9 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
       $("ul.slideshow_lists_edit").append(html);
       $("form#upload").trigger('reset');
       ele.fadeOut(400);
+    } else {
+      ele.html("<div style='color:red'><b>Somehing went wrong</b></div>")
+      ele.fadeOut(4000);
     }
 
   })
