@@ -88,13 +88,11 @@ $('body').on('click', '#upload-pic', function(event) {
   $(this).parent().find('form').trigger('submit');
 });
 
-$("body").on('submit', '.panelthird form', function(event) {
+$("body").on('submit', '.panelthird form#upload', function(event) {
   event.preventDefault();
   var id = $("#info").attr('ssid');
-  // $('body').css('opacity', .5);
   ele = $(this).parent().find('.screen-load');
   ele.fadeIn(400);
-
 
   $.ajax({
     url: "/home/"+id+"/add_image",
@@ -104,18 +102,25 @@ $("body").on('submit', '.panelthird form', function(event) {
     contentType: false,
   })
   .done(function(data) {
-    if(data.on_s3 == true){
-      var source = $("#entry-template-s3").html();
+    if(data.error == "big"){
+      ele.html("<div style='color:red'><b>"+data.message+"</b></div>")
+      ele.fadeOut(5000);
     } else {
-      var source = $("#entry-template").html();
+      ele.html("<div style='color:red'><b>Uploading Image ...</b></div>")
+
+      if(data.slide.on_s3 == true){
+        var source = $("#entry-template-s3").html();
+      } else {
+        var source = $("#entry-template").html();
+      }
+      var template = Handlebars.compile(source);
+      var context = data.slide;
+      var html = template(context);
+      $("ul.slideshow_lists_edit").append(html);
+      $("form#upload").trigger('reset');
+      ele.fadeOut(400);
     }
-    var template = Handlebars.compile(source);
-    var context = data;
-    var html = template(context);
-    $("ul.slideshow_lists_edit").append(html);
-    $("form#upload").trigger('reset');
-    ele.fadeOut(400);
-    // $('body').css('opacity', 1);
+
   })
 });
 

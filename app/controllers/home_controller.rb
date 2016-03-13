@@ -56,62 +56,55 @@ class HomeController < ApplicationController
   def add_image
     require 'fileutils'
     require "tinify"
+    uploaded_io = params[:slideshow][:picture]
+
+    if uploaded_io.size > 1000000
+      render :json => {:error=> 'big', :message => 'file is too large, please resize to under 1mb'}
+    else
 
     Tinify.key = ENV['TINY_PNG_API_KEY']
 
     @slideshow = Slideshow.find(params[:id])
-    uploaded_io = params[:slideshow][:picture]
     tags = params[:tags_string]
+      p "build file locally"
+      ::File.open(Rails.root.join('tmp', uploaded_io.original_filename), 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
 
-    p "build file locally"
-    ::File.open(Rails.root.join('tmp', uploaded_io.original_filename), 'wb') do |file|
-      file.write(uploaded_io.read)
-    end
-    p "build file locally"
+      obj_key = "#{current_user.email}/#{@slideshow.id}/#{uploaded_io.original_filename}"
+      obj = S3_BUCKET.object(obj_key)
+      obj.upload_file("tmp/#{uploaded_io.original_filename}", {acl: 'public-read'})
+      p "upload full size file to s3"
 
-    p "upload full size file to s3"
-    obj_key = "#{current_user.email}/#{@slideshow.id}/#{uploaded_io.original_filename}"
-    obj = S3_BUCKET.object(obj_key)
-    obj.upload_file("tmp/#{uploaded_io.original_filename}", {acl: 'public-read'})
-    p "upload full size file to s3"
+      source = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
+      source.to_file("tmp/thumbnail-#{uploaded_io.original_filename}")
+      p "start tinify instance and compress it"
 
-    p "start tinify instance and compress it"
-    source = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
-    source.to_file("tmp/thumbnail-#{uploaded_io.original_filename}")
-    p "start tinify instance and compress it"
+      obj_key_thumb = "#{current_user.email}/#{@slideshow.id}/thumbnails/#{uploaded_io.original_filename}"
+      obj_thumb = S3_BUCKET.object(obj_key_thumb)
+      obj_thumb.upload_file("tmp/thumbnail-#{uploaded_io.original_filename}", {acl: 'public-read'})
 
-    p "upload thumbnail to s3"
-    obj_key_thumb = "#{current_user.email}/#{@slideshow.id}/thumbnails/#{uploaded_io.original_filename}"
-    obj_thumb = S3_BUCKET.object(obj_key_thumb)
-    obj_thumb.upload_file("tmp/thumbnail-#{uploaded_io.original_filename}", {acl: 'public-read'})
-    p "upload thumbnail to s3"
 
-    p "make the slide"
+      slide = Slide.create(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :thumb_url => obj_thumb.public_url.to_s, :user_id => current_user.id)
 
-    slide = Slide.new(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :thumb_url => obj_thumb.public_url.to_s, :user_id => current_user.id)
-
-    # tag the slide
-    if !params[:tags_string].nil?
-      tag_array = tags.split(',')
-      tag_array.each do |tg|
-        if Tag.exists?(:name => tg)
-          t = Tag.find(:name => tg)
-          Tagging.create(:tag_id => t.id, :slide_id => slide.id)
-        else
-          t = Tag.create(:name => tg)
-          Tagging.create(:tag_id => t.id, :slide_id => slide.id)
+      # tag the slide
+      if !params[:tags_string].nil?
+        tag_array = tags.split(',')
+        tag_array.each do |tg|
+          if Tag.exists?(:name => tg)
+            t = Tag.find(:name => tg)
+            Tagging.create(:tag_id => t.id, :slide_id => slide.id)
+          else
+            t = Tag.create(:name => tg)
+            Tagging.create(:tag_id => t.id, :slide_id => slide.id)
+          end
         end
       end
+
+      File.delete(Rails.root + "tmp/#{uploaded_io.original_filename}")
+      File.delete(Rails.root + "tmp/thumbnail-#{uploaded_io.original_filename}")
+      render :json => {:error=> 'none', :slide => slide}
     end
-
-    p "#{slide.save}"
-    p "make the slide"
-
-    p "delete"
-    File.delete(Rails.root + "tmp/#{uploaded_io.original_filename}")
-    File.delete(Rails.root + "tmp/thumbnail-#{uploaded_io.original_filename}")
-    p "delete"
-    render :json => slide
   end
 
   def add_image_url
