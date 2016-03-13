@@ -4,9 +4,9 @@
     <% if ss.slides.blank? %>
       <li>
     <% elsif ss.slides.first.on_s3? %>
-      <li style="background-image:url(<%= ss.slides.first.thumb_url %>)">
+      <li style="background-image:url(<%= ss.slides.sample.thumb_url %>)">
       <% else %>
-      <li style="background-image:url(<%= ss.slides.first.ext_url %>)">
+      <li style="background-image:url(<%= ss.slides.sample.ext_url %>)">
       <% end %>
       <div class="ss_info">
         <div class="numbers">
