@@ -1,6 +1,6 @@
 <% @images = Slideshow.find(id).slides %>
 
-<div id="information" style="display:none" pose-length="<%= pose_length %>" slideshowid="<%= id %>" total-slides="<%= pose_number %>" random="<%= random %>" total-slides-show="<%= @images.count %>"></div>
+<div id="information" style="display:none" pose-length="<%= pose_length %>" slideshowid="<%= id %>" total-slides="<%= pose_number %>" sound="<%= sound %>" total-slides-show="<%= @images.count %>"></div>
 
 <div class="pose-window">
   <% first_img = @images.sample%>
@@ -49,16 +49,18 @@ var spent_images = [];
 var isRandom = true;
 var total_slides = $("#information").attr('total-slides');
 var total_slides_in_show = $("#information").attr('total-slides-show');
-var rando = $("#information").attr('random');
+var soun = $("#information").attr('sound');
 var audio = new Audio('/sounds/change.wav');
+var sound = true;
 change_image(i);
 running = true;
 
-if(rando == '1') {
-  isRandom = true;
+if(soun == '1') {
+  sound = true;
 } else {
-  isRandom = false;
+  sound = false;
 }
+
 var first_img_id = $(".pose-window-hidden").attr('data-id');
 spent_images.push(first_img_id);
 
@@ -71,7 +73,9 @@ time_int = setInterval(function(){
       change_image(i);
       var next_img = $(".pose-window-hidden").find('img').attr('src');
       $(".pose-window").find('img').attr('src', next_img);
-      audio.play();
+      if(sound == true){
+        audio.play();
+      }
     }
     $("#clock").text(time);
   }
