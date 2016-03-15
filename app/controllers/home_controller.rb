@@ -75,11 +75,11 @@ class HomeController < ApplicationController
         file.write(uploaded_io.read)
       end
 
-      source_full = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
 
 
       if uploaded_io.size > 700000
         p "-------- file too big: #{uploaded_io.size} ---------- "
+        source_full = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
         resized_full = source_full.resize(:method => 'scale', :height => 1000)
         resized_full.to_file("tmp/#{uploaded_io.original_filename}")
       end
