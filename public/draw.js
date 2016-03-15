@@ -342,10 +342,12 @@ $('body').on('mouseenter', 'ul.slideshow_lists li', function(event) {
     })
   },1000);
 
+  $(this).css('opacity', '1');
 });
 
 $('body').on('mouseleave', 'ul.slideshow_lists li', function(event) {
   $(this).find('.ss_info').fadeOut(500, function() {});
+  $(this).css('opacity', '.7');
   clearInterval(li_interval);
 });
 
