@@ -135,6 +135,8 @@
 
   <div class="form-panel">
     <h3>Add Images</h3>
+    <label for="keep-open-modal">Keep window from closing?</label>
+    <input type="checkbox" id="keep-open-modal">
     <p>Two ways to add images ... </p>
     <div class="panelthird upmodal">
       <h4>Make with URL</h4>
@@ -154,7 +156,7 @@
       <h4>Upload from computer</h4>
       <%= form_for @slideshow, :html => {:id => "upload"} do |f| %>
       <%= f.file_field :picture %>
-      <input type="text" name="tags_string" placeholder="tags seperated by commas">
+      <input type="text" name="tags_string" placeholder="tags seperated by commas" style="width:100%">
       <% end %>
       <br><br>
       <button class="upload-button" id="upload-pic">Upload</button>
@@ -170,8 +172,8 @@
   .screen-load {
     background-color: white;
     position: absolute;
-    width: 85%;
-    height: 85%;
+    width: 100%;
+    height: 100%;
     z-index: 50;
     text-align: center;
     padding-top: 40%;

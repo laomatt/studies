@@ -118,7 +118,9 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
       $("ul.slideshow_lists_edit").append(html);
       $("form#upload").trigger('reset');
       ele.fadeOut(400);
-      $('.backdrop').trigger('click');
+      if($('#keep-open-modal').is(':checked') == false){
+        $('.backdrop').trigger('click');
+      }
     } else {
       ele.html("<div style='color:red'><b>Somehing went wrong</b></div>")
       ele.fadeOut(4000);
