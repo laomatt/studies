@@ -382,13 +382,13 @@ $('body').on('click', '.add-a-new-picture', function(event) {
 
 $('body').on('click', '.add-a-new-title', function(event) {
   event.preventDefault();
-  $('.edit-title-modal').fadeIn(300, function() {});
+  $('.title-modal').fadeIn(300, function() {});
   $('.backdrop').fadeIn(600, function() {});
 });
 
 $('body').on('click', '.add-a-new-tags', function(event) {
   event.preventDefault();
-  $('.edit-tags-modal').fadeIn(300, function() {});
+  $('.tags-modal').fadeIn(300, function() {});
   $('.backdrop').fadeIn(600, function() {});
 });
 

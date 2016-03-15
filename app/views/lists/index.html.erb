@@ -1,1 +1,7 @@
-index.html.erb
+  <ul class="slideshow_lists_edit_top edit-options-list">
+    <% @lists.each do |l| %>
+      <a href="/lists/<%= l.id %>/show" class="add-a-new-picture">
+        <li class="entry" id="slide_add" style="background-color:black;padding-top:1%"><i class="fa fa-upload" style="font-size: 50px;"></i><br>add image</li>
+      </a>
+    <% end %>
+  </ul>

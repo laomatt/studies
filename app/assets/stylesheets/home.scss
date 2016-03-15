@@ -407,13 +407,14 @@ header a {
     position: absolute;
     top: 23%;
     padding: 2%;
-    left: 30%;
+    padding-top: 2px;
+    left: 6%;
     overflow: auto;
     background-color: white;
     color: black;
     display: none;
     border-radius: 4px;
-}
+  }
 
 .form-modal {
   z-index: 50;
@@ -439,5 +440,15 @@ header a {
   margin: 0 auto;
   /*height: 50%;*/
   left: 25%;
+
+    position: absolute;
+    top: 23%;
+    padding: 2%;
+    left: 30%;
+    overflow: auto;
+    background-color: white;
+    color: black;
+    display: none;
+    border-radius: 4px;
 
 }

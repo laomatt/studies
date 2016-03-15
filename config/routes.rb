@@ -33,8 +33,13 @@ Rails.application.routes.draw do
   end
 
   resources :lists do
+    member do
+      get 'show'
+    end
+
     collection do
       get 'index'
+      post 'make'
     end
 
   end

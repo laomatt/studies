@@ -106,7 +106,14 @@
       </li>
       <li><a href="/home/user_art">My Art</a></li>
       <li><a href="/lists/index">My Lists</a></li>
-      <li><a href="#" class="create-lists">Create List</a></li>
+      <li>
+        Create List
+        <form action="/lists/make" method="post">
+          <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
+          <input style="background-color:black" type="text" name="info[title]" placeholder="New list">
+          <input type="submit" style="color:black">
+        </form>
+      </li>
     </ul>
 
   </li>
@@ -120,7 +127,7 @@
               <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
               <label for="info[title]">Title</label>
               <input style="background-color:black" type="text" name="info[title]" placeholder="slideshow title...">
-              <input type="submit">
+              <input type="submit" style="color:black">
             </form>
 
           </li>

@@ -107,7 +107,7 @@
     </div>
 
 
-<div class="edit-title-modal form-modal upload-modal-pic tagstitle title-modal">
+<div class="edit-title-modal form-modal tagstitle title-modal">
   <h3>Edit title</h3>
   <form id="save_slide" action="/slideshows/update_slide_show" method="post">
     <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
@@ -118,7 +118,7 @@
   </form>
 </div>
 
-<div class="edit-tags-modal form-modal upload-modal-pic tagstitle tags-modal">
+<div class="edit-tags-modal form-modal tagstitle tags-modal">
   <h3>Add tags to all slides</h3>
   <form action="/slideshows/update_slide_show_slide_tags" method="post">
     <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
