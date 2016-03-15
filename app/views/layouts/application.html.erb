@@ -104,9 +104,9 @@
       <li>
         <a href="/home/user_slideshows">My SlideShows</a>
       </li>
-      <li><a href="/home/user_art">My Art</a></li>
-      <li><a href="/lists/index">My Lists</a></li>
-      <li>
+      <li style="display:none"><a href="/home/user_art">My Art</a></li>
+      <li style="display:none"><a href="/lists/index">My Lists</a></li>
+      <li style="display:none">
         Create List
         <form action="/lists/make" method="post">
           <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
