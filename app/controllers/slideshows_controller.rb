@@ -103,7 +103,7 @@ class SlideshowsController < ApplicationController
   def update_slide_show
     @show = Slideshow.find(params[:id])
     @show.update_attributes(slideshow_params)
-    render :nothing => true
+    render :json => @show
   end
 
   def draw

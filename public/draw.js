@@ -49,6 +49,8 @@ $("body").on('submit', 'form#save_slide', function(event) {
   })
   .done(function(data) {
     successFunction();
+    $('.backdrop').trigger('click');
+    $('h1.head-edit-title').text(data.title);
   })
 });
 
@@ -116,6 +118,7 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
       $("ul.slideshow_lists_edit").append(html);
       $("form#upload").trigger('reset');
       ele.fadeOut(400);
+      $('.backdrop').trigger('click');
     } else {
       ele.html("<div style='color:red'><b>Somehing went wrong</b></div>")
       ele.fadeOut(4000);
@@ -127,7 +130,6 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
 $("body").on('click', '#upload-pic-url', function(event) {
   event.preventDefault();
   var id = $("#info").attr('ssid');
-  $('body').css('opacity', .5);
   $.ajax({
     url: "/home/"+id+"/add_image_url",
     type: 'POST',
@@ -141,7 +143,7 @@ $("body").on('click', '#upload-pic-url', function(event) {
     $("ul.slideshow_lists_edit").append(html);
 
     $("form#upload-url").trigger('reset');
-    $('body').css('opacity', 1);
+    $('.backdrop').trigger('click');
   })
 });
 
@@ -377,3 +379,17 @@ $('body').on('click', '.add-a-new-picture', function(event) {
   $('.upload-modal-pic').fadeIn(300, function() {});
   $('.backdrop').fadeIn(600, function() {});
 });
+
+$('body').on('click', '.add-a-new-title', function(event) {
+  event.preventDefault();
+  $('.edit-title-modal').fadeIn(300, function() {});
+  $('.backdrop').fadeIn(600, function() {});
+});
+
+$('body').on('click', '.add-a-new-tags', function(event) {
+  event.preventDefault();
+  $('.edit-tags-modal').fadeIn(300, function() {});
+  $('.backdrop').fadeIn(600, function() {});
+});
+
+

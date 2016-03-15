@@ -63,27 +63,33 @@ class HomeController < ApplicationController
     require "tinify"
     uploaded_io = params[:slideshow][:picture]
 
-    if uploaded_io.size > 1000000
-      render :json => {:error=> 'big', :message => 'file is too large, please resize to under 1mb'}
+    if uploaded_io.size > 2000000
+      render :json => {:error=> 'big', :message => 'Sorry, but the file size cannot exceed 2mb'}
     else
 
-    Tinify.key = ENV['TINY_PNG_API_KEY']
+      Tinify.key = ENV['TINY_PNG_API_KEY']
 
-    @slideshow = Slideshow.find(params[:id])
-    tags = params[:tags_string]
-      p "build file locally"
+      @slideshow = Slideshow.find(params[:id])
+      tags = params[:tags_string]
       ::File.open(Rails.root.join('tmp', uploaded_io.original_filename), 'wb') do |file|
         file.write(uploaded_io.read)
       end
 
+      source_full = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
+
+
+      if uploaded_io.size > 700000
+        resized_full = source_full.resize(:method => 'scale', :height => 1000)
+        resized_full.to_file("tmp/#{uploaded_io.original_filename}")
+      end
+
+      source_thumb = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
+      source_thumb.resize(:method => 'scale', :height => 400)
+      source_thumb.to_file("tmp/thumbnail-#{uploaded_io.original_filename}")
+
       obj_key = "#{current_user.email}/#{@slideshow.id}/#{uploaded_io.original_filename}"
       obj = S3_BUCKET.object(obj_key)
       obj.upload_file("tmp/#{uploaded_io.original_filename}", {acl: 'public-read'})
-      p "upload full size file to s3"
-
-      source = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
-      source.to_file("tmp/thumbnail-#{uploaded_io.original_filename}")
-      p "start tinify instance and compress it"
 
       obj_key_thumb = "#{current_user.email}/#{@slideshow.id}/thumbnails/#{uploaded_io.original_filename}"
       obj_thumb = S3_BUCKET.object(obj_key_thumb)

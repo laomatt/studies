@@ -40,6 +40,20 @@ ul.slideshow_lists {
   display: inline-block;
 }
 
+.slideshow_lists_edit_top li {
+  position: relative;
+  background-color: rgba(0,0,0,.4);
+  background-size: cover;
+  overflow: auto;
+  padding: 0%;
+  color: white;
+  width: 100px;
+  height: 100px;
+  margin: -1px;
+  display: inline-block;
+}
+
+
 .slideshow_lists_edit img {
   display: block;
   max-width: 200px;
@@ -170,11 +184,14 @@ ul.slideshow_lists {
 
 .form-container{
   color: black;
+  left: 25%;
+  position: relative;
   background-color: rgba(0,0,0,.4);
   color: white;
+  width: 50%;
   overflow:auto;
-  /*background-color: transparent;*/
   padding: 1%;
+  border-radius: 9px;
 }
 
 .success {
@@ -211,7 +228,7 @@ ul.slideshow_lists {
   width: 100%;
   height: 100%;
   position: absolute;
-  opacity: .5;
+  opacity: .7;
   display: none;
   background-color: black;
 }
@@ -367,13 +384,14 @@ header a {
 }
 
 .left-house {
-  width: 45%;
-float: left;
+  width: 90%;
+  float: center;
+
 }
 
 .right-house {
-  width: 45%;
-  float: right;
+  width: 90%;
+  float: center;
 
 }
 
@@ -399,6 +417,7 @@ float: left;
 
 .form-modal {
   z-index: 50;
+  display: none;
 }
 
 .form-panel {
@@ -411,4 +430,14 @@ float: left;
   border-color: white;
   border-radius: 4px;
   border-width: 2px;
+}
+
+.tagstitle {
+  position: absolute;
+  width: 50%;
+  overflow: auto;
+  margin: 0 auto;
+  /*height: 50%;*/
+  left: 25%;
+
 }

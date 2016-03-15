@@ -32,6 +32,15 @@ Rails.application.routes.draw do
 
   end
 
+  resources :lists do
+    collection do
+      get 'index'
+    end
+
+  end
+
+
+
   resources :slides do
     member do
       post 'like_a_slide'

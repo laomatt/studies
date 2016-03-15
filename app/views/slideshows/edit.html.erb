@@ -1,12 +1,32 @@
+  <div class="form-container">
+
   <center>
-    <h1><%= @slideshow.title %></h1> (<a href="#" data-id="<%= @slideshow.id %>" id="toggle-public">
-    <% if @slideshow.public? %>
-      Make Private
-    <% else %>
-      Make Public
-    <% end %>
-   </a>)
-    <div class="form-container panel">
+    <h1 class="head-edit-title"><%= @slideshow.title %></h1>
+
+<div class="panel house left-house" style="overflow:auto">
+  <ul class="slideshow_lists_edit_top edit-options-list">
+    <a href="#" class="add-a-new-picture">
+      <li class="entry" id="slide_add" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-upload" style="font-size: 50px;"></i><br>add image</li>
+    </a>
+    <a href="#" class="add-a-new-title">
+      <li class="entry" id="title_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-file-text" style="font-size: 50px;"></i><br>Edit title</li>
+    </a>
+    <a href="#" class="add-a-new-tags">
+      <li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-tags" style="font-size: 50px;"></i><br>Edit tags</li>
+    </a>
+    <a href="#" data-id="<%= @slideshow.id %>" id="toggle-public">
+        <% if @slideshow.public? %>
+          <li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(216,38,25,.5)">
+          <i class="fa fa-eye-slash" style="font-size: 50px"></i><br>Make Private
+        <% else %>
+          <li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(111,240,56,.5)">
+          <i class="fa fa-eye" style="font-size: 50px;"></i><br>Make Public
+        <% end %>
+      </li>
+    </a>
+  </ul>
+</div>
+
 <script>
   $("body").on('click', '#toggle-public', function(event) {
     event.preventDefault();
@@ -16,41 +36,15 @@
     })
     .done(function(data) {
       if(data.public == true){
-        $('#toggle-public').html('Make Private');
+        $('#toggle-public').html('<li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(216,38,25,.5)"><i class="fa fa-eye-slash" style="font-size: 50px;"></i><br>Make Private</li>');
       } else {
-        $('#toggle-public').html('Make Public');
+        $('#toggle-public').html('<li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(111,240,56,.5)"><i class="fa fa-eye" style="font-size: 50px"></i><br>Make Public</li>');
       }
     })
 
   });
-</script>
 
-        <div class="panel house" style="overflow:auto">
-          <div class="houseborder left-house">
-            <h3>Edit title</h3>
-            <form id="save_slide" action="/slideshows/update_slide_show" method="post">
-              <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
-              <label for="info[title]">Title</label>
-              <input type="hidden" name="id" value="<%= @slideshow.id %>">
-              <input type="text" id="edit_title" value="<%= @slideshow.title %>" name="info[title]">
-              <input type="submit">
-            </form>
-          </div>
 
-          <div class="houseborder right-house">
-            <h3>Add tags to all slides</h3>
-            <form action="/slideshows/update_slide_show_slide_tags" method="post">
-              <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
-              <label for="tag_list">Title</label>
-              <input type="hidden" name="id" value="<%= @slideshow.id %>">
-              <input type="text" value="" placeholder="separate multiple tags with commas ..." name="tags_string">
-              <input type="submit">
-            </form>
-
-            <a href="#" id="all_slides_nsfw" data-id="<%= @slideshow.id %>">Mark all slides not safe for work.</a>
-          </div>
-        </div>
-<script>
   $('body').on('click', '#all_slides_nsfw', function(event) {
     event.preventDefault();
     var id = $(this).attr('data-id');
@@ -82,7 +76,7 @@
       </script>
 
 
-    <div class="panel house">
+    <div class="panel house right-house">
       <h3>Slide Order</h3>
       <p>Click and drag each slide to its desired position.</p>
       <div id="info" ssid="<%= @slideshow.id %>"></div>
@@ -109,41 +103,63 @@
           </li>
           <% end %>
         <% end %>
-        <a href="#" class="add-a-new-picture">
-          <li class="entry" id="slide_add" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-upload" style="font-size: 50px;"></i><br>add image</li>
-        </a>
       </ul>
     </div>
 
+
+<div class="edit-title-modal form-modal upload-modal-pic tagstitle title-modal">
+  <h3>Edit title</h3>
+  <form id="save_slide" action="/slideshows/update_slide_show" method="post">
+    <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
+    <label for="info[title]">Title</label>
+    <input type="hidden" name="id" value="<%= @slideshow.id %>">
+    <input type="text" id="edit_title" value="<%= @slideshow.title %>" name="info[title]">
+    <input type="submit">
+  </form>
+</div>
+
+<div class="edit-tags-modal form-modal upload-modal-pic tagstitle tags-modal">
+  <h3>Add tags to all slides</h3>
+  <form action="/slideshows/update_slide_show_slide_tags" method="post">
+    <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
+    <label for="tag_list">Title</label>
+    <input type="hidden" name="id" value="<%= @slideshow.id %>">
+    <input type="text" value="" placeholder="separate multiple tags with commas ..." name="tags_string">
+    <input type="submit">
+  </form>
+  <a href="#" id="all_slides_nsfw" data-id="<%= @slideshow.id %>">Mark all slides not safe for work.</a>
+</div>
+
+
 <div class="upload-modal-pic form-modal">
 
-      <div class="form-panel">
-        <h3>Add Images</h3>
-        <p>Two ways to add images ... </p>
-        <div class="panelthird upmodal">
-          <h4>Make with URL</h4>
-          <br>
-          <form action="#" id="upload-url">
-           <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
-           <input type="hidden" name="info[slideshow_id]" value="<%= @slideshow.id %>">
-           <input type="text" style="width:100%" placeholder="Title this slide..." name="info[title]">
-           <input type="text" style="width:100%" placeholder="Tag this slide (seperate by comma)..." name="info[tags]">
-           <input type="text" style="width:100%" placeholder="Find an image and copy its URL..." name="info[ext_url]">
-         </form>
-         <br><br>
-         <button class="upload-button Add-button-url" id="upload-pic-url">Add</button>
-       </div>
+  <div class="form-panel">
+    <h3>Add Images</h3>
+    <p>Two ways to add images ... </p>
     <div class="panelthird upmodal">
-      <div class="screen-load">Uploading Image...</div>
-        <h4>Upload from computer</h4>
-        <%= form_for @slideshow, :html => {:id => "upload"} do |f| %>
-        <%= f.file_field :picture %>
-        <input type="text" name="tags_string" placeholder="tags seperated by commas">
-        <% end %>
-        <br><br>
-        <button class="upload-button" id="upload-pic">Upload</button>
-      </div>
+      <h4>Make with URL</h4>
+      <br>
+      <form action="#" id="upload-url">
+       <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+       <input type="hidden" name="info[slideshow_id]" value="<%= @slideshow.id %>">
+       <input type="text" style="width:100%" placeholder="Title this slide..." name="info[title]">
+       <input type="text" style="width:100%" placeholder="Tag this slide (seperate by comma)..." name="info[tags]">
+       <input type="text" style="width:100%" placeholder="Find an image and copy its URL..." name="info[ext_url]">
+     </form>
+     <br><br>
+     <button class="upload-button Add-button-url" id="upload-pic-url">Add</button>
+   </div>
+  <div class="panelthird upmodal">
+    <div class="screen-load">Uploading Image...</div>
+      <h4>Upload from computer</h4>
+      <%= form_for @slideshow, :html => {:id => "upload"} do |f| %>
+      <%= f.file_field :picture %>
+      <input type="text" name="tags_string" placeholder="tags seperated by commas">
+      <% end %>
+      <br><br>
+      <button class="upload-button" id="upload-pic">Upload</button>
     </div>
+  </div>
 
 </div>
 
