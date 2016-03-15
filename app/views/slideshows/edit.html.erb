@@ -88,35 +88,39 @@
       <div id="info" ssid="<%= @slideshow.id %>"></div>
       <ul id="sortable" class="slideshow_lists_edit">
         <% @images.each do |image|%>
-        <% if !image.deleted %>
-          <% if image.on_s3? %>
-            <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>" style="background-image:url(<%= image.thumb_url %>)">
-          <% else %>
-            <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>" style="background-image:url(<%= image.ext_url %>)">
+          <% if !image.deleted %>
+            <% if image.on_s3? %>
+              <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>" style="background-image:url(<%= image.thumb_url %>)">
+            <% else %>
+              <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>" style="background-image:url(<%= image.ext_url %>)">
+            <% end %>
+            <br>
+            <div class="pic-info">
+              <a href="#" class="inspect-slide" data-id="<%= image.id %>">
+                <i class="fa fa-info-circle"></i>
+              </a>
+              <a href="#" class="edit-slide" data-id="<%= image.id %>">
+                <i class="fa fa-pencil-square-o"></i>
+              </a>
+              <a href="#" class="delete-slide" data-id="<%= image.id %>">
+                <i class="fa fa-trash"></i>
+              </a>
+            </div>
+          </li>
           <% end %>
-          <br>
-          <div class="pic-info">
-            <a href="#" class="inspect-slide" data-id="<%= image.id %>">
-              <i class="fa fa-info-circle"></i>
-            </a>
-            <a href="#" class="edit-slide" data-id="<%= image.id %>">
-              <i class="fa fa-pencil-square-o"></i>
-            </a>
-            <a href="#" class="delete-slide" data-id="<%= image.id %>">
-              <i class="fa fa-trash"></i>
-            </a>
-          </div>
-        </li>
         <% end %>
-        <% end %>
+        <a href="#" class="add-a-new-picture">
+          <li class="entry" id="slide_add" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-upload" style="font-size: 50px;"></i><br>add image</li>
+        </a>
       </ul>
     </div>
 
+<div class="upload-modal-pic form-modal">
 
-      <div class="panel house">
+      <div class="form-panel">
         <h3>Add Images</h3>
         <p>Two ways to add images ... </p>
-        <div class="panelthird">
+        <div class="panelthird upmodal">
           <h4>Make with URL</h4>
           <br>
           <form action="#" id="upload-url">
@@ -129,7 +133,7 @@
          <br><br>
          <button class="upload-button Add-button-url" id="upload-pic-url">Add</button>
        </div>
-    <div class="panelthird">
+    <div class="panelthird upmodal">
       <div class="screen-load">Uploading Image...</div>
         <h4>Upload from computer</h4>
         <%= form_for @slideshow, :html => {:id => "upload"} do |f| %>
@@ -141,6 +145,7 @@
       </div>
     </div>
 
+</div>
 
   </div>
 </center>

@@ -38,7 +38,6 @@ $('body').on('mouseup', '.slideshow_lists_edit li', function(event) {
       })
     });
   }, 500)
-  successFunction();
 });
 $("body").on('submit', 'form#save_slide', function(event) {
   event.preventDefault();
@@ -373,4 +372,8 @@ $('body').on('mouseleave', 'ul.slideshow_lists_tags li', function(event) {
 });
 
 
-
+$('body').on('click', '.add-a-new-picture', function(event) {
+  event.preventDefault();
+  $('.upload-modal-pic').fadeIn(300, function() {});
+  $('.backdrop').fadeIn(600, function() {});
+});
