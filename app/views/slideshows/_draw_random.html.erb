@@ -43,6 +43,9 @@
       <br>
       <a href="#">Save this Slideshow</a>
     </div>
+    <br><br><br>
+      <label for="play-sound-option">Play Sound?</label>
+      <input type="checkbox" id="play-sound-option" checked>
   </center>
 </div>
 
@@ -79,8 +82,9 @@ time_int = setInterval(function(){
       change_image(i);
       var next_img = $(".pose-window-hidden").find('img').attr('src');
       $(".pose-window").find('img').attr('src', next_img);
-      audio.play();
-
+      if($('#play-sound-option').is(':checked') == true){
+        audio.play();
+      }
     }
     $("#clock").text(time);
   }
