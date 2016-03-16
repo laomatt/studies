@@ -3,7 +3,11 @@ class SlideshowsController < ApplicationController
   before_action :authenticate_user!, :except => [:show, :draw_set, :draw_set_random, :draw, :get_image, :get_images_from_show, :get_images_from_show_random, :get_image_slide_show, :get_image_slide_show_tags]
   def show
     @show = Slideshow.find(params[:id])
-    @images = @show.slides
+    if @show.public?
+      @images = @show.slides
+    else
+      redirect_to '/'
+    end
   end
 
   def edit
