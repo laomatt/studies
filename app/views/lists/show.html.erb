@@ -1,1 +1,34 @@
-show.html.erb
+<center>
+  <h1>
+    <%= @list.title %>
+  </h1>
+<ul class="slideshow_lists_inspect">
+  <% @images.each do |image| %>
+  <a href="#" class="see-this-slide" data-id="<%= image.id %>">
+    <li>
+     <% if image.on_s3? %>
+      <img src="<%= image.thumb_url %>">
+    <% else %>
+      <img src="<%= image.ext_url %>">
+    <% end %>
+    </li>
+  </a>
+  <% end %>
+</ul>
+<button class="upload-button launch-study">
+  Start Study
+</button>
+</center>
+<div class="start-modal form-modal">
+  <form class="launch-set" action="/lists/<%= @list.id %>/draw_set">
+    <h2>Start study</h2>
+    <input type="hidden" name="id" value="<%= @list.id %>">
+    <li>How many minutes per pose?</li>
+    <input type="number" value="1" name="pose_length">
+    <li>How many poses per set?</li>
+    <input type="number" value="20" name="pose_number">
+    <input type="hidden" name="sound" value="0" checked>
+    <li>Play sounds when image change?   <input type="checkbox" name="sound" value="1" checked></li>
+  </form>
+  <button id="start-draw-set" class="upload-button">Draw!!!</button>
+</div>

@@ -1,7 +1,35 @@
-  <ul class="slideshow_lists_edit_top edit-options-list">
+  <ul class="slideshow_lists_edit_top edit-options-list list-index-items">
     <% @lists.each do |l| %>
-      <a href="/lists/<%= l.id %>/show" class="add-a-new-picture">
-        <li class="entry" id="slide_add" style="background-color:black;padding-top:1%"><i class="fa fa-upload" style="font-size: 50px;"></i><br>add image</li>
+      <a href="/lists/<%= l.id %>">
+        <li style="background-image:url(<%= l.list_slides.first.slide.ext_url if l.list_slides.present? %>)">
+         <h1>
+           <%= l.title %>
+         </h1>
+        </li>
       </a>
     <% end %>
   </ul>
+
+  <style>
+    .list-index-items li{
+      width: 50%;
+      opacity: .5;
+
+    }
+
+    .list-index-items h1 {
+      background-color: rgba(0,0,0,.6);
+    }
+  </style>
+
+  <script>
+    $('body').on('mouseenter', '.list-index-items li', function(event) {
+      event.preventDefault();
+      $(this).css('opacity', '1');
+    });
+    $('body').on('mouseleave', '.list-index-items li', function(event) {
+      event.preventDefault();
+      $(this).css('opacity', '.5');
+    });
+
+  </script>

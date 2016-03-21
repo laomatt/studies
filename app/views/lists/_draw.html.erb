@@ -1,0 +1,162 @@
+<% @images = List.find(id).list_slides.map { |e| e.slide } %>
+
+<div id="information" style="display:none" pose-length="<%= pose_length %>" slideshowid="<%= id %>" total-slides="<%= pose_number %>" sound="<%= sound %>" total-slides-show="<%= @images.count %>"></div>
+
+<div class="pose-window">
+  <% first_img = @images.sample%>
+  <img src="<%= first_img.ext_url %>" data-id="<%= first_img.id %>" alt="">
+</div>
+
+<div class="pose-window-hidden" style="display:none">
+  <img src="" alt="">
+</div>
+
+<div class="right-menu">
+  <center>
+    <div style="display:inline-block">
+      <a href="#" id="pause-draw-modal"><i class="fa fa-pause"></i></a>
+    </div>
+    <% if current_user %>
+    <div class="like-draw-modal" style="display:inline-block">
+      <a href="#" id="like-draw-modal" data-id=""><i class="fa fa-heart"></i></a>
+    </div>
+    <% end %>
+    <div style="display:inline-block">
+      <a href="#" id="close-draw-modal"><i class="fa fa-times"></i></a>
+    </div>
+    <br>
+    Time left:<div id="clock"></div>
+
+    <br>
+    <br>
+    <div id="slide_number_letter" style="display:inline-block">
+      Slide:
+    </div>
+    <div id="slide_number" style="display:inline-block"></div>
+    <div id="slide_total" style="display:inline-block">
+      /<%= pose_number %>
+    </div>
+  </center>
+</div>
+
+<script>
+var number = $("#information").attr("slideshowid");
+var poseLength = $("#information").attr("pose-length");
+var poseLengthMilisecs = parseInt(poseLength) * 60 * 1000;
+var running = false;
+var time = poseLength * 60;
+var i = 0;
+var time_int;
+var spent_images = [];
+var isRandom = true;
+var total_slides = $("#information").attr('total-slides');
+var total_slides_in_show = $("#information").attr('total-slides-show');
+var soun = $("#information").attr('sound');
+var audio = new Audio('/sounds/change.wav');
+var sound = true;
+change_image(i);
+running = true;
+
+if(soun == '1') {
+  sound = true;
+} else {
+  sound = false;
+}
+
+var first_img_id = $(".pose-window-hidden").attr('data-id');
+spent_images.push(first_img_id);
+
+time_int = setInterval(function(){
+  if(running === true){
+    time -= 1;
+    if(time < 0) {
+      time = poseLength * 60;
+      i += 1;
+      change_image(i);
+      var next_img = $(".pose-window-hidden").find('img').attr('src');
+      $(".pose-window").find('img').attr('src', next_img);
+      if(sound == true){
+        audio.play();
+      }
+    }
+    $("#clock").text(time);
+  }
+},1000);
+
+$("body").on('click', "#close-draw-modal", function(event) {
+  event.preventDefault();
+  $(".backdrop").trigger('click');
+  running = false;
+  clearInterval(time_int);
+});
+
+$('body').on('click', '#like-draw-modal', function(event) {
+  event.preventDefault();
+  var id = $(this).attr('data-id');
+  $.ajax({
+    url: '/slides/' + id + '/like_a_slide',
+    type: 'POST',
+  })
+  .done(function() {
+    $(".like-draw-modal").html('<i class="fa fa-gratipay"></i>');
+    $("#like-draw-modal").attr('href', '#');
+    $(".like-draw-modal").css('opacity', '.5');
+  });
+});
+
+$('body').on('click', '#pause-draw-modal', function(event) {
+  event.preventDefault();
+  if(running === true){
+    running = false;
+    $(this).html('<i class="fa fa-play"></i>');
+  } else {
+    running = true;
+    $(this).html('<i class="fa fa-pause"></i>');
+  }
+});
+
+function likeAnimation(el){
+
+}
+var new_url = ""
+function change_image(i) {
+  if(spent_images.length >= total_slides_in_show){
+    spent_images = [];
+  }
+    $.ajax({
+      url: '/lists/'+number+'/get_images_from_list',
+      data: {already: spent_images.join(','), random: isRandom, slin: i }
+    })
+    .done(function(data) {
+      if(i < total_slides) {
+        new_url = data.ext_url;
+        new_id = data.id;
+        spent_images.push(new_id);
+        $("#slide_number").text(i + 1);
+        $(".pose-window-hidden").find('img').attr('src', new_url);
+
+        $.ajax({
+          url: '/slideshows/find_slide',
+          data: {url: new_url},
+        })
+        .done(function(data) {
+          if(data.already_liked === true){
+            $(".like-draw-modal").html('<i class="fa fa-gratipay"></i>');
+            $("#like-draw-modal").attr('href', '#');
+            $(".like-draw-modal").css('opacity', '.5');
+          } else {
+            $(".like-draw-modal").html('<a href="#" id="like-draw-modal" data-id="'+data.id+'"><i class="fa fa-heart"></i></a>');
+            $(".like-draw-modal").css('opacity', '1');
+          }
+        });
+
+      } else {
+        $(".backdrop").trigger('click');
+        running = false;
+        clearInterval(time_int);
+        alert('done');
+      }
+    });
+}
+
+</script>

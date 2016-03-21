@@ -33,10 +33,20 @@ require 'faker'
 #   end
 # end
 
-Slide.all.each do |s|
-  num = 1 + rand(40)
+# Slide.all.each do |s|
+#   num = 1 + rand(40)
+#   num.times do
+#     user = User.all.sample
+#     Like.create(:user_id => user.id, :slide_id => s.id)
+#   end
+# end
+
+me = User.find_by_email("mattlao@mattlao.com")
+5.times do
+  li = List.create(:title => Faker::Lorem.sentence, :user_id => me.id)
+  num = 20 + rand(30)
   num.times do
-    user = User.all.sample
-    Like.create(:user_id => user.id, :slide_id => s.id)
+    sl = Slide.all.sample
+    ListSlide.create(:list_id => li.id, :slide_id => sl.id)
   end
 end

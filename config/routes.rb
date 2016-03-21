@@ -35,6 +35,8 @@ Rails.application.routes.draw do
   resources :lists do
     member do
       get 'show'
+      get 'draw_set'
+      get 'get_images_from_list'
     end
 
     collection do
