@@ -7,6 +7,14 @@
     <%= title %>
   </h2>
 
+  <div class="place-in-list">
+    <select name="" id="">
+      <% current_user.lists.each do |list|%>
+      <option value=""><%= list.title %></option>
+      <% end %>
+    </select>
+  </div>
+
   <p>
     Tags: <%= tag_list %>
     <br>

@@ -47,6 +47,13 @@ class SlidesController < ApplicationController
     render :json => slide
   end
 
+  def add_to_list
+    list = List.find(params[:list_id])
+    ListSlide.create(:slide_id => @slide.id, :list_id => list.id)
+
+    render :nothing => true
+  end
+
   def unlike_slide
     like = Like.where('slide_id = ? and user_id = ?',@slide.id,current_user.id).first
     Like.delete(like.id)

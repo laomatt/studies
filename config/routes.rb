@@ -56,6 +56,10 @@ Rails.application.routes.draw do
       delete 'unlike_slide'
       patch 'toggle_nsfw'
     end
+
+    collection do
+      post 'add_to_list'
+    end
   end
 
   resources :tags do
