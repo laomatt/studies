@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :slides
   has_many :likes
   has_many :lists
+  has_many :slide_show_permissions
 
 
 

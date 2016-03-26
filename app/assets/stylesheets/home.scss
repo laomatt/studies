@@ -124,6 +124,25 @@ ul.slideshow_lists {
   display: inline-block;
 }
 
+.user_lists_tags li {
+  position: relative;
+  background-color: rgba(0,0,0,.4);
+  background-size: 100%;
+  overflow: hidden;
+  padding: 0%;
+  color: white;
+  width: 50px;
+  height: 50px;
+  margin: -1px;
+  display: inline-block;
+}
+
+.user_lists_tags li a{
+  color: red;
+
+}
+
+
 .slideshow_lists_tags img {
   max-height: 200px;
 }

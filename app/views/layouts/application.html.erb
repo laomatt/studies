@@ -238,6 +238,16 @@
   </div>
 </li>
 </script>
+<script id="user-result-template" type="text/x-handlebars-template">
+<div class="user-row" id="search_result_for_{{id}}">
+  <img src="{{avatar_url}}" alt="">
+  <a href="#" class="grant-access-to-this-user" user_id="{{id}}">
+    <div class="info">
+      Give <b>{{name}}</b> permission to access this slideshow
+    </div>
+  </a>
+</div>
+</script>
 
 <script id="entry-template-s3" type="text/x-handlebars-template">
 <li class="entry">

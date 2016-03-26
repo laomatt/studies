@@ -28,8 +28,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :user do
-
+  resources :users do
+    collection do
+      get 'search'
+      post 'grant_permission'
+      delete 'revoke_permission'
+    end
   end
 
   resources :lists do

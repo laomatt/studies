@@ -3,7 +3,7 @@ class SlideshowsController < ApplicationController
   before_action :authenticate_user!, :except => [:show, :draw_set, :draw_set_random, :draw, :get_image, :get_images_from_show, :get_images_from_show_random, :get_image_slide_show, :get_image_slide_show_tags]
   def show
     @show = Slideshow.find(params[:id])
-    if @show.public?
+    if @show.public
       @images = @show.slides
     else
       redirect_to '/'
@@ -13,6 +13,7 @@ class SlideshowsController < ApplicationController
   def edit
     @slideshow = Slideshow.find(params[:id])
     @images = @slideshow.slides.order(:position)
+    @user_ps = @slideshow.slide_show_permissions.map { |e| e.user }.uniq!
   end
 
   def draw_set
@@ -73,7 +74,7 @@ class SlideshowsController < ApplicationController
       images_spent = [1,2]
     end
     @slides_liked_array = current_user.likes.map { |e| e.slide_id }.uniq
-    @slides_liked = Slide.where("id in (?) and id not in (?)", @slides_liked_array, images_spent)
+    @slides_liked = Slide.where("id in (?) and id not in (?) and public = ?", @slides_liked_array, images_spent, true)
     @slide = @slides_liked.sample
     render :json => @slide
   end
@@ -91,6 +92,9 @@ class SlideshowsController < ApplicationController
     @slideshow = Slideshow.find(params[:id])
     now = @slideshow.public
     @slideshow.update_attributes(:public => !now)
+    @slideshow.slides.each do |slide|
+      slide.update_attributes(:public => !now)
+    end
 
     render :json => @slideshow
   end
@@ -140,7 +144,7 @@ class SlideshowsController < ApplicationController
       images_spent = [1,2]
     end
     tagging_slides = Tagging.where('tag_id = ?', tag.id).map { |e| e.slide_id }
-    @slide = Slide.where('id not in (?) and id in (?)', images_spent, tagging_slides).sample
+    @slide = Slide.where('id not in (?) and id in (?) and public = ?', images_spent, tagging_slides, true).sample
     render :json => @slide
   end
 
@@ -149,7 +153,7 @@ class SlideshowsController < ApplicationController
     if images_spent.empty?
       images_spent = [1,2]
     end
-    @slide = Slide.where('id not in (?)', images_spent).sample
+    @slide = Slide.where('id not in (?) and public = ? = ?', images_spen, truet, true).sample
     render :json => @slide
   end
 

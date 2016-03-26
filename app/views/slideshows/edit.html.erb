@@ -16,18 +16,158 @@
     </a>
     <a href="#" data-id="<%= @slideshow.id %>" id="toggle-public">
         <% if @slideshow.public? %>
-          <li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(216,38,25,.5)">
+          <li class="entry" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(216,38,25,.5)">
           <i class="fa fa-eye-slash" style="font-size: 50px"></i><br>Make Private
         <% else %>
-          <li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(111,240,56,.5)">
+          <li class="entry" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(111,240,56,.5)">
           <i class="fa fa-eye" style="font-size: 50px;"></i><br>Make Public
         <% end %>
       </li>
     </a>
   </ul>
 </div>
+<% if !@slideshow.public %>
+<div class="panel house left-house" id="private-mode-options" style="overflow:auto">
+  <h3>This Slideshow is private</h3>
+
+  <ul id="users-with-access" class="user_lists_tags">
+
+    <h5>users with access: </h5>
+    <% @user_ps.each do |user| %>
+      <li style="background-image:url(<%= user.avatar_url %>)">
+        <div class="revoke-access" style="display:none">
+          <a href="#" class="revoke-access-for-user" user-id="<%= user.id %>">
+            <i class="fa fa-ban" style="font-size:50px"></i>
+          </a>
+          <br>
+        </div>
+        <div class="name-container" style="position:absolute;color:black;background-color:transparent;font-size:12px;z-index:15">
+        <%= user.name %>
+        </div>
+      </li>
+    <% end %>
+
+  </ul>
+
+  <form action="/users/search" id="user-search-form">
+    <p>Search by:  </p>
+    <input type="hidden" name="slideshow_id" value="<%= @slideshow.id %>">
+    <label for="search_type_name">Name</label>
+    <input type="radio" name="search_type" id="search_type_name" value="name" checked>
+    <label for="search_type_email">Email</label>
+    <input type="radio" name="search_type" id="search_type_email" value="email">
+    <input type="text" name="search_body" id="search_body" style="width:100%;background-color:black;color:white;text-align:center" placeholder="Start typing to search for users to share this slideshow with ...">
+  </form>
+  <div id="search-people-results" slideshowid="<%= @slideshow.id %>">
+
+  </div>
+</div>
+<% end %>
 
 <script>
+  $('body').on('mouseenter', '#users-with-access li', function(event) {
+    event.preventDefault();
+    $(this).find('.revoke-access').fadeIn(100, function() {});
+    $(this).find('.name-container').fadeOut(100, function() {});
+  });
+
+  $('body').on('mouseleave', '#users-with-access li', function(event) {
+    event.preventDefault();
+    $(this).find('.revoke-access').fadeOut(100, function() {});
+    $(this).find('.name-container').fadeIn(100, function() {});
+  });
+
+
+  $('body').on('click', '.grant-access-to-this-user', function(event) {
+    event.preventDefault();
+    var id = $(this).attr('user_id');
+    var slideshow = $("#search-people-results").attr('slideshowid');
+    var nameSpace = {list_id: $(this).parent().attr('id'), user_id: id};
+    $.ajax({
+      url: '/users/grant_permission',
+      type: 'post',
+      data: { user_id: id, slideshow_id: slideshow },
+    })
+    .done(function() {
+      $("#"+nameSpace.list_id).hide(500, function() {
+        var img_html = $(this).find('img').attr('src');
+        var name = $(this).find('.info').find('b').text();
+        var html = '<li style="background-image:url('+img_html+')"><div class="revoke-access" style="display:none"><a href="#" class="revoke-access-for-user" user-id="'+nameSpace.user_id+'"><i class="fa fa-ban" style="font-size:50px"></i></a><br></div><div class="name-container" style="position:absolute;color:black;background-color:transparent;font-size:12px;z-index:15">'+name+'</div></li>'
+        $("#users-with-access").append(html);
+      });
+    })
+
+  });
+</script>
+
+<style>
+#search-people-results .user-row {
+    background-color: #E8EA84;
+    position: relative;
+    width: 95%;
+    height: 85px;
+    border-radius: 5px;
+    margin: 1px;
+    display: inline-block;
+}
+
+#search-people-results .user-row .info {
+    background-color: #E46767;
+    text-align: left;
+    padding-left: 10%;
+    padding-top: 10px;
+    position: relative;
+    width: 80%;
+    height: 83px;
+    float: right;
+    border-radius: 5px;
+  }
+
+  #search-people-results .user-row a {
+        color: #C2DDF5;
+
+  }
+
+  #search-people-results .user-row img {
+    position: relative;
+    width: 10%;
+    float: left;
+  }
+
+  #search-people-results {
+    position: relative;
+    height: 300px;
+    overflow: scroll;
+  }
+</style>
+
+<script>
+  $("body").on('keyup', '#search_body', function(event) {
+    $("#private-mode-options form#user-search-form").trigger('submit');
+  });
+
+  $("body").on('submit', '#private-mode-options form#user-search-form', function(event) {
+    event.preventDefault();
+    $("#search-people-results").html("");
+    var path = $(this).attr('action');
+    var info = $(this).serialize();
+    $.ajax({
+      url: path,
+      data: info,
+    })
+    .done(function(data) {
+      var results = data.users
+      $.each(results, function(index, val) {
+        var source = $("#user-result-template").html();
+        var template = Handlebars.compile(source);
+        var html = template(val);
+        $("#search-people-results").append(html);
+      });
+    })
+
+  });
+
+
   $("body").on('click', '#toggle-public', function(event) {
     event.preventDefault();
     var id = $(this).attr('data-id');
@@ -36,9 +176,11 @@
     })
     .done(function(data) {
       if(data.public == true){
-        $('#toggle-public').html('<li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(216,38,25,.5)"><i class="fa fa-eye-slash" style="font-size: 50px;"></i><br>Make Private</li>');
+        $('#toggle-public').html('<li class="entry" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(216,38,25,.5)"><i class="fa fa-eye-slash" style="font-size: 50px;"></i><br>Make Private</li>');
+        $('#private-mode-options').slideUp(1000)
       } else {
-        $('#toggle-public').html('<li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(111,240,56,.5)"><i class="fa fa-eye" style="font-size: 50px"></i><br>Make Public</li>');
+        $('#toggle-public').html('<li class="entry" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(111,240,56,.5)"><i class="fa fa-eye" style="font-size: 50px"></i><br>Make Public</li>');
+        $('#private-mode-options').slideDown(1000)
       }
     })
 

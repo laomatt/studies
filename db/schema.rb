@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160315020928) do
+ActiveRecord::Schema.define(version: 20160326170603) do
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
@@ -32,6 +32,13 @@ ActiveRecord::Schema.define(version: 20160315020928) do
     t.string   "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "slide_show_permissions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "slideshow_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "slides", force: :cascade do |t|
