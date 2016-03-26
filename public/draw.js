@@ -396,4 +396,16 @@ $('body').on('click', '.add-a-new-tags', function(event) {
   $('.backdrop').fadeIn(600, function() {});
 });
 
+$('body').on('click', '.hide-right-menu', function(event) {
+  event.preventDefault();
+  $(".right-menu").slideUp(400, function(){
+    $(".show-menu").slideDown(400);
+  });
+})
 
+$('body').on('click', '.show-right-menu', function(event) {
+  event.preventDefault();
+  $(".show-menu").slideUp(400, function(){
+    $(".right-menu").slideDown(400);
+  });
+});

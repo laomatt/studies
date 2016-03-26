@@ -335,7 +335,7 @@ header a {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: black;
+  background-color: white;
   z-index: 500;
   top: 0%;
   display: none;
@@ -362,8 +362,22 @@ header a {
   z-index: 900;
   float: right;
   right: 0;
-  width: 30%;
+  width: 20%;
   height: 100%;
+}
+
+.show-menu {
+  position: relative;
+  background-color: transparent;
+  font-size: 30px;
+  color: white;
+  padding: 2%;
+  z-index: 900;
+  float: right;
+  right: 0;
+  width: 20%;
+  height: 100%;
+
 }
 
 .nav {

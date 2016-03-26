@@ -6,8 +6,13 @@
   <img src="" alt="">
 </div>
 
+<div class="show-menu" style="display:none">
+  <center><a href="#" class="show-right-menu">Show side bar</a></center>
+</div>
+
 <div class="right-menu">
   <center>
+    <a href="#" class="hide-right-menu">Hide this side bar</a><br>
     <div style="display:inline-block">
       <a href="#" id="pause-draw-modal"><i class="fa fa-pause"></i></a>
     </div>
@@ -113,43 +118,43 @@ function likeAnimation(el){
 }
 var new_url = ""
 function change_image(i) {
-    $.ajax({
-      url: '/slideshows/get_images_from_show_tag',
-      data: {already: spent_images.join(','), random: isRandom, slin: i, tag: tag_id }
-    })
-    .done(function(data) {
-      if((i < total_slides) && (data != null)) {
-        new_url = data.ext_url;
-        new_id = data.id;
-        if(i !== 0){
-          var audio = new Audio('/sounds/change.wav');
-          audio.play();
-        }
-        spent_images.push(new_id);
-        $.ajax({
-          url: '/slideshows/find_slide',
-          data: {url: new_url},
-        })
-        .done(function(data) {
-          if(data.already_liked === true){
-            $(".like-draw-modal").html('<i class="fa fa-gratipay"></i>');
-            $("#like-draw-modal").attr('href', '#');
-            $(".like-draw-modal").css('opacity', '.5');
-          } else {
-            $(".like-draw-modal").html('<a href="#" id="like-draw-modal" data-id="'+data.id+'"><i class="fa fa-heart"></i></a>');
-            $(".like-draw-modal").css('opacity', '1');
-          }
-        });
-        $("#slide_number").text(i + 1);
-        console.log(new_url)
-        $(".pose-window").find('img').attr('src', new_url);
-      } else {
-        $(".backdrop").trigger('click');
-        running = false;
-        clearInterval(time_int);
-        alert('done');
+  $.ajax({
+    url: '/slideshows/get_images_from_show_tag',
+    data: {already: spent_images.join(','), random: isRandom, slin: i, tag: tag_id }
+  })
+  .done(function(data) {
+    if((i < total_slides) && (data != null)) {
+      new_url = data.ext_url;
+      new_id = data.id;
+      if(i !== 0){
+        var audio = new Audio('/sounds/change.wav');
+        audio.play();
       }
-    });
+      spent_images.push(new_id);
+      $.ajax({
+        url: '/slideshows/find_slide',
+        data: {url: new_url},
+      })
+      .done(function(data) {
+        if(data.already_liked === true){
+          $(".like-draw-modal").html('<i class="fa fa-gratipay"></i>');
+          $("#like-draw-modal").attr('href', '#');
+          $(".like-draw-modal").css('opacity', '.5');
+        } else {
+          $(".like-draw-modal").html('<a href="#" id="like-draw-modal" data-id="'+data.id+'"><i class="fa fa-heart"></i></a>');
+          $(".like-draw-modal").css('opacity', '1');
+        }
+      });
+      $("#slide_number").text(i + 1);
+      console.log(new_url)
+      $(".pose-window").find('img').attr('src', new_url);
+    } else {
+      $(".backdrop").trigger('click');
+      running = false;
+      clearInterval(time_int);
+      alert('done');
+    }
+  });
 }
 
 </script>
