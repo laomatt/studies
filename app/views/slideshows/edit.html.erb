@@ -26,13 +26,13 @@
     </a>
   </ul>
 </div>
-<% if !@slideshow.public %>
-<div class="panel house left-house" id="private-mode-options" style="overflow:auto">
+<div class="panel house left-house" id="private-mode-options" style="overflow:auto;display:<%= @slideshow.public ? "none" : "block" %>">
   <h3>This Slideshow is private</h3>
 
   <ul id="users-with-access" class="user_lists_tags" slideshow="<%= @slideshow.id %>">
 
     <h5>users with access: </h5>
+    <% if @user_ps.present? %>
     <% @user_ps.each do |user| %>
       <li style="background-image:url(<%= user.avatar_url %>)">
         <div class="revoke-access" style="display:none">
@@ -45,6 +45,7 @@
         <%= user.name %>
         </div>
       </li>
+    <% end %>
     <% end %>
 
   </ul>
@@ -62,7 +63,6 @@
 
   </div>
 </div>
-<% end %>
 
 <script>
   $('body').on('mouseenter', '#users-with-access li', function(event) {

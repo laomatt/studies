@@ -13,7 +13,7 @@ class SlideshowsController < ApplicationController
   def edit
     @slideshow = Slideshow.find(params[:id])
     @images = @slideshow.slides.order(:position)
-    @user_ps = @slideshow.slide_show_permissions.map { |e| e.user }.uniq!
+    @user_ps = @slideshow.slide_show_permissions.map { |e| e.user }.uniq
   end
 
   def draw_set
