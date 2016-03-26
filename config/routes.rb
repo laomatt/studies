@@ -95,6 +95,7 @@ Rails.application.routes.draw do
       get 'user_slideshows'
       get 'user_slides'
       post 'save_slide_show'
+      get 'user_private_slideshows'
     end
   end
 

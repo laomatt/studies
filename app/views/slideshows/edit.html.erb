@@ -30,7 +30,7 @@
 <div class="panel house left-house" id="private-mode-options" style="overflow:auto">
   <h3>This Slideshow is private</h3>
 
-  <ul id="users-with-access" class="user_lists_tags">
+  <ul id="users-with-access" class="user_lists_tags" slideshow="<%= @slideshow.id %>">
 
     <h5>users with access: </h5>
     <% @user_ps.each do |user| %>
@@ -75,6 +75,24 @@
     event.preventDefault();
     $(this).find('.revoke-access').fadeOut(100, function() {});
     $(this).find('.name-container').fadeIn(100, function() {});
+  });
+
+  $('body').on('click', '.revoke-access-for-user', function(event) {
+    event.preventDefault();
+    var user_id = $(this).attr('user-id');
+    var slideshow_id = $("ul#users-with-access").attr('slideshow');
+
+    $.ajax({
+      url: '/users/revoke_permission',
+      type: 'delete',
+      data: {user_id: user_id, slideshow_id: slideshow_id},
+    })
+    .done(function() {
+      console.log("success");
+    })
+    $(this).parent().parent().hide(200, function() {
+
+    });
   });
 
 

@@ -5,6 +5,12 @@ class HomeController < ApplicationController
     @slideshows = Slideshow.where(:public => true).order(:updated_at => :desc).paginate(:page => params[:page], :per_page => 20)
   end
 
+  def user_private_slideshows
+    shows = current_user.slide_show_permissions.map { |e| e.slideshow }
+    @slideshows = shows.sort_by{|e| e.updated_at}
+
+  end
+
   def ind
     if !current_user.admin
       redirect_to '/'
@@ -20,7 +26,8 @@ class HomeController < ApplicationController
 
   def user_slideshows
     @user = current_user
-    @slideshows = @user.slideshows
+    @slideshows_public = @user.slideshows.select {|e| e.public }
+    @slideshows_private = @user.slideshows.select {|e| !e.public }
     @slides = @user.slides
   end
 

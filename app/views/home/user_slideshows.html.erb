@@ -1,5 +1,23 @@
+<h2>Public Slideshows</h2>
 <ul class="slideshow_lists_user_slideshows">
-<% @slideshows.each do |ss| %>
+<% @slideshows_public.each do |ss| %>
+<a href="/slideshows/<%= ss.id %>/edit">
+  <% if ss.slides.blank? %>
+    <li>
+        No Slides Yet
+  <% else %>
+    <li style="background-image:url(<%= ss.slides.first.ext_url %>)">
+  <% end %>
+
+    </li>
+  </a>
+<% end %>
+</ul>
+
+
+<h2>Private Slideshows</h2>
+<ul class="slideshow_lists_user_slideshows">
+<% @slideshows_private.each do |ss| %>
 <a href="/slideshows/<%= ss.id %>/edit">
   <% if ss.slides.blank? %>
     <li>
