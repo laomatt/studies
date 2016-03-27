@@ -82,17 +82,17 @@ class HomeController < ApplicationController
         file.write(uploaded_io.read)
       end
 
-
+      number = rand(9000)
 
       if uploaded_io.size > 700000
         # source_full = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
         resized_full = source_full.resize(:method => 'scale', :height => 1000)
-        resized_full.to_file("tmp/#{uploaded_io.original_filename}")
+        resized_full.to_file("tmp/#{number}-#{uploaded_io.original_filename}")
       end
 
       # source_thumb = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
       source_thumb.resize(:method => 'scale', :height => 400)
-      source_thumb.to_file("tmp/thumbnail-#{uploaded_io.original_filename}")
+      source_thumb.to_file("tmp/thumbnail-#{number}-#{uploaded_io.original_filename}")
 
       obj_key = "#{current_user.email}/#{@slideshow.id}/#{uploaded_io.original_filename}"
       obj = S3_BUCKET.object(obj_key)
@@ -120,8 +120,8 @@ class HomeController < ApplicationController
         end
       end
 
-      File.delete(Rails.root + "tmp/#{uploaded_io.original_filename}")
-      File.delete(Rails.root + "tmp/thumbnail-#{uploaded_io.original_filename}")
+      File.delete(Rails.root + "tmp/#{number}-#{uploaded_io.original_filename}")
+      File.delete(Rails.root + "tmp/thumbnail-#{number}-#{uploaded_io.original_filename}")
       render :json => {:error=> 'none', :slide => slide}
     end
   end

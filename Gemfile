@@ -33,6 +33,7 @@ gem 'will_paginate', '~> 3.0.6'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem "tinify"
+gem 'rmagick'
 
 group :development, :test do
   # gem 'backbone-on-rails'
