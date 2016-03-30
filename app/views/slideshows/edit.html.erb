@@ -3,6 +3,37 @@
   <center>
     <h1 class="head-edit-title"><%= @slideshow.title %></h1>
 
+    <div class="panel house right-house">
+      <h3>Slide Order</h3>
+      <p>Click and drag each slide to its desired position.</p>
+      <div id="info" ssid="<%= @slideshow.id %>"></div>
+      <ul id="sortable" class="slideshow_lists_edit">
+        <% @images.each do |image|%>
+          <% if !image.deleted %>
+            <% if image.on_s3? %>
+              <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>" style="background-image:url(<%= image.thumb_url %>)">
+            <% else %>
+              <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>" style="background-image:url(<%= image.ext_url %>)">
+            <% end %>
+            <br>
+            <div class="pic-info">
+              <a href="#" class="inspect-slide" data-id="<%= image.id %>">
+                <i class="fa fa-info-circle"></i>
+              </a>
+              <a href="#" class="edit-slide" data-id="<%= image.id %>">
+                <i class="fa fa-pencil-square-o"></i>
+              </a>
+              <a href="#" class="delete-slide" data-id="<%= image.id %>">
+                <i class="fa fa-trash"></i>
+              </a>
+            </div>
+          </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+
+
 <div class="panel house left-house" style="overflow:auto">
   <ul class="slideshow_lists_edit_top edit-options-list">
     <a href="#" class="add-a-new-picture">
@@ -234,37 +265,6 @@
 
       $('#sortable').draggable();
       </script>
-
-
-    <div class="panel house right-house">
-      <h3>Slide Order</h3>
-      <p>Click and drag each slide to its desired position.</p>
-      <div id="info" ssid="<%= @slideshow.id %>"></div>
-      <ul id="sortable" class="slideshow_lists_edit">
-        <% @images.each do |image|%>
-          <% if !image.deleted %>
-            <% if image.on_s3? %>
-              <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>" style="background-image:url(<%= image.thumb_url %>)">
-            <% else %>
-              <li class="entry" pic-id="<%= image.id %>" id="slide_<%= image.id %>" ssid="<%= @slideshow.id %>" style="background-image:url(<%= image.ext_url %>)">
-            <% end %>
-            <br>
-            <div class="pic-info">
-              <a href="#" class="inspect-slide" data-id="<%= image.id %>">
-                <i class="fa fa-info-circle"></i>
-              </a>
-              <a href="#" class="edit-slide" data-id="<%= image.id %>">
-                <i class="fa fa-pencil-square-o"></i>
-              </a>
-              <a href="#" class="delete-slide" data-id="<%= image.id %>">
-                <i class="fa fa-trash"></i>
-              </a>
-            </div>
-          </li>
-          <% end %>
-        <% end %>
-      </ul>
-    </div>
 
 
 <div class="edit-title-modal form-modal tagstitle title-modal">
