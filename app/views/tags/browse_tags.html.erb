@@ -1,12 +1,13 @@
 <ul class="slideshow_lists_tags">
   <% @tags.each do |ss| %>
+  <% if ss.slides.any? {|e| e.slideshow.public? }%>
   <a href="/tags/<%= ss.id %>/show_tag">
     <% if ss.slides.blank? %>
       <li data-id="<%= ss.id %>">
     <% elsif ss.slides.first.on_s3? %>
-      <li style="background-image:url(<%= ss.slides.sample.thumb_url %>)" data-id="<%= ss.id %>">
+      <li style="background-image:url(<%= ss.slides.select {|i| i.slideshow.public? }.sample.thumb_url %>)" data-id="<%= ss.id %>">
       <% else %>
-      <li style="background-image:url(<%= ss.slides.sample.ext_url %>)" data-id="<%= ss.id %>">
+      <li style="background-image:url(<%= ss.slides.select {|i| i.slideshow.public? }.sample.ext_url %>)" data-id="<%= ss.id %>">
       <% end %>
       <div class="ss_info">
         <div class="numbers">
@@ -16,6 +17,7 @@
         </div>
       </div>
     </li>
+  <% end %>
   </a>
   <% end %>
 </ul>

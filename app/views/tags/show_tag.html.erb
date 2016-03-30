@@ -4,7 +4,7 @@
   </h1>
 <ul class="slideshow_lists_inspect">
   <% @slides.each do |image| %>
-    <% if image.public %>
+    <% if image.slideshow.public %>
     <a href="#" class="see-this-slide" data-id="<%= image.id %>">
       <li>
        <% if image.on_s3? %>
