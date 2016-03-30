@@ -4,7 +4,7 @@ class SlideshowsController < ApplicationController
   def show
     @show = Slideshow.find(params[:id])
     if @show.public || SlideShowPermission.exists?(:slideshow_id => @show.id, :user_id => current_user.id)
-      @images = @show.slides
+      @images = @show.slides.sort_by {|e| e.position}
     else
       redirect_to '/'
     end
