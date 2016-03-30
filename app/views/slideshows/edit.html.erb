@@ -34,6 +34,41 @@
     </div>
 
 
+<div class="upload-modal-pic form-modal">
+
+  <div class="form-panel">
+    <h3>Add Images</h3>
+    <label for="keep-open-modal">Keep window from closing?</label>
+    <input type="checkbox" id="keep-open-modal">
+    <p>Two ways to add images ... </p>
+    <div class="panelthird upmodal">
+      <h4>Make with URL</h4>
+      <br>
+      <form action="#" id="upload-url">
+       <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+       <input type="hidden" name="info[slideshow_id]" value="<%= @slideshow.id %>">
+       <input type="text" style="width:100%" placeholder="Title this slide..." name="info[title]">
+       <input type="text" style="width:100%" placeholder="Tag this slide (seperate by comma)..." name="info[tags]">
+       <input type="text" style="width:100%" placeholder="Find an image and copy its URL..." name="info[ext_url]">
+     </form>
+     <br><br>
+     <button class="upload-button Add-button-url" id="upload-pic-url">Add</button>
+   </div>
+  <div class="panelthird upmodal">
+    <div class="screen-load">Uploading Image...</div>
+      <h4>Upload from computer</h4>
+      <%= form_for @slideshow, :html => {:id => "upload"} do |f| %>
+      <%= f.file_field :picture %>
+      <input type="text" name="tags_string" placeholder="tags seperated by commas" style="width:100%">
+      <% end %>
+      <br><br>
+      <button class="upload-button" id="upload-pic">Upload</button>
+    </div>
+  </div>
+
+</div>
+
+
 <div class="panel house left-house" style="overflow:auto">
   <ul class="slideshow_lists_edit_top edit-options-list">
     <a href="#" class="add-a-new-picture">
@@ -291,39 +326,6 @@
 </div>
 
 
-<div class="upload-modal-pic form-modal">
-
-  <div class="form-panel">
-    <h3>Add Images</h3>
-    <label for="keep-open-modal">Keep window from closing?</label>
-    <input type="checkbox" id="keep-open-modal">
-    <p>Two ways to add images ... </p>
-    <div class="panelthird upmodal">
-      <h4>Make with URL</h4>
-      <br>
-      <form action="#" id="upload-url">
-       <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
-       <input type="hidden" name="info[slideshow_id]" value="<%= @slideshow.id %>">
-       <input type="text" style="width:100%" placeholder="Title this slide..." name="info[title]">
-       <input type="text" style="width:100%" placeholder="Tag this slide (seperate by comma)..." name="info[tags]">
-       <input type="text" style="width:100%" placeholder="Find an image and copy its URL..." name="info[ext_url]">
-     </form>
-     <br><br>
-     <button class="upload-button Add-button-url" id="upload-pic-url">Add</button>
-   </div>
-  <div class="panelthird upmodal">
-    <div class="screen-load">Uploading Image...</div>
-      <h4>Upload from computer</h4>
-      <%= form_for @slideshow, :html => {:id => "upload"} do |f| %>
-      <%= f.file_field :picture %>
-      <input type="text" name="tags_string" placeholder="tags seperated by commas" style="width:100%">
-      <% end %>
-      <br><br>
-      <button class="upload-button" id="upload-pic">Upload</button>
-    </div>
-  </div>
-
-</div>
 
   </div>
 </center>
