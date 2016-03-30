@@ -85,12 +85,12 @@ class HomeController < ApplicationController
       number = rand(9000)
 
       if uploaded_io.size > 700000
-        # source_full = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
+        source_full = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
         resized_full = source_full.resize(:method => 'scale', :height => 1000)
         resized_full.to_file("tmp/#{number}-#{uploaded_io.original_filename}")
       end
 
-      # source_thumb = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
+      source_thumb = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
       source_thumb.resize(:method => 'scale', :height => 400)
       source_thumb.to_file("tmp/thumbnail-#{number}-#{uploaded_io.original_filename}")
 
