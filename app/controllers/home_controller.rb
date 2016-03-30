@@ -75,16 +75,16 @@ class HomeController < ApplicationController
     else
 
       Tinify.key = ENV['TINY_PNG_API_KEY']
+      number = rand(9000)
 
       @slideshow = Slideshow.find(params[:id])
       tags = params[:tags_string]
-      ::File.open(Rails.root.join('tmp', uploaded_io.original_filename), 'wb') do |file|
+      ::File.open(Rails.root.join('tmp', "#{number}-#{uploaded_io.original_filename}"), 'wb') do |file|
         file.write(uploaded_io.read)
       end
 
-      number = rand(9000)
 
-      if uploaded_io.size > 700000
+      if uploaded_io.size > 900000
         source_full = Tinify.from_file("tmp/#{uploaded_io.original_filename}")
         resized_full = source_full.resize(:method => 'scale', :height => 1000)
         resized_full.to_file("tmp/#{number}-#{uploaded_io.original_filename}")
@@ -96,11 +96,11 @@ class HomeController < ApplicationController
 
       obj_key = "#{current_user.email}/#{@slideshow.id}/#{uploaded_io.original_filename}"
       obj = S3_BUCKET.object(obj_key)
-      obj.upload_file("tmp/#{uploaded_io.original_filename}", {acl: 'public-read'})
+      obj.upload_file("tmp/#{number}-#{uploaded_io.original_filename}", {acl: 'public-read'})
 
       obj_key_thumb = "#{current_user.email}/#{@slideshow.id}/thumbnails/#{uploaded_io.original_filename}"
       obj_thumb = S3_BUCKET.object(obj_key_thumb)
-      obj_thumb.upload_file("tmp/thumbnail-#{uploaded_io.original_filename}", {acl: 'public-read'})
+      obj_thumb.upload_file("tmp/thumbnail-#{number}-#{uploaded_io.original_filename}", {acl: 'public-read'})
 
 
       slide = Slide.create(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :thumb_url => obj_thumb.public_url.to_s, :user_id => current_user.id)
