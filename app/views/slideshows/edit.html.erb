@@ -38,8 +38,6 @@
 
   <div class="form-panel">
     <h3>Add Images</h3>
-    <label for="keep-open-modal">Keep window from closing?</label>
-    <input type="checkbox" id="keep-open-modal">
     <p>Two ways to add images ... </p>
     <div class="panelthird upmodal">
       <h4>Make with URL</h4>
@@ -54,10 +52,10 @@
      <button class="upload-button Add-button-url" id="upload-pic-url">Add</button>
    </div>
   <div class="panelthird upmodal">
-    <div class="screen-load">Uploading Image...</div>
-      <h4>Upload from computer</h4>
+    <div class="screen-load">Uploading Images...</div>
+      <h4>Upload images from computer</h4>
       <%= form_for @slideshow, :html => {:id => "upload"} do |f| %>
-      <%= f.file_field :picture %>
+      <%= f.file_field :picture, :multiple => true %>
       <input type="text" name="tags_string" placeholder="tags seperated by commas" style="width:100%">
       <% end %>
       <br><br>

@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160326170603) do
+ActiveRecord::Schema.define(version: 20160402161428) do
+
+  create_table "artworks", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
@@ -30,6 +35,16 @@ ActiveRecord::Schema.define(version: 20160326170603) do
   create_table "lists", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "puzzle_peices", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "puzzles", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -68,7 +68,7 @@ class HomeController < ApplicationController
   def add_image
     require 'fileutils'
     require "tinify"
-    uploaded_io = params[:slideshow][:picture]
+    uploaded_io = params[:image_this]
 
     if uploaded_io.size > 2000000
       render :json => {:error=> 'big', :message => 'Sorry, but the file size cannot exceed 2mb'}

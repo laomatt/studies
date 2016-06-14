@@ -94,39 +94,40 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
   ele = $(this).parent().find('.screen-load');
   ele.fadeIn(400);
   ele.html("<div style='color:green'><b>Uploading Image ...</b></div>")
-
-  $.ajax({
-    url: "/home/"+id+"/add_image",
-    type: 'PATCH',
-    data: new FormData( this ),
-    processData: false,
-    contentType: false,
-  })
-  .done(function(data) {
-    if(data.error == "big"){
-      ele.html("<div style='color:red'><b>"+data.message+"</b></div>")
-      ele.fadeOut(5000);
-    } else if(data.error == "none") {
-      if(data.slide.on_s3 == true){
-        var source = $("#entry-template-s3").html();
+  var fileInput = document.getElementById("slideshow_picture");
+  var files = fileInput.files;
+  var formData = new FormData( this );
+  $.each(files, function(index, val) {
+    formData.append('image_this', val)
+    $.ajax({
+      url: "/home/"+id+"/add_image",
+      type: 'PATCH',
+      data: formData,
+      processData: false,
+      contentType: false,
+    })
+    .done(function(data) {
+      if(data.error == "big"){
+        ele.html("<div style='color:red'><b>"+data.message+"</b></div>")
+        ele.fadeOut(5000);
+      } else if(data.error == "none") {
+        if(data.slide.on_s3 == true){
+          var source = $("#entry-template-s3").html();
+        } else {
+          var source = $("#entry-template").html();
+        }
+        var template = Handlebars.compile(source);
+        var context = data.slide;
+        var html = template(context);
+        $("ul.slideshow_lists_edit").append(html);
+        ele.fadeOut(400);
       } else {
-        var source = $("#entry-template").html();
+        ele.html("<div style='color:red'><b>Somehing went wrong</b></div>")
+        ele.fadeOut(4000);
       }
-      var template = Handlebars.compile(source);
-      var context = data.slide;
-      var html = template(context);
-      $("ul.slideshow_lists_edit").append(html);
-      ele.fadeOut(400);
-      if($('#keep-open-modal').is(':checked') == false){
-        $("form#upload").trigger('reset');
-        $('.backdrop').trigger('click');
-      }
-    } else {
-      ele.html("<div style='color:red'><b>Somehing went wrong</b></div>")
-      ele.fadeOut(4000);
-    }
 
-  })
+    })
+  });
 });
 
 $("body").on('click', '#upload-pic-url', function(event) {
