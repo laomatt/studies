@@ -122,6 +122,9 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
         var elem = $('.screen-load');
         var current = index + 1;
         elem.html("<div style='color:green'><b>please wait until upload is complete,<br> Uploaded: " + data.slide.title + "("+ current +"/"+ length + ")</b></div>")
+        if (current == length) {
+          elem.fadeOut(2000);
+        };
         $("ul.slideshow_lists_edit").append(html);
       } else {
         elem.html("<div style='color:red'><b>Somehing went wrong</b></div>")
@@ -130,7 +133,6 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
 
 
   });
-  // ele.fadeOut(5000);
 });
 
 $("body").on('click', '#upload-pic-url', function(event) {
