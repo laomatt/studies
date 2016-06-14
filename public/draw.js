@@ -91,13 +91,14 @@ $('body').on('click', '#upload-pic', function(event) {
 $("body").on('submit', '.panelthird form#upload', function(event) {
   event.preventDefault();
   var id = $("#info").attr('ssid');
-  ele = $(this).parent().find('.screen-load');
-  ele.fadeIn(400);
-  ele.html("<div style='color:green'><b>Uploading Image ...</b></div>")
   var fileInput = document.getElementById("slideshow_picture");
   var files = fileInput.files;
+  var length = files.length;
   var formData = new FormData( this );
+  var ele = $('.screen-load');
   $.each(files, function(index, val) {
+    ele.fadeIn(400);
+    ele.html("<div style='color:green'><b>please wait until upload is complete,<br> Uploading Images ...</b></div>")
     formData.append('image_this', val)
     $.ajax({
       url: "/home/"+id+"/add_image",
@@ -108,8 +109,7 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
     })
     .done(function(data) {
       if(data.error == "big"){
-        ele.html("<div style='color:red'><b>"+data.message+"</b></div>")
-        ele.fadeOut(5000);
+        elem.html("<div style='color:red'>"+data.slide.title+": <b>"+data.message+"</b></div>")
       } else if(data.error == "none") {
         if(data.slide.on_s3 == true){
           var source = $("#entry-template-s3").html();
@@ -119,15 +119,18 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
         var template = Handlebars.compile(source);
         var context = data.slide;
         var html = template(context);
+        var elem = $('.screen-load');
+        var current = index + 1;
+        elem.html("<div style='color:green'><b>please wait until upload is complete,<br> Uploaded: " + data.slide.title + "("+ current +"/"+ length + ")</b></div>")
         $("ul.slideshow_lists_edit").append(html);
-        ele.fadeOut(400);
       } else {
-        ele.html("<div style='color:red'><b>Somehing went wrong</b></div>")
-        ele.fadeOut(4000);
+        elem.html("<div style='color:red'><b>Somehing went wrong</b></div>")
       }
-
     })
+
+
   });
+  // ele.fadeOut(5000);
 });
 
 $("body").on('click', '#upload-pic-url', function(event) {
