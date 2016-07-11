@@ -67,45 +67,27 @@ class HomeController < ApplicationController
 
   def add_image
     require 'fileutils'
-    require "tinify"
     uploaded_io = params[:image_this]
 
     if uploaded_io.size > 2000000
       render :json => {:error=> 'big', :message => 'Sorry, but the file size cannot exceed 2mb'}
     else
 
-      Tinify.key = ENV['TINY_PNG_API_KEY']
-      number = rand(9000)
-
       @slideshow = Slideshow.find(params[:id])
       tags = params[:tags_string]
-      ::File.open(Rails.root.join('tmp', "#{number}-#{uploaded_io.original_filename}"), 'wb') do |file|
-        file.write(uploaded_io.read)
-      end
 
 
-      if uploaded_io.size > 900000
-        source_full = Tinify.from_file("tmp/#{number}-#{uploaded_io.original_filename}")
-        resized_full = source_full.resize(:method => 'scale', :height => 1000)
-        resized_full.to_file("tmp/#{number}-#{uploaded_io.original_filename}")
-      end
+      slide = Slide.new(:slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :user_id => current_user.id)
+      slide.file = uploaded_io
+      slide.save!
+      # byebug
 
-      source_thumb = Tinify.from_file("tmp/#{number}-#{uploaded_io.original_filename}")
-      source_thumb.resize(:method => 'scale', :height => 400)
-      source_thumb.to_file("tmp/thumbnail-#{number}-#{uploaded_io.original_filename}")
+      slide.ext_url = slide.file.url
+      slide.thumb_url = slide.file.thumb.url
 
-      obj_key = "#{current_user.email}/#{@slideshow.id}/#{uploaded_io.original_filename}"
-      obj = S3_BUCKET.object(obj_key)
-      obj.upload_file("tmp/#{number}-#{uploaded_io.original_filename}", {acl: 'public-read'})
-
-      obj_key_thumb = "#{current_user.email}/#{@slideshow.id}/thumbnails/#{uploaded_io.original_filename}"
-      obj_thumb = S3_BUCKET.object(obj_key_thumb)
-      obj_thumb.upload_file("tmp/thumbnail-#{number}-#{uploaded_io.original_filename}", {acl: 'public-read'})
-
-
-      slide = Slide.create(:ext_url => obj.public_url.to_s, :slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :thumb_url => obj_thumb.public_url.to_s, :user_id => current_user.id)
-
+      # byebug
       # tag the slide
+
       if !params[:tags_string].nil?
         tags = params[:tags_string]
         tag_array = tags.split(',')
@@ -120,8 +102,7 @@ class HomeController < ApplicationController
         end
       end
 
-      File.delete(Rails.root + "tmp/#{number}-#{uploaded_io.original_filename}")
-      File.delete(Rails.root + "tmp/thumbnail-#{number}-#{uploaded_io.original_filename}")
+
       render :json => {:error=> 'none', :slide => slide}
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160402161428) do
+ActiveRecord::Schema.define(version: 20160711023701) do
 
   create_table "artworks", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20160402161428) do
     t.datetime "thumbnail_updated_at"
     t.string   "thumb_url"
     t.boolean  "nsfw",                   default: false
+    t.string   "file"
   end
 
   create_table "slideshows", force: :cascade do |t|
