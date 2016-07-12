@@ -12,12 +12,8 @@ class Slide < ActiveRecord::Base
   module Uploader
     class FileUploader < CarrierWave::Uploader::Base
       include CarrierWave::MiniMagick
-      # storage :s3
-      process :convert => 'jpeg'
 
-      # def store_dir
-        # "#{self.user.email}/#{self.slideshow.id.to_s}/#{self.id}"
-      # end
+      process :convert => 'jpeg'
 
       def store_dir
         "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"

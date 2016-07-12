@@ -12,80 +12,149 @@
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 </head>
+<div class="overlay"></div>
+
 <header>
+
+
   <div class="head-container">
     <img src="/images/header.png" alt="" class="header_image">
 
-    <div id="random-sets">
 
-        <div class="rand-select" style="font-size:30px">
-          <a href="#" class="faq-pop" length="5" total="4">
-           <b>?</b>
-          </a>
+
+    <div id="rand-draw-modal" class="general-modal rand-draw-modal">
+      <div class="modal-content">
+        <div class="header">
+          <h2>Random Draw</h2>
         </div>
-        <div class="rand-select" id="random-1">
-          <a href="#" class="draw-random-set" length=".5" total="40">
-            <b><img src="/images/thirty.png" class="time-to-draw-set"></b>
-          </a>
-        </div>
-        <div class="rand-select" id="random-2">
-          <a href="#" class="draw-random-set" length="1" total="20">
-           <b> <img src="/images/one.png" class="time-to-draw-set"></b>
-          </a>
-        </div>
-        <div class="rand-select" id="random-3">
+        <div class="copy">
+          <p>Select your prefered pose time to launch a 20 minute set of random slides.</p>
+
+            <div class="rand-select" style="font-size:30px">
+              <a href="#" class="faq-pop" length="5" total="4">
+               <b>?</b>
+             </a>
+           </div>
+           <div class="rand-select" id="random-1">
+            <a href="#" class="draw-random-set" length=".5" total="40">
+              <b><img src="/images/thirty.png" class="time-to-draw-set"></b>
+            </a>
+          </div>
+          <div class="rand-select" id="random-2">
+            <a href="#" class="draw-random-set" length="1" total="20">
+             <b> <img src="/images/one.png" class="time-to-draw-set"></b>
+           </a>
+         </div>
+         <div class="rand-select" id="random-3">
           <a href="#" class="draw-random-set" length="2" total="10">
            <b> <img src="/images/two.png" class="time-to-draw-set"></b>
-          </a>
-        </div>
-        <div class="rand-select" id="random-4">
-          <a href="#" class="draw-random-set" length="5" total="4">
-           <b> <img src="/images/five.png" class="time-to-draw-set"></b>
-          </a>
-        </div>
+         </a>
+       </div>
+       <div class="rand-select" id="random-4">
+        <a href="#" class="draw-random-set" length="5" total="4">
+         <b> <img src="/images/five.png" class="time-to-draw-set"></b>
+       </a>
+     </div>
+ </div>
+</div>
+</div>
+<a href="#" id="open-draw-modal" class="open-draw-modal">
+  Launch A Study
+</a>
 
-    </div>
-  </div>
 
-  <script>
-    $("body").on('mouseenter', '.rand-select', function(event) {
-      event.preventDefault();
-      $(this).css('opacity', '1');
-    });
-    $("body").on('mouseleave', '.rand-select', function(event) {
-      event.preventDefault();
-      $(this).css('opacity', '.5');
-    });
+</div>
 
-  </script>
+<script>
+$('body').on('click', '#open-draw-modal', function(event) {
+  event.preventDefault();
+  $('.overlay').fadeIn(400, function() {
+    $('#rand-draw-modal').animate({top: '30%', opacity: '1'}, 400);
+  });
+});
 
-  <style>
-  #random-sets {
-    position: relative;
-    background-color: transparent;
-    padding: 0%;
-    height: 100%;
+$('body').on('click', '.close-modal, .draw-random-set, .overlay', function(event) {
+  event.preventDefault();
+    $('.general-modal').animate({top: '-30%', opacity: '0'}, 400);
+  $('.overlay').fadeOut(400, function() {})
+});
+
+$("body").on('mouseenter', '.rand-select', function(event) {
+  event.preventDefault();
+  $(this).css('opacity', '1');
+});
+$("body").on('mouseleave', '.rand-select', function(event) {
+  event.preventDefault();
+  $(this).css('opacity', '.5');
+});
+
+</script>
+
+<style>
+.open-draw-modal {
+      background-color: #e2411f;
+    padding: 6px;
+    border-radius: 4px;
     float: right;
-    display: block;
-    overflow: auto;
-  }
+    position: relative;
+    top: 10px;
+    right: 10px;
+}
 
-  .time-to-draw-set {
-    width: 35px;
-  }
-  .rand-select {
-    background-color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 2px;
-    top: 0;
-    z-index: 100;
-    display: inline-block;
-    text-align: center;
-    padding: 5px;
-    display: inline-block;
-    opacity: .5;
-    position: relative;      }
+.rand-draw-modal {
+  position: fixed;
+  z-index: 9500;
+  width: 44%;
+  left: 25%;
+  top: -60%;
+  opacity: 0;
+  display: block;
+  color: black;
+}
+
+.modal-content .header {
+  padding-left: 20%;
+}
+
+.modal-content p {
+  padding-left: 20%;
+}
+
+.copy a {
+  color: #fff;
+  text-decoration: none;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #072c38;
+}
+
+#random-sets {
+  position: relative;
+  background-color: transparent;
+  padding: 0%;
+  height: 100%;
+  float: right;
+  display: block;
+  overflow: auto;
+}
+
+.time-to-draw-set {
+  width: 75px;
+}
+.rand-select {
+  background-color: transparent;
+  width: 100px;
+  height: 100px;
+  border-radius: 2px;
+  top: -100%;
+  z-index: 100;
+  display: inline-block;
+  text-align: center;
+  padding: 5px;
+  display: inline-block;
+  opacity: .5;
+  position: relative;      }
 
   .rand-select a {
     color: #DC4119;
@@ -93,133 +162,143 @@
   </style>
 
   <ul class="nav nav-tabs nav-justified">
-  <% if current_user %>
-  <li class="dropdown">
-    <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-      My Stuff <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-      <li>
-        <a href="/home/user_slides">My Slides</a>
-      </li>
-      <li>
-        <a href="/home/user_slideshows">My SlideShows</a>
-      </li>
-      <li style="display:none"><a href="/home/user_art">My Art</a></li>
-      <li style="display:block"><a href="/lists/index">My Lists</a></li>
-      <li style="display:block">
-        <form action="/lists/make" method="post">
-          <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
-          <input style="background-color:black" type="text" name="info[title]" placeholder="Create new list">
-          <input type="submit" style="color:black">
-        </form>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <a href="/home/user_private_slideshows">Private SlideShows</a>
-  </li>
+    <% if current_user %>
+    <li class="dropdown">
+      <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+        My Stuff <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="/home/user_slides">My Slides</a>
+        </li>
+        <li>
+          <a href="/home/user_slideshows">My SlideShows</a>
+        </li>
+        <li style="display:none"><a href="/home/user_art">My Art</a></li>
+        <li style="display:block"><a href="/lists/index">My Lists</a></li>
+        <li style="display:block">
+          <form action="/lists/make" method="post">
+            <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
+            <input style="background-color:black" type="text" name="info[title]" placeholder="Create new list">
+            <input type="submit" style="color:black">
+          </form>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="/home/user_private_slideshows">Private SlideShows</a>
+    </li>
 
     <li><a href="<%= home_index_path %>">Browse SlideShows</a></li>
     <li><a href="/tags/browse_tags">Browse Tags</a></li>
     <li class="dropdown">
       <a href="#" data-toggle="dropdown" class="dropdown-toggle">New Slide Show <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li>
-            <form action="/home/save_slide_show" method="post">
-              <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
-              <label for="info[title]">Title</label>
-              <input style="background-color:black" type="text" name="info[title]" placeholder="slideshow title...">
-              <input type="submit" style="color:black">
-            </form>
+      <ul class="dropdown-menu">
+        <li>
+          <form action="/home/save_slide_show" method="post">
+            <input type="hidden" value="<%= form_authenticity_token %>" name="authenticity_token"/>
+            <label for="info[title]">Title</label>
+            <input style="background-color:black" type="text" name="info[title]" placeholder="slideshow title...">
+            <input type="submit" style="color:black">
+          </form>
 
-          </li>
-        </ul>
+        </li>
+      </ul>
     </li>
     <li>
       <a href="/user_log_out_route/sign_out">Log out</a>
     </li>
 
-  <% else %>
+    <% else %>
     <li>
       <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), :class => "fblogin" %>
     </li>
     <li><a href="/">Browse SlideShows</a></li>
 
-  <% end %>
+    <% end %>
   </ul>
 </header>
 <body>
 
-<div id="pose_window_container" class="form-modal pose_container"></div>
-<div id="slide_inspect_container" class="form-modal inspect_container slide_action_container"></div>
-<div id="slide_edit_container" class="form-modal inspect_container slide_action_container"></div>
-<div id="slide_delete_container" class="form-modal delete_container slide_action_container"></div>
+  <div id="pose_window_container" class="form-modal pose_container"></div>
+  <div id="slide_inspect_container" class="form-modal inspect_container slide_action_container"></div>
+  <div id="slide_edit_container" class="form-modal inspect_container slide_action_container"></div>
+  <div id="slide_delete_container" class="form-modal delete_container slide_action_container"></div>
 
 
 
-<div id="faq-container" class="form-modal">
-</div>
+  <div id="faq-container" class="form-modal">
+  </div>
 
 
   <div class="backdrop"></div>
   <div class="content-container">
 
-<center>
+    <center>
       <%= yield %>
-</center>
+    </center>
   </div>
 </body>
 </html>
 <style>
-  .logo-pic {
-    width: 10%;
-  }
-  #faq-container {
-    background-color: rgba(0,0,0,.8);
-    color: white;
-    position: fixed;
-    width: 65%;
-    height: 100%;
-    padding: 4%;
-    top: 0;
-    z-index: 500;
-    left: 15%;
-    overflow: scroll;
-    margin: 0 auto;
-    display: none;
-  }
+.logo-pic {
+  width: 10%;
+}
+#faq-container {
+  background-color: rgba(0,0,0,.8);
+  color: white;
+  position: fixed;
+  width: 65%;
+  height: 100%;
+  padding: 4%;
+  top: 0;
+  z-index: 500;
+  left: 15%;
+  overflow: scroll;
+  margin: 0 auto;
+  display: none;
+}
 
-  .content-container {
-    width: 100%;
-    padding: 1%;
-    margin: 0;
-    position: relative;
-    top: 6%;
-    height: 90%;
-    background-color: transparent;
-    color: white;
-    overflow: scroll;
-  }
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 900;
+  position: fixed;
+  opacity: .6;
+  display: none;
+}
 
-  .dropdown-menu {
-    background-color: black;
-    color: white;
-  }
+.content-container {
+  width: 100%;
+  padding: 1%;
+  margin: 0;
+  position: relative;
+  top: 6%;
+  height: 90%;
+  background-color: white;
+  color: white;
+  overflow: scroll;
+}
 
-  .dropdown-menu li a {
-    color: white;
-  }
+.dropdown-menu {
+  background-color: black;
+  color: white;
+}
 
-  body {
-    background-color: rgba(0,0,0,.4);
-  }
+.dropdown-menu li a {
+  color: white;
+}
 
-  .slide_action_container {
-    position:absolute;
-    left:0%;
-    top:50%;
-  }
+body {
+  background-color: rgba(0,0,0,.4);
+}
+
+.slide_action_container {
+  position:absolute;
+  left:0%;
+  top:50%;
+}
 </style>
 
 
@@ -230,25 +309,25 @@
 <br>
 <div class="pic-info">
 <a href="#" class="inspect-slide" data-id="{{id}}">
-  <i class="fa fa-info-circle"></i>
+<i class="fa fa-info-circle"></i>
 </a>
 <a href="#" class="edit-slide" data-id="{{id}}">
-  <i class="fa fa-pencil-square-o"></i>
+<i class="fa fa-pencil-square-o"></i>
 </a>
 <a href="#" class="delete-slide" data-id="{{id}}">
-  <i class="fa fa-trash"></i>
+<i class="fa fa-trash"></i>
 </a>
-  </div>
+</div>
 </li>
 </script>
 <script id="user-result-template" type="text/x-handlebars-template">
 <div class="user-row" id="search_result_for_{{id}}">
-  <img src="{{avatar_url}}" alt="">
-  <a href="#" class="grant-access-to-this-user" user_id="{{id}}">
-    <div class="info">
-      Give <b>{{name}}</b> permission to access this slideshow
-    </div>
-  </a>
+<img src="{{avatar_url}}" alt="">
+<a href="#" class="grant-access-to-this-user" user_id="{{id}}">
+<div class="info">
+Give <b>{{name}}</b> permission to access this slideshow
+</div>
+</a>
 </div>
 </script>
 
@@ -258,30 +337,29 @@
 <br>
 <div class="pic-info">
 <a href="#" class="inspect-slide" data-id="{{id}}">
-  <i class="fa fa-info-circle"></i>
+<i class="fa fa-info-circle"></i>
 </a>
 <a href="#" class="edit-slide" data-id="{{id}}">
-  <i class="fa fa-pencil-square-o"></i>
+<i class="fa fa-pencil-square-o"></i>
 </a>
 <a href="#" class="delete-slide" data-id="{{id}}">
-  <i class="fa fa-trash"></i>
+<i class="fa fa-trash"></i>
 </a>
-  </div>
+</div>
 </li>
 </script>
 
 
 
-  <script src="/draw.js"></script>
-
+<script src="/draw.js"></script>
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-75075620-1', 'auto');
-  ga('send', 'pageview');
+ga('create', 'UA-75075620-1', 'auto');
+ga('send', 'pageview');
 
 </script>

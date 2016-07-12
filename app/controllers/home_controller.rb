@@ -71,6 +71,7 @@ class HomeController < ApplicationController
 
     if uploaded_io.size > 2000000
       render :json => {:error=> 'big', :message => 'Sorry, but the file size cannot exceed 2mb'}
+      return
     else
 
       @slideshow = Slideshow.find(params[:id])
@@ -80,13 +81,11 @@ class HomeController < ApplicationController
       slide = Slide.new(:slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :user_id => current_user.id)
       slide.file = uploaded_io
       slide.save!
-      # byebug
 
       slide.ext_url = slide.file.url
       slide.thumb_url = slide.file.thumb.url
 
-      # byebug
-      # tag the slide
+      slide.save!
 
       if !params[:tags_string].nil?
         tags = params[:tags_string]

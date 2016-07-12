@@ -241,7 +241,7 @@ ul.slideshow_lists {
   padding: 3%;
   border-radius: 7px;
   overflow: auto;
-  z-index: 90;
+  z-index: 1050;
   display: none;
 }
 
@@ -301,7 +301,7 @@ input#edit_title {
 
 header {
   position: relative;
-  background-color: rgba(0,0,0,.4);
+  background-color: white;
   color: white;
 }
 
