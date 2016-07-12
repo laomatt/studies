@@ -85,6 +85,7 @@ $('body').on('mouseleave', '.my-slide', function(event) {
 
 $('body').on('click', '#upload-pic', function(event) {
   event.preventDefault();
+  $('.backdrop').trigger('click')
   $(this).parent().find('form').trigger('submit');
 });
 
@@ -138,6 +139,7 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
 $("body").on('click', '#upload-pic-url', function(event) {
   event.preventDefault();
   var id = $("#info").attr('ssid');
+  $('backdrop').trigger('click');
   $.ajax({
     url: "/home/"+id+"/add_image_url",
     type: 'POST',
@@ -366,16 +368,6 @@ $('body').on('mouseenter', 'ul.slideshow_lists_tags li', function(event) {
   var that = $(this);
   var id = $(this).attr('data-id');
 
-  // li_interval = setInterval(function(){
-  //   $.ajax({
-  //     url: '/slideshows/'+id+'/get_image_slide_show_tags',
-  //   })
-  //   .done(function(data) {
-  //     var new_url = data.thumb_url
-  //     that.css('background-image', 'url('+new_url+')');
-  //   })
-  // },1000);
-
 });
 
 $('body').on('mouseleave', 'ul.slideshow_lists_tags li', function(event) {
@@ -386,13 +378,9 @@ $('body').on('mouseleave', 'ul.slideshow_lists_tags li', function(event) {
 
 $('body').on('click', '.add-a-new-picture', function(event) {
   event.preventDefault();
-  if($(this).attr("mode") == "down"){
-    $(this).attr("mode", "up");
-    $('.upload-modal-pic').slideUp(300, function() {});
-  } else {
-    $(this).attr("mode", "down");
+  $('.backdrop').fadeIn(400, function() {
     $('.upload-modal-pic').slideDown(300, function() {});
-  }
+  });
 });
 
 $('body').on('click', '.add-a-new-title', function(event) {

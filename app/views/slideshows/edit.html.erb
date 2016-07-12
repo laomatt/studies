@@ -2,9 +2,33 @@
 
   <center>
     <h1 class="head-edit-title"><%= @slideshow.title %></h1>
-
+<div class="panel house left-house" style="overflow:auto">
+  <ul class="slideshow_lists_edit_top edit-options-list">
+    <a href="#" class="add-a-new-picture">
+      <li class="entry" id="slide_add" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-upload" style="font-size: 50px;"></i><br>add image</li>
+    </a>
+    <a href="#" class="add-a-new-title">
+      <li class="entry" id="title_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-file-text" style="font-size: 50px;"></i><br>Edit title</li>
+    </a>
+    <a href="#" class="add-a-new-tags">
+      <li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-tags" style="font-size: 50px;"></i><br>Edit tags</li>
+    </a>
+    <a href="#" data-id="<%= @slideshow.id %>" id="toggle-public">
+        <% if @slideshow.public? %>
+          <li class="entry" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(216,38,25,.5)">
+          <i class="fa fa-eye-slash" style="font-size: 50px"></i><br>Make Private
+        <% else %>
+          <li class="entry" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(111,240,56,.5)">
+          <i class="fa fa-eye" style="font-size: 50px;"></i><br>Make Public
+        <% end %>
+      </li>
+    </a>
+  </ul>
+</div>
     <div class="panel house right-house">
       <h3>Slide Order</h3>
+    <div class="screen-load">Uploading Images...</div>
+
       <p>Click and drag each slide to its desired position.</p>
       <div id="info" ssid="<%= @slideshow.id %>"></div>
       <ul id="sortable" class="slideshow_lists_edit">
@@ -34,7 +58,7 @@
     </div>
 
 
-<div class="upload-modal-pic form-modal">
+<div class="general-modal upload-modal-pic form-modal">
 
   <div class="form-panel">
     <h3>Add Images</h3>
@@ -52,7 +76,6 @@
      <button class="upload-button Add-button-url" id="upload-pic-url">Add</button>
    </div>
   <div class="panelthird upmodal">
-    <div class="screen-load">Uploading Images...</div>
       <h4>Upload images from computer</h4>
       <%= form_for @slideshow, :html => {:id => "upload"} do |f| %>
       <%= f.file_field :picture, :multiple => true %>
@@ -65,30 +88,6 @@
 
 </div>
 
-
-<div class="panel house left-house" style="overflow:auto">
-  <ul class="slideshow_lists_edit_top edit-options-list">
-    <a href="#" class="add-a-new-picture">
-      <li class="entry" id="slide_add" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-upload" style="font-size: 50px;"></i><br>add image</li>
-    </a>
-    <a href="#" class="add-a-new-title">
-      <li class="entry" id="title_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-file-text" style="font-size: 50px;"></i><br>Edit title</li>
-    </a>
-    <a href="#" class="add-a-new-tags">
-      <li class="entry" id="tags_edit" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%"><i class="fa fa-tags" style="font-size: 50px;"></i><br>Edit tags</li>
-    </a>
-    <a href="#" data-id="<%= @slideshow.id %>" id="toggle-public">
-        <% if @slideshow.public? %>
-          <li class="entry" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(216,38,25,.5)">
-          <i class="fa fa-eye-slash" style="font-size: 50px"></i><br>Make Private
-        <% else %>
-          <li class="entry" ssid="<%= @slideshow.id %>" style="background-color:black;padding-top:1%;background-color:rgba(111,240,56,.5)">
-          <i class="fa fa-eye" style="font-size: 50px;"></i><br>Make Public
-        <% end %>
-      </li>
-    </a>
-  </ul>
-</div>
 <div class="panel house left-house" id="private-mode-options" style="overflow:auto;display:<%= @slideshow.public ? "none" : "block" %>">
   <h3>This Slideshow is private</h3>
 
@@ -329,13 +328,13 @@
 
 <style>
   .screen-load {
-    background-color: white;
-    position: absolute;
-    width: 100%;
-    height: 100%;
+     background-color: white;
+    position: relative;
+    width: 40%;
+    height: 20%;
     z-index: 50;
     text-align: center;
-    padding-top: 40%;
+    padding-top: 0;
     display: none;
     color: black;
   }

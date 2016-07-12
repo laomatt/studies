@@ -12,6 +12,21 @@
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 </head>
+
+  <div id="pose_window_container" class="form-modal pose_container"></div>
+  <div id="slide_inspect_container" class="form-modal inspect_container slide_action_container"></div>
+  <div id="slide_edit_container" class="form-modal inspect_container slide_action_container"></div>
+  <div id="slide_delete_container" class="form-modal delete_container slide_action_container"></div>
+
+
+
+
+
+  <div id="faq-container" class="form-modal">
+  </div>
+
+
+  <div class="backdrop"></div>
 <div class="overlay"></div>
 
 <header>
@@ -220,18 +235,6 @@ $("body").on('mouseleave', '.rand-select', function(event) {
 </header>
 <body>
 
-  <div id="pose_window_container" class="form-modal pose_container"></div>
-  <div id="slide_inspect_container" class="form-modal inspect_container slide_action_container"></div>
-  <div id="slide_edit_container" class="form-modal inspect_container slide_action_container"></div>
-  <div id="slide_delete_container" class="form-modal delete_container slide_action_container"></div>
-
-
-
-  <div id="faq-container" class="form-modal">
-  </div>
-
-
-  <div class="backdrop"></div>
   <div class="content-container">
 
     <center>
@@ -295,9 +298,10 @@ body {
 }
 
 .slide_action_container {
-  position:absolute;
+  position:fixed;
   left:0%;
-  top:50%;
+  top:10%;
+  max-height: 100%;
 }
 </style>
 
