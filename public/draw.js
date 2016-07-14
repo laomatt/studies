@@ -111,6 +111,8 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
     .done(function(data) {
       if(data.error == "big"){
         elem.html("<div style='color:red'>"+data.slide.title+": <b>"+data.message+"</b></div>")
+      } else if (data.error == "exception") {
+        elem.html("<div style='color:red'>"+data.slide+"</div>")
       } else if(data.error == "none") {
         if(data.slide.on_s3 == true){
           var source = $("#entry-template-s3").html();

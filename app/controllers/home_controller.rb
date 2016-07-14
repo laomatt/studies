@@ -66,43 +66,45 @@ class HomeController < ApplicationController
   end
 
   def add_image
-    require 'fileutils'
-    uploaded_io = params[:image_this]
+    begin
+      uploaded_io = params[:image_this]
 
-    if uploaded_io.size > 2000000
-      render :json => {:error=> 'big', :message => 'Sorry, but the file size cannot exceed 2mb'}
-      return
-    else
+      if uploaded_io.size > 2000000
+        render :json => {:error=> 'big', :message => 'Sorry, but the file size cannot exceed 2mb'}
+        return
+      else
 
-      @slideshow = Slideshow.find(params[:id])
-      tags = params[:tags_string]
-
-
-      slide = Slide.new(:slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :user_id => current_user.id)
-      slide.file = uploaded_io
-      slide.save!
-
-      slide.ext_url = slide.file.url
-      slide.thumb_url = slide.file.thumb.url
-
-      slide.save!
-
-      if !params[:tags_string].nil?
+        @slideshow = Slideshow.find(params[:id])
         tags = params[:tags_string]
-        tag_array = tags.split(',')
-        tag_array.each do |tg|
-          if Tag.exists?(:name => tg)
-            t = Tag.find(:name => tg)
-            Tagging.create(:tag_id => t.id, :slide_id => slide.id)
-          else
-            t = Tag.create(:name => tg)
-            Tagging.create(:tag_id => t.id, :slide_id => slide.id)
+
+
+        slide = Slide.new(:slideshow_id => @slideshow.id, :title => uploaded_io.original_filename, :on_s3 => true, :user_id => current_user.id)
+        slide.file = uploaded_io
+        slide.save!
+
+        slide.ext_url = slide.file.url
+        slide.thumb_url = slide.file.thumb.url
+
+        slide.save!
+
+        if !params[:tags_string].nil?
+          tags = params[:tags_string]
+          tag_array = tags.split(',')
+          tag_array.each do |tg|
+            if Tag.exists?(:name => tg)
+              t = Tag.find(:name => tg)
+              Tagging.create(:tag_id => t.id, :slide_id => slide.id)
+            else
+              t = Tag.create(:name => tg)
+              Tagging.create(:tag_id => t.id, :slide_id => slide.id)
+            end
           end
         end
+
+        render :json => {:error=> 'none', :slide => slide}
+      rescue Exception => e
+        render :json => {:error=> 'exception', :slide => e.to_s}
       end
-
-
-      render :json => {:error=> 'none', :slide => slide}
     end
   end
 
