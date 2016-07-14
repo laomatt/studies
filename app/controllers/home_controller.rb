@@ -102,7 +102,7 @@ class HomeController < ApplicationController
         end
 
         render :json => {:error=> 'none', :slide => slide}
-      rescue Exception => e
+      rescue => e
         render :json => {:error=> 'exception', :slide => e.to_s}
       end
     end
