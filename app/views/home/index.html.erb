@@ -1,13 +1,13 @@
 
 <ul class="slideshow_lists">
-  <% @slideshows.each do |ss| %>
+  <% @slideshows.each_with_index do |ss, idx| %>
   <a href="<%= slideshow_path(:id => ss.id)%>">
     <% if ss.slides.blank? %>
-      <li data-id="<%= ss.id %>">
+      <li data-id="<%= ss.id %>" class="home_slide_<%= idx %>">
     <% elsif ss.slides.first.on_s3? %>
-      <li style="background-image:url(<%= ss.slides.select{|e| !e.nsfw }.first.thumb_url %>)" data-id="<%= ss.id %>">
+      <li style="background-image:url(<%= ss.slides.select{|e| !e.nsfw }.first.thumb_url %>)" data-id="<%= ss.id %>" class="home_slide_<%= idx %>">
       <% else %>
-      <li style="background-image:url(<%= ss.slides.select{|e| !e.nsfw }.first.ext_url %>)" data-id="<%= ss.id %>">
+      <li style="background-image:url(<%= ss.slides.select{|e| !e.nsfw }.first.ext_url %>)" data-id="<%= ss.id %>" class="home_slide_<%= idx %>">
       <% end %>
       <div class="ss_info">
         <div class="numbers">

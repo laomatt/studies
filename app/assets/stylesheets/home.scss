@@ -95,6 +95,7 @@ ul.slideshow_lists {
 
 .slideshow_lists li {
   position: relative;
+  top: 500px;
   background-color: rgba(0,0,0,.4);
   background-size: 100%;
   overflow: hidden;
@@ -104,7 +105,7 @@ ul.slideshow_lists {
   height: 400px;
   margin: -1px;
   display: inline-block;
-  opacity: .7;
+  opacity: 0;
 }
 
 .slideshow_lists img {

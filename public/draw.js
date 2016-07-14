@@ -346,7 +346,12 @@ $('body').on('mouseenter', 'ul.slideshow_lists li', function(event) {
     })
     .done(function(data) {
       var new_url = data.thumb_url
-      that.css('background-image', 'url('+new_url+')');
+      that.fadeOut('500', function() {
+        that.css('background-image', 'url('+new_url+')');
+        that.fadeIn(500, function() {
+
+        });
+      });
     })
   },1000);
 
@@ -422,4 +427,29 @@ function checkVisible( elm, evalType ) {
 
     if (evalType === "visible") return ((y < (vpH + st)) && (y > (st - elementHeight)));
     if (evalType === "above") return ((y < (vpH + st)));
+}
+
+
+
+$(window).scroll(function(event) {
+  appear();
+});
+
+appear();
+
+$.each($('.slideshow_lists li'), function(index, val) {
+  var id_class = val.attributes.class.value;
+  var element = $('.' + id_class);
+  var randTop = Math.floor((Math.random() * 300) + 100);
+  element.css('top', randTop);
+});
+
+function appear() {
+  $.each($('.slideshow_lists li'), function(index, val) {
+    var id_class = val.attributes.class.value
+    var element = $('.' + id_class)
+    if ( checkVisible(element, 'visible') ) {
+      element.animate({'opacity': .7, 'top': 0}, 1000)
+    };
+  });
 }
