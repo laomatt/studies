@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   before_action :authenticate_user!, :except =>  [:index, :get_faq]
   layout 'application'
   def index
-    @slideshows = Slideshow.where(:public => true).order(:updated_at => :desc).paginate(:page => params[:page], :per_page => 20)
+    @slideshows = Slideshow.where(:public => true).order(:updated_at => :desc).paginate(:page => params[:page], :per_page => 100)
   end
 
   def user_private_slideshows
