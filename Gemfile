@@ -37,9 +37,13 @@ gem "tinify"
 # gem 'rmagick'
 # gem 'multi_json', '~> 1.0.3'
 # gem 'nokogiri', '~> 1.5.0'
+gem 'redis'
 gem "mini_magick"
 gem 'carrierwave'
 gem 'fog-aws'
+
+gem "sidekiq"
+gem 'sidekiq_status'
 
 group :development, :test do
   # gem 'backbone-on-rails'

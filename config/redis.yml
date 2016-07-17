@@ -1,0 +1,53 @@
+development:
+ :cache:
+   :host: "localhost"
+   :port: 6379
+   :db: 0
+ :session:
+   :host: "localhost"
+   :port: 6379
+   :db: 1
+ :mq:
+   :host: "localhost"
+   :port: 6379
+   :db: 2
+ :db:
+   :host: "localhost"
+   :port: 6379
+   :db: 3
+
+test:
+ :cache:
+   :host: "localhost"
+   :port: 6379
+   :db: 10
+ :session:
+   :host: "localhost"
+   :port: 6379
+   :db: 11
+ :mq:
+   :host: "localhost"
+   :port: 6379
+   :db: 12
+ :db:
+   :host: "localhost"
+   :port: 6379
+   :db: 13
+
+production:
+ :cache:
+   :host: "localhost"
+   :port: 6379
+   :db: 0
+ :session:
+   :host: "localhost"
+   :port: 6379
+   :db: 1
+ :mq:
+   :host: "localhost"
+   :port: 6379
+   :db: 2
+ :db:
+   :host: "localhost"
+   :port: 6379
+   :db: 3

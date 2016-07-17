@@ -97,10 +97,11 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
   var length = files.length;
   var formData = new FormData( this );
   var ele = $('.screen-load');
-  $.each(files, function(index, val) {
+debugger
+
     ele.fadeIn(400);
     ele.html("<div style='color:green'><b>please wait until upload is complete,<br> Uploading Images ...</b></div>")
-    formData.append('image_this', val)
+    formData.append('image_this', files)
     $.ajax({
       url: "/home/"+id+"/add_image",
       type: 'PATCH',
@@ -109,34 +110,56 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
       contentType: false,
     })
     .done(function(data) {
-      if(data.error == "big"){
-        elem.html("<div style='color:red'>"+data.slide.title+": <b>"+data.message+"</b></div>")
-      } else if (data.error == "exception") {
-        elem.html("<div style='color:red'>"+data.slide+"</div>")
-      } else if(data.error == "none") {
-        if(data.slide.on_s3 == true){
-          var source = $("#entry-template-s3").html();
-        } else {
-          var source = $("#entry-template").html();
-        }
-        var template = Handlebars.compile(source);
-        var context = data.slide;
-        var html = template(context);
-        var elem = $('.screen-load');
-        var current = index + 1;
-        elem.html("<div style='color:green'><b>please wait until upload is complete,<br> Uploaded: " + data.slide.title + "("+ current +"/"+ length + ")</b></div>")
-        if (current == length) {
-          elem.fadeOut(2000);
-        };
-        $("ul.slideshow_lists_edit").append(html);
-      } else {
-        elem.html("<div style='color:red'><b>Somehing went wrong</b></div>")
+      function runRecurs(){
+        $.ajax({
+          url: '/home/check_progress',
+          data: {param1: 'value1'},
+        })
+        .done(function(data) {
+          console.log("success");
+        })
+        .fail(function(data) {
+          console.log("error");
+        })
+        .always(function(data) {
+          console.log("complete");
+          if (data.result == 'done') {
+
+          } else {
+            runRecurs();
+          };
+        });
       }
-    })
-
-
-  });
+      runRecurs();
 });
+});
+
+// function checkImageProg(data) {
+//      if(data.error == "big"){
+//       elem.html("<div style='color:red'>"+data.slide.title+": <b>"+data.message+"</b></div>")
+//     } else if (data.error == "exception") {
+//       elem.html("<div style='color:red'>"+data.slide+"</div>")
+//     } else if(data.error == "none") {
+//       var source = $("#entry-template").html();
+//       var template = Handlebars.compile(source);
+//       var context = data.slide;
+//       var html = template(context);
+//       var elem = $('.screen-load');
+//       var current = index + 1;
+//       elem.html("<div style='color:green'><b>please wait until upload is complete,<br> Uploaded: " + data.slide.title + "("+ current +"/"+ length + ")</b></div>")
+//       if (current == length) {
+//         elem.fadeOut(2000);
+//       };
+//       $("ul.slideshow_lists_edit").append(html);
+
+//       return 'progress'
+//     } else {
+//       elem.html("<div style='color:red'><b>done</b></div>")
+
+//       return 'done'
+//     }
+  // })
+// }
 
 $("body").on('click', '#upload-pic-url', function(event) {
   event.preventDefault();

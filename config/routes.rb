@@ -92,6 +92,7 @@ Rails.application.routes.draw do
       get 'get_faq'
       get 'exp'
       get 'ind'
+      get 'check_progress'
       get 'user_slideshows'
       get 'user_slides'
       post 'save_slide_show'
