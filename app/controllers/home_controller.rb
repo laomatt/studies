@@ -68,21 +68,22 @@ class HomeController < ApplicationController
   def add_image
     uploaded_io = params[:image_this]
 
-    io_array = params[:image_this]
-
-    if uploaded_io.size > 2000000
-      render :json => {:error=> 'big', :message => 'Sorry, but the file size cannot exceed 2mb'}
-      return
-    else
-      @slideshow = Slideshow.find(params[:id])
-      # @job_id - MsgQ.new_progress_tacker()
-      byebug
-      ImageProcessor.perform_async(@slideshow.id, current_user.id, io_array, params[:tags_string])
-      # status_container = SidekiqStatus::Container.load(jid)
+    io_array = []
+    uploaded_io.each do |image|
+      if image[1].present?
+        io_array << image[1]
+      end
     end
 
-    render :json => { :error => 'none', :status_id => 'jid' }
+    @slideshow = Slideshow.find(params[:id])
+
+    # @job_id - MsgQ.new_progress_tacker()
+
+    ImageProcessor.perform_async(@slideshow.id, current_user.id, io_array, params[:tags_string])
+
+    render :nothing => true
   end
+
 
   def check_progress
 

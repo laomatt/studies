@@ -5,12 +5,12 @@ class ImageProcessor
 
   def perform(slideshow_id, user_id, io_array, tags_string)
     tags = tags_string
-# byebug
+    # byebug
     io_array.each do |uploaded_io|
 
-      original_filename = uploaded_io.original_filename
+      # original_filename = uploaded_io.original_filename
 
-      slide = Slide.new(:slideshow_id => slideshow_id, :title =>original_filename, :on_s3 => true, :user_id => user_id)
+      slide = Slide.new(:slideshow_id => slideshow_id, :title =>'original_filename', :on_s3 => true, :user_id => user_id)
       slide.file = uploaded_io
       slide.save!
 
@@ -19,9 +19,10 @@ class ImageProcessor
 
       slide.save!
 
-      if !tags_string.nil?
+      if tags_string.present?
         tags = tags_string
         tag_array = tags.split(',')
+
         tag_array.each do |tg|
           if Tag.exists?(:name => tg)
             t = Tag.find(:name => tg)
@@ -31,10 +32,12 @@ class ImageProcessor
             Tagging.create(:tag_id => t.id, :slide_id => slide.id)
           end
         end
-      end
 
+      end
       # render :json => {:error=> 'none', :slide => slide}
+
     end
+
   end
 
 end

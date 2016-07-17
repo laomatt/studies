@@ -97,11 +97,13 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
   var length = files.length;
   var formData = new FormData( this );
   var ele = $('.screen-load');
-debugger
+
+  $.each(files, function(index, val) {
+    formData.append('image_this['+index+']', val)
+  });
 
     ele.fadeIn(400);
     ele.html("<div style='color:green'><b>please wait until upload is complete,<br> Uploading Images ...</b></div>")
-    formData.append('image_this', files)
     $.ajax({
       url: "/home/"+id+"/add_image",
       type: 'PATCH',
