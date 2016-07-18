@@ -115,7 +115,7 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
       function runRecurs(){
         $.ajax({
           url: '/home/check_progress',
-          data: {param1: 'value1'},
+          data: {id: id},
         })
         .done(function(data) {
           console.log("success");
@@ -132,7 +132,7 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
           };
         });
       }
-      runRecurs();
+      // runRecurs();
 });
 });
 

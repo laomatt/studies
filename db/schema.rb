@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160711023701) do
+ActiveRecord::Schema.define(version: 20160718023817) do
 
   create_table "artworks", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 20160711023701) do
 
   create_table "slides", force: :cascade do |t|
     t.string   "title"
-    t.string   "ext_url"
     t.integer  "slideshow_id"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
@@ -71,9 +70,12 @@ ActiveRecord::Schema.define(version: 20160711023701) do
     t.string   "thumbnail_content_type"
     t.integer  "thumbnail_file_size"
     t.datetime "thumbnail_updated_at"
-    t.string   "thumb_url"
     t.boolean  "nsfw",                   default: false
     t.string   "file"
+    t.boolean  "file_processing",        default: false, null: false
+    t.string   "file_tmp"
+    t.string   "first_ext_url"
+    t.string   "first_thumb_url"
   end
 
   create_table "slideshows", force: :cascade do |t|

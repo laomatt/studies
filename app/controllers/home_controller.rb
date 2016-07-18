@@ -67,26 +67,23 @@ class HomeController < ApplicationController
 
   def add_image
     uploaded_io = params[:image_this]
-
-    io_array = []
-    uploaded_io.each do |image|
-      if image[1].present?
-        io_array << image[1]
-      end
-    end
-
     @slideshow = Slideshow.find(params[:id])
 
-    # @job_id - MsgQ.new_progress_tacker()
-
-    ImageProcessor.perform_async(@slideshow.id, current_user.id, io_array, params[:tags_string])
+    uploaded_io.each do |image|
+      if image[1].present?
+        slide = Slide.new(:slideshow_id => @slideshow.id, :title =>image[1].original_filename, :on_s3 => true, :user_id => current_user.id)
+        slide.file = image[1]
+        slide.save!
+      end
+    end
 
     render :nothing => true
   end
 
 
   def check_progress
-
+    slides = Slideshow.find(:id).slides.select {|e| e.file_processing }
+    render :nothing => true
   end
 
   def add_image_url

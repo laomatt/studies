@@ -44,6 +44,7 @@ gem 'fog-aws'
 
 gem "sidekiq"
 gem 'sidekiq_status'
+gem 'carrierwave_backgrounder'
 
 group :development, :test do
   # gem 'backbone-on-rails'

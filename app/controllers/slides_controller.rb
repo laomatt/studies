@@ -57,6 +57,8 @@ class SlidesController < ApplicationController
 
   def get_partial
     info = Hash[@slide.attributes.map{ |k, v| [k.to_sym, v] }]
+    info[:ext_url] = @slide.ext_url
+    info[:thumb_url] = @slide.thumb_url
     if params[:type] == 'inspect'
       info[:tag_list] = @slide.taggings.map { |e| e.tag.name }.join(',')
       render :partial => '/slideshows/slidedisplay', :locals => info

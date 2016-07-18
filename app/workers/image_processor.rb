@@ -7,16 +7,18 @@ class ImageProcessor
     tags = tags_string
     # byebug
     io_array.each do |uploaded_io|
+      temp_file = Tempfile.new(['RackMultipart','.jpg'])
+      uploaded_io[:tempfile] = temp_file
+      ad = ActionDispatch::Http::UploadedFile.new(uploaded_io)
+      ad.original_filename = uploaded_io['filename']
+      ad.content_type = uploaded_io['type']
+      ad.headers = uploaded_io['head']
 
-      # original_filename = uploaded_io.original_filename
+      original_filename = uploaded_io[:filename]
 
-      slide = Slide.new(:slideshow_id => slideshow_id, :title =>'original_filename', :on_s3 => true, :user_id => user_id)
-      slide.file = uploaded_io
-      slide.save!
-
-      slide.ext_url = slide.file.url
-      slide.thumb_url = slide.file.thumb.url
-
+      slide = Slide.new(:slideshow_id => slideshow_id, :title =>original_filename, :on_s3 => true, :user_id => user_id)
+      slide.file = ad
+      byebug
       slide.save!
 
       if tags_string.present?
