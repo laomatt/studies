@@ -103,7 +103,6 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
   });
 
     ele.fadeIn(400);
-    ele.html("<div style='color:green'><b>please wait until upload is complete,<br> Uploading Images ...</b></div>")
     $.ajax({
       url: "/home/"+id+"/add_image",
       type: 'PATCH',
@@ -111,57 +110,40 @@ $("body").on('submit', '.panelthird form#upload', function(event) {
       processData: false,
       contentType: false,
     })
-    .done(function(data) {
-      function runRecurs(){
-        $.ajax({
-          url: '/home/check_progress',
-          data: {id: id},
-        })
-        .done(function(data) {
-          console.log("success");
-        })
-        .fail(function(data) {
-          console.log("error");
-        })
-        .always(function(data) {
-          console.log("complete");
-          if (data.result == 'done') {
+    .done(function(data_first) {
+      var slides_to_check = data_first.slides
+      function runRecurs(slides_to_check){
+        setTimeout(function(){
+          $.ajax({
+            url: '/home/check_progress',
+            data: {slides_to_check: slides_to_check},
+          })
+          .done(function(data) {
+            console.log(data)
+            if (data.result >= 100) {
+              ele.fadeOut(1000);
+              var finishedSlidesArray = data.slides;
+              $.each(finishedSlidesArray, function(index, val) {
+                var source = $("#entry-template-s3").html();
+                var template = Handlebars.compile(source);
+                var context = val;
+                var html = template(context);
+                $("ul.slideshow_lists_edit").append(html);
+              });
+              $('li.entry').fadeIn(1000, function() {
+                $('li.entry').animate({'border-color': 'black'}, 1000)
+              });
+            } else {
+              $('.prog-slider').animate({width: data.result+'%'}, 400)
+              runRecurs(data.slides_to_check);
+            };
+          });
 
-          } else {
-            runRecurs();
-          };
-        });
+        }, 1000);
       }
-      // runRecurs();
+      runRecurs(slides_to_check);
+  });
 });
-});
-
-// function checkImageProg(data) {
-//      if(data.error == "big"){
-//       elem.html("<div style='color:red'>"+data.slide.title+": <b>"+data.message+"</b></div>")
-//     } else if (data.error == "exception") {
-//       elem.html("<div style='color:red'>"+data.slide+"</div>")
-//     } else if(data.error == "none") {
-//       var source = $("#entry-template").html();
-//       var template = Handlebars.compile(source);
-//       var context = data.slide;
-//       var html = template(context);
-//       var elem = $('.screen-load');
-//       var current = index + 1;
-//       elem.html("<div style='color:green'><b>please wait until upload is complete,<br> Uploaded: " + data.slide.title + "("+ current +"/"+ length + ")</b></div>")
-//       if (current == length) {
-//         elem.fadeOut(2000);
-//       };
-//       $("ul.slideshow_lists_edit").append(html);
-
-//       return 'progress'
-//     } else {
-//       elem.html("<div style='color:red'><b>done</b></div>")
-
-//       return 'done'
-//     }
-  // })
-// }
 
 $("body").on('click', '#upload-pic-url', function(event) {
   event.preventDefault();

@@ -68,22 +68,39 @@ class HomeController < ApplicationController
   def add_image
     uploaded_io = params[:image_this]
     @slideshow = Slideshow.find(params[:id])
+    slide_array = []
 
     uploaded_io.each do |image|
       if image[1].present?
         slide = Slide.new(:slideshow_id => @slideshow.id, :title =>image[1].original_filename, :on_s3 => true, :user_id => current_user.id)
         slide.file = image[1]
         slide.save!
+        slide_array << slide.id
       end
     end
 
-    render :nothing => true
+
+    render :json => { :slides => slide_array.join(',') }
   end
 
 
   def check_progress
-    slides = Slideshow.find(:id).slides.select {|e| e.file_processing }
-    render :nothing => true
+    slides = params[:slides_to_check].split(',')
+    proc_slides = slides.map { |e| Slide.find(e).file_processing }
+    finished_slides_count = proc_slides.select{|e| e == false}.count
+    total_slides = proc_slides.count
+
+    percent = ((finished_slides_count.to_f/total_slides.to_f) * 100).to_i
+    slide_hash = []
+
+    if percent >= 100
+      proc_slides_info = slides.map { |e| Slide.find(e) }
+      proc_slides_info.each do |slide|
+        slide_hash << { :title => slide.title, :thumb_url => slide.thumb_url, :id => slide.id }
+      end
+    end
+
+    render :json => { :result => percent, :slides_to_check => params[:slides_to_check], :slides => slide_hash }
   end
 
   def add_image_url

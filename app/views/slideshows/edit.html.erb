@@ -25,9 +25,42 @@
     </a>
   </ul>
 </div>
+    <div class="panel house right-house screen-load">
+      <div class="">Uploading Images...</div>
+      <div class="prog-bar">
+          &nbsp;
+        <div class="prog-slider">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .prog-bar {
+        position: relative;
+        background-color: #e4f1e4;
+        width: 100%;
+        height: 25px;
+        /*padding: 2px;*/
+      }
+
+      .screen-load {
+        display: none;
+      }
+
+      .prog-slider {
+        position: relative;
+        background-color: red;
+        display: inline-block;
+        /*margin: 2px;*/
+        width: 0%;
+        height: 100%;
+        float: left;
+
+      }
+    </style>
     <div class="panel house right-house">
       <h3>Slide Order</h3>
-    <div class="screen-load">Uploading Images...</div>
 
       <p>Click and drag each slide to its desired position.</p>
       <div id="info" ssid="<%= @slideshow.id %>"></div>
