@@ -42,10 +42,6 @@ gem "mini_magick"
 gem 'carrierwave'
 gem 'fog-aws'
 
-gem "sidekiq"
-gem 'sidekiq_status'
-gem 'carrierwave_backgrounder'
-
 group :development, :test do
   # gem 'backbone-on-rails'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

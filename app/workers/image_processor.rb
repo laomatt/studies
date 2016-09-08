@@ -18,7 +18,6 @@ class ImageProcessor
 
       slide = Slide.new(:slideshow_id => slideshow_id, :title =>original_filename, :on_s3 => true, :user_id => user_id)
       slide.file = ad
-      byebug
       slide.save!
 
       if tags_string.present?
